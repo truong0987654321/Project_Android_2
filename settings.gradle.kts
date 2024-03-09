@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "doan"
+rootProject.name = "Project_android_2"
 include(":app")
  

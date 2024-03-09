@@ -1,4 +1,4 @@
-package com.example.doan;
+package com.example.Project_android_2;
 
 import org.junit.Test;
 

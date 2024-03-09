@@ -1,4 +1,4 @@
-package com.example.doan.models;
+package com.example.Project_android_2.models;
 
 import java.util.Date;
 

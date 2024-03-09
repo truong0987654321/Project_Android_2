@@ -1,4 +1,4 @@
-package com.example.doan.activities;
+package com.example.Project_android_2.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +8,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 
-import com.example.doan.R;
+import com.example.Project_android_2.R;
 
 public class sign_in extends AppCompatActivity {
 

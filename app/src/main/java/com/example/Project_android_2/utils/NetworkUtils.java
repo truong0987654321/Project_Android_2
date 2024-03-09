@@ -1,4 +1,4 @@
-package com.example.doan.utils;
+package com.example.Project_android_2.utils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;

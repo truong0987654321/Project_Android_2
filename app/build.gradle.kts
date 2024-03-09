@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.doan"
+    namespace = "com.example.Project_android_2"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.doan"
+        applicationId = "com.example.Project_android_2"
         minSdk = 25
         targetSdk = 33
         versionCode = 1

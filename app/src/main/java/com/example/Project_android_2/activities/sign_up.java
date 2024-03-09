@@ -1,4 +1,4 @@
-package com.example.doan.activities;
+package com.example.Project_android_2.activities;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -6,20 +6,17 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Patterns;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.doan.utils.IdGeneratorHelper;
+import com.example.Project_android_2.utils.IdGeneratorHelper;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -29,16 +26,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 
-import com.example.doan.R;
-import com.example.doan.models.user;
-import com.example.doan.utils.NetworkUtils;
-import com.example.doan.utils.PasswordHelper;
+import com.example.Project_android_2.R;
+import com.example.Project_android_2.models.user;
+import com.example.Project_android_2.utils.NetworkUtils;
+import com.example.Project_android_2.utils.PasswordHelper;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;

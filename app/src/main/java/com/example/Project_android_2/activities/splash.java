@@ -1,4 +1,4 @@
-package com.example.doan.activities;
+package com.example.Project_android_2.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,8 +7,7 @@ import android.os.Handler;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.doan.MainActivity;
-import com.example.doan.R;
+import com.example.Project_android_2.R;
 
 public class splash extends AppCompatActivity {
 

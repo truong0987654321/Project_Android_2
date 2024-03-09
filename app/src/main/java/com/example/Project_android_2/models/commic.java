@@ -1,4 +1,4 @@
-package com.example.doan.models;
+package com.example.Project_android_2.models;
 
 public class commic {
     private int id;

@@ -1,4 +1,4 @@
-package com.example.doan.utils;
+package com.example.Project_android_2.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
