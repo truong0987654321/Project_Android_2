@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "244012587265",
+    "firebase_url": "https://projectandroid2-79634-default-rtdb.firebaseio.com",
+    "project_id": "projectandroid2-79634",
+    "storage_bucket": "projectandroid2-79634.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:244012587265:android:301c46930eff79b4772300",
+        "android_client_info": {
+          "package_name": "com.example.doan"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyGTHnPxmx2ogV9ckgGVt_fdStio1S5Qk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:244012587265:android:3e97d1de961c8934772300",
+        "android_client_info": {
+          "package_name": "com.truong.ProjectAndroid2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyGTHnPxmx2ogV9ckgGVt_fdStio1S5Qk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
