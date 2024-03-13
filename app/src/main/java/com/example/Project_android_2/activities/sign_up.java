@@ -109,7 +109,7 @@ public class sign_up extends AppCompatActivity {
                 textAdImage.setVisibility(View.GONE);
             }
         });
-        if (uri ==null){
+        if (uri == null) {
             textAdImage.setVisibility(View.VISIBLE);
         }
         buttonsignup.setOnClickListener(new View.OnClickListener() {
@@ -117,6 +117,9 @@ public class sign_up extends AppCompatActivity {
             public void onClick(View view) {
                 if (!NetworkUtils.isNetworkAvailable(sign_up.this)) {
                     Toast.makeText(sign_up.this, "No internet connection. Please check your network settings.", Toast.LENGTH_SHORT).show();
+                }
+                if (storageTask != null && storageTask.isInProgress()) {
+                    Toast.makeText(sign_up.this, "upload is progress", Toast.LENGTH_SHORT).show();
                 } else {
                     progressBar.setVisibility(View.VISIBLE);
                     if (isValidSignInDetails()) {
@@ -226,9 +229,9 @@ public class sign_up extends AppCompatActivity {
             progressBar.setVisibility(View.GONE);
             Toast.makeText(sign_up.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (password.length() < 8 || !isStrongPassword(password)) {
+        } else if (password.length() < 8) {
             progressBar.setVisibility(View.GONE);
-            Toast.makeText(sign_up.this, "Password must be at least 8 characters long and contain at least one special character, one digit, and one uppercase letter.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(sign_up.this, "Password must be at least 8 characters long.", Toast.LENGTH_SHORT).show();
             return false;
         } else {
             return true;
@@ -246,8 +249,4 @@ public class sign_up extends AppCompatActivity {
         return email.matches(emailRegex);
     }
 
-    private boolean isStrongPassword(String password) {
-        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=]).{8,}$";
-        return password.matches(regex);
-    }
 }
