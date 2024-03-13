@@ -9,7 +9,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 
 import com.example.Project_android_2.R;
 
-public class forgot_password extends AppCompatActivity {
+public class ForgotPassword extends AppCompatActivity {
     private AppCompatImageView appCompatImageView_back;
 
     @Override
@@ -22,7 +22,7 @@ public class forgot_password extends AppCompatActivity {
         appCompatImageView_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(forgot_password.this, sign_up.class);
+                Intent intent = new Intent(ForgotPassword.this, SignUp.class);
                 onBackPressed();
             }
         });

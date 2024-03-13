@@ -13,7 +13,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 
 import com.example.Project_android_2.R;
 
-public class seen_comic extends AppCompatActivity {
+public class SeenComic extends AppCompatActivity {
     private View viewLogo;
     private View viewUser;
     private View viewCardBoard;
@@ -49,7 +49,7 @@ public class seen_comic extends AppCompatActivity {
             public void onClick(View view) {
                 Drawable drawable = getResources().getDrawable(R.drawable.retangle_red);
                 txtview_Chapter.setBackground(drawable);
-                Intent intent = new Intent(seen_comic.this, view_comic.class);
+                Intent intent = new Intent(SeenComic.this, ViewComic.class);
                 startActivity(intent);
             }
         });

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -13,12 +13,12 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.Doan"
-        tools:targetApi="31" >
+        tools:targetApi="31">
 
         <activity
-            android:name=".activities.splash"
+            android:name=".activities.Splash"
             android:exported="true"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,29 +30,41 @@
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.accountmanagement"
+            android:name=".activities.AccountManagement"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.sign_up"
+            android:name=".activities.SignUp"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.sign_in"
+            android:name=".activities.SignIn"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.forgot_password"
+            android:name=".activities.ForgotPassword"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.seen_comic"
+            android:name=".activities.SeenComic"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-           android:name=".activities.view_comic"
-          android:exported="false"
-           android:screenOrientation="portrait" />
+            android:name=".activities.ViewComic"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.User"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.EditUser"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.Home"
+            android:exported="false"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

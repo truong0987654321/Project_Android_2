@@ -40,7 +40,7 @@ import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.makeramen.roundedimageview.RoundedImageView;
 
-public class sign_up extends AppCompatActivity {
+public class SignUp extends AppCompatActivity {
 
     private AppCompatImageView appCompatImageView_back;
     private EditText editText_exemail;
@@ -95,7 +95,7 @@ public class sign_up extends AppCompatActivity {
                             uri = dataI.getData();
                             roundedImageView_imageProfile.setImageURI(uri);
                         } else {
-                            Toast.makeText(sign_up.this, "No Image Selected", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUp.this, "No Image Selected", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -115,11 +115,11 @@ public class sign_up extends AppCompatActivity {
         buttonsignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!NetworkUtils.isNetworkAvailable(sign_up.this)) {
-                    Toast.makeText(sign_up.this, "No internet connection. Please check your network settings.", Toast.LENGTH_SHORT).show();
+                if (!NetworkUtils.isNetworkAvailable(SignUp.this)) {
+                    Toast.makeText(SignUp.this, "No internet connection. Please check your network settings.", Toast.LENGTH_SHORT).show();
                 }
                 if (storageTask != null && storageTask.isInProgress()) {
-                    Toast.makeText(sign_up.this, "upload is progress", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUp.this, "upload is progress", Toast.LENGTH_SHORT).show();
                 } else {
                     progressBar.setVisibility(View.VISIBLE);
                     if (isValidSignInDetails()) {
@@ -151,7 +151,7 @@ public class sign_up extends AppCompatActivity {
                     taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri downloadUri) {
-                            Toast.makeText(sign_up.this, "Sign up successful", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUp.this, "Sign up successful", Toast.LENGTH_SHORT).show();
 
 
                             String uploadId = databaseReference.push().getKey();
@@ -171,7 +171,7 @@ public class sign_up extends AppCompatActivity {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(sign_up.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUp.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -219,19 +219,19 @@ public class sign_up extends AppCompatActivity {
             return false;
         } else if (username.length() <= 6) {
             progressBar.setVisibility(View.GONE);
-            Toast.makeText(sign_up.this, "Username must be longer than 6 characters", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignUp.this, "Username must be longer than 6 characters", Toast.LENGTH_SHORT).show();
             return false;
         } else if (!isUsernameValid(username)) {
             progressBar.setVisibility(View.GONE);
-            Toast.makeText(sign_up.this, "Invalid characters in username", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignUp.this, "Invalid characters in username", Toast.LENGTH_SHORT).show();
             return false;
         } else if (!password.equals(Confirmpassword)) {
             progressBar.setVisibility(View.GONE);
-            Toast.makeText(sign_up.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignUp.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
             return false;
         } else if (password.length() < 8) {
             progressBar.setVisibility(View.GONE);
-            Toast.makeText(sign_up.this, "Password must be at least 8 characters long.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignUp.this, "Password must be at least 8 characters long.", Toast.LENGTH_SHORT).show();
             return false;
         } else {
             return true;

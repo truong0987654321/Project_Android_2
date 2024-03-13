@@ -10,7 +10,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 
 import com.example.Project_android_2.R;
 
-public class sign_in extends AppCompatActivity {
+public class SignIn extends AppCompatActivity {
 
     private TextView textv_fpassword;
     private TextView textv_SignUpnow;
@@ -27,21 +27,21 @@ public class sign_in extends AppCompatActivity {
         textv_fpassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(sign_in.this, forgot_password.class);
+                Intent intent = new Intent(SignIn.this, ForgotPassword.class);
                 startActivity(intent);
             }
         });
         textv_SignUpnow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(sign_in.this, sign_up.class);
+                Intent intent = new Intent(SignIn.this, SignUp.class);
                 startActivity(intent);
             }
         });
         appCompatImageView_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(sign_in.this, sign_up.class);
+                Intent intent = new Intent(SignIn.this, SignUp.class);
                 onBackPressed();
             }
         });

@@ -10,7 +10,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 
 import com.example.Project_android_2.R;
 
-public class accountmanagement extends AppCompatActivity {
+public class AccountManagement extends AppCompatActivity {
     private AppCompatImageView appCompatImageView_exit;
     private Button butonsignin;
 
@@ -31,7 +31,7 @@ public class accountmanagement extends AppCompatActivity {
         butonsignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(accountmanagement.this, sign_in.class);
+                Intent intent = new Intent(AccountManagement.this, SignIn.class);
                 startActivity(intent);
             }
         });

@@ -10,7 +10,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 
 import com.example.Project_android_2.R;
 
-public class view_comic extends AppCompatActivity {
+public class ViewComic extends AppCompatActivity {
     private AppCompatImageView imageViewRefund;
     private View viewUser;
     private View viewLeft;
