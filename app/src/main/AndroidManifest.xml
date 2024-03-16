@@ -25,13 +25,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:screenOrientation="portrait" />
+<!--        <activity-->
+<!--            android:name=".MainActivity"-->
+<!--            android:exported="true"-->
+<!--            android:screenOrientation="portrait" />-->
         <activity
             android:name=".activities.AccountManagement"
-            android:exported="false"
+            android:exported="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.SignUp"
@@ -65,6 +65,7 @@
             android:name=".activities.Home"
             android:exported="false"
             android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>
