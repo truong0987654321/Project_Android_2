@@ -3,12 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/ScreenBackground">
+    style="@style/ScreenBackground"
+    >
+
     <LinearLayout
+        style="@style/ScreenBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
-        android:background="#FFFFFF"
         android:orientation="vertical"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="15dp"
@@ -16,16 +18,17 @@
 
         <TextView
             android:id="@+id/textView5"
-            android:layout_width="match_parent"
+            style="@style/TextColor"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            style="@style/TextColor"
             android:text="Trending"
             android:textSize="16sp"
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rc_story"
+            style="@style/ScreenBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical">

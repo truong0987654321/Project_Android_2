@@ -63,6 +63,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.Home"
+
             android:exported="false"
             android:screenOrientation="portrait" />
 
