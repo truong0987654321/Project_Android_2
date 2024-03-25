@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.Project_android_2.R;
-import com.example.Project_android_2.activities.Home;
+import com.example.Project_android_2.activities.Search_comic;
 
 import java.util.ArrayList;
 
@@ -21,6 +21,10 @@ public class RCAdapter extends RecyclerView.Adapter<RCAdapter.RCViewHolder> {
         this.context = context;
         this.modelArrayList = modelArrayList;
     }
+
+    public RCAdapter(Search_comic context, ArrayList<RCModel_type_two> modelArray) {
+    }
+
     @NonNull
     @Override
     public RCViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
