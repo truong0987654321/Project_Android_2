@@ -9,24 +9,24 @@
 |4    |3120410415  |Trần Thiện Phúc           |
 |5    |3120410253  |Nguyễn Hữu Minh Khôi      |
 # Lịch làm việc:</br>
-## tuần 2-3:
+## Tuần 2-3:
 - Vẽ database và figma giao diện(ntl:3)
-## tuần 4:
+## Tuần 4:
 - Viết giao diện:
   + Giao diện home (nth:4)
   + Giao diện user & edit user (nth:2)
   + Giao diện đăng ký, đăng nhập, lấy mật khẩu ,giao điện đăng nhập ngoài email (nth:1)
   + Giao diện seencomic, viewcomic(nth:5)
-## tuần 5:
+## Tuần 5:
 - Đăng ký với add vào dữ liệu firebase (nth:1)
 
-## tuần 6-7:
+## Tuần 6-7:
 - Trang quản lý database (nth:3,5)
 - Đăng nhập bằng google (nth:1)
 - Xác thực tại khoản gmail (nth:2)
 - Sửa giao diện seencomic, viewcomic(nth:5)
 - Sửa trang home (nth:4)
-## tuần 8:
+## Tuần 8:
 - Đăng nhập bằng google (nth:1)(tiếp tục sửa lỗi)
 - Xác thực tại khoản gmail (nth:2)(tiếp tục sửa lỗi)
 - Sửa lại tang user và eidt user (nth:2)
