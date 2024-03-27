@@ -11,6 +11,7 @@
 # Lịch làm việc:</br>
 ## Tuần 2-3:
 - Vẽ database và figma giao diện(ntl:3)
+- Vẽ usecase (nth:4)
 ## Tuần 4:
 - Viết giao diện:
   + Giao diện home (nth:4)
