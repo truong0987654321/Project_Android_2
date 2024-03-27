@@ -43,10 +43,7 @@ import com.makeramen.roundedimageview.RoundedImageView;
 public class SignUp extends AppCompatActivity {
 
     private AppCompatImageView appCompatImageView_back;
-    private EditText editText_exemail;
-    private EditText editText_exusername;
-    private EditText editText_expassword;
-    private EditText editText_exConfirmpassword;
+    private EditText editText_exemail, editText_exusername, editText_expassword, editText_exConfirmpassword;
     private TextView textAdImage;
     private Button buttonsignup;
     private RoundedImageView roundedImageView_imageProfile;
@@ -96,6 +93,7 @@ public class SignUp extends AppCompatActivity {
                             roundedImageView_imageProfile.setImageURI(uri);
                         } else {
                             Toast.makeText(SignUp.this, "No Image Selected", Toast.LENGTH_SHORT).show();
+                            textAdImage.setText("Select An Image");
                         }
                     }
                 });
@@ -106,12 +104,9 @@ public class SignUp extends AppCompatActivity {
                 Intent intent_photo = new Intent(Intent.ACTION_PICK);
                 intent_photo.setType("image/*");
                 intentActivityResultLauncher.launch(intent_photo);
-                textAdImage.setVisibility(View.GONE);
+                textAdImage.setText("");
             }
         });
-        if (uri == null) {
-            textAdImage.setVisibility(View.VISIBLE);
-        }
         buttonsignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -214,31 +209,24 @@ public class SignUp extends AppCompatActivity {
         String password = editText_expassword.getText().toString();
         String Confirmpassword = editText_exConfirmpassword.getText().toString();
         if (!isValidEmail(email)) {
-            progressBar.setVisibility(View.GONE);
             Toast.makeText(this, "Invalid email format", Toast.LENGTH_SHORT).show();
             return false;
         } else if (username.length() <= 6) {
-            progressBar.setVisibility(View.GONE);
             Toast.makeText(SignUp.this, "Username must be longer than 6 characters", Toast.LENGTH_SHORT).show();
             return false;
         } else if (!isUsernameValid(username)) {
-            progressBar.setVisibility(View.GONE);
             Toast.makeText(SignUp.this, "Invalid characters in username", Toast.LENGTH_SHORT).show();
             return false;
         } else if (!password.equals(Confirmpassword)) {
-            progressBar.setVisibility(View.GONE);
             Toast.makeText(SignUp.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
             return false;
         } else if (password.length() < 8) {
-            progressBar.setVisibility(View.GONE);
             Toast.makeText(SignUp.this, "Password must be at least 8 characters long.", Toast.LENGTH_SHORT).show();
             return false;
         } else {
             return true;
         }
-
     }
-
     private boolean isUsernameValid(String username) {
         String regex = "^[a-zA-Z0-9]+$"; // Chỉ chấp nhận ký tự chữ cái và số
         return username.matches(regex);

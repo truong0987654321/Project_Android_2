@@ -4,87 +4,90 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/exit"
-        android:layout_width="25dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="23dp"
-        android:layout_marginTop="23dp"
-        android:layout_marginEnd="23dp"
-        android:layout_marginBottom="23dp"
-        android:src="@drawable/xmark_solid"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp">
 
-    <ImageView
-        android:id="@+id/id_imglogo"
-        android:layout_width="153dp"
-        android:layout_height="117dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
-        android:src="@drawable/logo" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/exit"
+            android:layout_width="25dp"
+            android:layout_height="32dp"
+            android:src="@drawable/xmark_solid"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/id_textv"
-        android:layout_width="326dp"
-        android:layout_height="38dp"
-        android:layout_below="@id/id_imglogo"
-        android:layout_centerInParent="true"
-        android:text="Sign In/Create An Account"
-        android:textAlignment="center"
-        android:textColor="#614385"
-        android:textSize="25dp"
-        android:textStyle="bold" />
+        <ImageView
+            android:id="@+id/id_imglogo"
+            android:layout_width="153dp"
+            android:layout_height="117dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="70dp"
+            android:src="@drawable/logo" />
 
-    <Button
-        android:id="@+id/butonsignin"
-        android:layout_width="358dp"
-        android:layout_height="60dp"
-        android:layout_below="@+id/id_textv"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="19dp"
-        android:backgroundTint="#EFEFEF"
-        android:drawableLeft="@drawable/button_with_circle_envelope_solid"
-        android:text="Log in with your email or username"
-        android:textAlignment="viewStart"
-        android:textColor="#614385" />
+        <TextView
+            android:id="@+id/id_textv"
+            android:layout_width="326dp"
+            android:layout_height="38dp"
+            android:layout_below="@id/id_imglogo"
+            android:layout_centerInParent="true"
+            android:text="Sign In/Create An Account"
+            android:textAlignment="center"
+            android:textColor="#614385"
+            android:textSize="25dp"
+            android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/buttongoogle"
-        android:layout_width="358dp"
-        android:layout_height="60dp"
-        android:layout_below="@+id/butonsignin"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="19dp"
-        android:backgroundTint="#EFEFEF"
-        android:drawableLeft="@drawable/button_with_circle_logo_google"
-        android:text="Sign in with Google "
-        android:textAlignment="viewStart"
-        android:textColor="#614385" />
+        <Button
+            android:id="@+id/butonsignin"
+            android:layout_width="358dp"
+            android:layout_height="60dp"
+            android:layout_below="@+id/id_textv"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="19dp"
+            android:backgroundTint="#EFEFEF"
+            android:drawableLeft="@drawable/button_with_circle_envelope_solid"
+            android:text="Log in with your email or username"
+            android:textAlignment="viewStart"
+            android:textColor="#614385" />
 
-    <Button
-        android:id="@+id/buttonfacebook"
-        android:layout_width="358dp"
-        android:layout_height="60dp"
-        android:layout_below="@+id/buttongoogle"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="19dp"
-        android:backgroundTint="#EFEFEF"
-        android:drawableLeft="@drawable/button_with_circle_logo_facebook"
-        android:text="Sign in with Facebook"
-        android:textAlignment="viewStart"
-        android:textColor="#614385" />
+        <Button
+            android:id="@+id/buttongoogle"
+            android:layout_width="358dp"
+            android:layout_height="60dp"
+            android:layout_below="@+id/butonsignin"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="19dp"
+            android:backgroundTint="#EFEFEF"
+            android:drawableLeft="@drawable/button_with_circle_logo_google"
+            android:text="Sign in with Google "
+            android:textAlignment="viewStart"
+            android:textColor="#614385" />
 
-    <Button
-        android:id="@+id/buttontwitter"
-        android:layout_width="358dp"
-        android:layout_height="60dp"
-        android:layout_below="@+id/buttonfacebook"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="19dp"
-        android:backgroundTint="#EFEFEF"
-        android:drawableLeft="@drawable/button_with_circle_logo_twitter"
-        android:text="Sign in with Tiwtter"
-        android:textAlignment="viewStart"
-        android:textColor="#614385" />
+        <Button
+            android:id="@+id/buttonfacebook"
+            android:layout_width="358dp"
+            android:layout_height="60dp"
+            android:layout_below="@+id/buttongoogle"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="19dp"
+            android:backgroundTint="#EFEFEF"
+            android:drawableLeft="@drawable/button_with_circle_logo_facebook"
+            android:text="Sign in with Facebook"
+            android:textAlignment="viewStart"
+            android:textColor="#614385" />
+
+        <Button
+            android:id="@+id/buttontwitter"
+            android:layout_width="358dp"
+            android:layout_height="60dp"
+            android:layout_below="@+id/buttonfacebook"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="19dp"
+            android:backgroundTint="#EFEFEF"
+            android:drawableLeft="@drawable/button_with_circle_logo_twitter"
+            android:text="Sign in with Tiwtter"
+            android:textAlignment="viewStart"
+            android:textColor="#614385" />
+    </RelativeLayout>
+
 </RelativeLayout>
