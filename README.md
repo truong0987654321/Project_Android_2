@@ -21,7 +21,7 @@
 - Đăng ký với add vào dữ liệu firebase (nth:1)
 
 ## Tuần 6-7:
-- Trang quản lý database (nth:3,5)
+- Trang quản lý database bằng php (nth:3,5)
 - Đăng nhập bằng google (nth:1)
 - Xác thực tại khoản gmail (nth:2)
 - Sửa giao diện seencomic, viewcomic(nth:5)
