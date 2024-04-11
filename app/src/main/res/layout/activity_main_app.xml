@@ -8,6 +8,7 @@
     tools:openDrawer="start"
     tools:context=".activities.Home"
     >
+
     <include
         layout="@layout/activity_contain_main"
         tools:ignore="ResourceCycle" />

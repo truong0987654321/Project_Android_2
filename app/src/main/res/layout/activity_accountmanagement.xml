@@ -88,7 +88,6 @@
             android:text="Sign in with Tiwtter"
             android:textAlignment="viewStart"
             android:textColor="#614385" />
-
     </RelativeLayout>
     <FrameLayout
         android:id="@+id/progressBar"
@@ -106,6 +105,4 @@
             android:indeterminate="true"
             android:indeterminateTint="#D8D9E1" />
     </FrameLayout>
-
-
 </RelativeLayout>

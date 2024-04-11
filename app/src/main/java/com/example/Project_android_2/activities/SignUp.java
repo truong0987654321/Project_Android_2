@@ -234,7 +234,6 @@ public class SignUp extends AppCompatActivity {
             return true;
         }
     }
-
     private boolean isUsernameValid(String username) {
         String regex = "^[a-zA-Z0-9]+$"; // Chỉ chấp nhận ký tự chữ cái và số
         return username.matches(regex);

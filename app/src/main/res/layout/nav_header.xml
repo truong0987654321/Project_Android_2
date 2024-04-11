@@ -35,27 +35,16 @@
         android:layout_columnWeight="2"
         android:layout_gravity="right"
         tools:ignore="RtlHardcoded" />
-<!--    <ImageView-->
-<!--        android:id="@+id/imageUser"-->
-<!--        app:srcCompat="@drawable/user_icon"-->
-<!--        android:layout_width="40dp"-->
-<!--        android:layout_height="40dp"-->
-<!--        android:layout_row="0"-->
-<!--        android:layout_rowWeight="1"-->
-<!--        android:layout_column="2"-->
-<!--        android:layout_columnWeight="2"-->
-<!--        android:layout_gravity="right|end"-->
-<!--        tools:ignore="RtlHardcoded" />-->
     <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/imageUser"
-            app:srcCompat="@drawable/user_icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_row="0"
-            android:layout_rowWeight="1"
-            android:layout_column="2"
-            android:layout_columnWeight="2"
-            android:layout_gravity="right|end"
-            tools:ignore="RtlHardcoded"
+        android:id="@+id/imageUser"
+        app:srcCompat="@drawable/user_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_row="0"
+        android:layout_rowWeight="1"
+        android:layout_column="2"
+        android:layout_columnWeight="2"
+        android:layout_gravity="right|end"
+        tools:ignore="RtlHardcoded"
         app:shapeAppearanceOverlay="@style/roundedImageView"/>
-    </GridLayout>
+</GridLayout>

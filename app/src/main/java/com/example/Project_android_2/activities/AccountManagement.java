@@ -114,7 +114,7 @@ public class AccountManagement extends AppCompatActivity {
             signOut();
         }
         handleclickbutton();
-        setupFaceBook();
+//        setupFaceBook();
         // Nếu đã đăng nhập, chuyển hướng trực tiếp đến trang Home
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
