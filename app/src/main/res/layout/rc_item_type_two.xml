@@ -49,4 +49,8 @@
             android:textColor="#0C0C0C" />
     </GridLayout>
 
+<<<<<<< HEAD
 </androidx.cardview.widget.CardView>
+=======
+</androidx.cardview.widget.CardView>
+>>>>>>> 1ba55fdf714bea67dc4b63bcaaf75ead075ac222

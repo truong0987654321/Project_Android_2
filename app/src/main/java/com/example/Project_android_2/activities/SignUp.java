@@ -32,8 +32,11 @@ import com.example.Project_android_2.utils.NetworkUtils;
 import com.example.Project_android_2.utils.PasswordHelper;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
@@ -43,10 +46,7 @@ import com.makeramen.roundedimageview.RoundedImageView;
 public class SignUp extends AppCompatActivity {
 
     private AppCompatImageView appCompatImageView_back;
-    private EditText editText_exemail;
-    private EditText editText_exusername;
-    private EditText editText_expassword;
-    private EditText editText_exConfirmpassword;
+    private EditText editText_exemail, editText_exusername, editText_expassword, editText_exConfirmpassword;
     private TextView textAdImage;
     private Button buttonsignup;
     private RoundedImageView roundedImageView_imageProfile;
@@ -96,6 +96,7 @@ public class SignUp extends AppCompatActivity {
                             roundedImageView_imageProfile.setImageURI(uri);
                         } else {
                             Toast.makeText(SignUp.this, "No Image Selected", Toast.LENGTH_SHORT).show();
+                            textAdImage.setText("Select An Image");
                         }
                     }
                 });
@@ -106,12 +107,9 @@ public class SignUp extends AppCompatActivity {
                 Intent intent_photo = new Intent(Intent.ACTION_PICK);
                 intent_photo.setType("image/*");
                 intentActivityResultLauncher.launch(intent_photo);
-                textAdImage.setVisibility(View.GONE);
+                textAdImage.setText("");
             }
         });
-        if (uri == null) {
-            textAdImage.setVisibility(View.VISIBLE);
-        }
         buttonsignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,18 +117,12 @@ public class SignUp extends AppCompatActivity {
                     Toast.makeText(SignUp.this, "No internet connection. Please check your network settings.", Toast.LENGTH_SHORT).show();
                 }
                 if (storageTask != null && storageTask.isInProgress()) {
-                    Toast.makeText(SignUp.this, "upload is progress", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUp.this, "Upload is in progress", Toast.LENGTH_SHORT).show();
                 } else {
-                    progressBar.setVisibility(View.VISIBLE);
                     if (isValidSignInDetails()) {
-
-                        UploadFile();
-
+                        checkIfEmailExists();
                     }
-
                 }
-
-
             }
         });
     }
@@ -147,12 +139,10 @@ public class SignUp extends AppCompatActivity {
             storageTask = fileReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    // Lấy đường dẫn download của tệp đã tải lên
                     taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri downloadUri) {
                             Toast.makeText(SignUp.this, "Sign up successful", Toast.LENGTH_SHORT).show();
-
 
                             String uploadId = databaseReference.push().getKey();
                             int id = IdGeneratorHelper.generateAutomaticId();
@@ -172,21 +162,38 @@ public class SignUp extends AppCompatActivity {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     Toast.makeText(SignUp.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
                 }
             });
-
         }
+    }
 
+    private void checkIfEmailExists() {
+        String email = editText_exemail.getText().toString().trim();
+        databaseReference.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    Toast.makeText(SignUp.this, "This email is already registered. Please use a different email.", Toast.LENGTH_SHORT).show();
+                } else {
+                    UploadFile();
+                    progressBar.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(SignUp.this, "Database error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private final TextWatcher textWatcher = new TextWatcher() {
         @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        }
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
         @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        }
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
         @Override
         public void afterTextChanged(Editable editable) {
@@ -194,16 +201,11 @@ public class SignUp extends AppCompatActivity {
         }
     };
 
-    // Hàm kiểm tra và cập nhật trạng thái của nút
     private void updateButtonState() {
         String email = editText_exemail.getText().toString();
         String password = editText_expassword.getText().toString();
         String confirmPassword = editText_exConfirmpassword.getText().toString();
-        // Kiểm tra các điều kiện để cập nhật trạng thái nút
-        boolean isButtonEnabled = !email.isEmpty() &&
-                !password.isEmpty() && !confirmPassword.isEmpty() &&
-                uri != null;
-        // Cập nhật trạng thái và mức độ mờ của nút
+        boolean isButtonEnabled = !email.isEmpty() && !password.isEmpty() && !confirmPassword.isEmpty() && uri != null;
         buttonsignup.setEnabled(isButtonEnabled);
         buttonsignup.setAlpha(isButtonEnabled ? 1.0f : 0.5f);
     }
@@ -214,31 +216,24 @@ public class SignUp extends AppCompatActivity {
         String password = editText_expassword.getText().toString();
         String Confirmpassword = editText_exConfirmpassword.getText().toString();
         if (!isValidEmail(email)) {
-            progressBar.setVisibility(View.GONE);
             Toast.makeText(this, "Invalid email format", Toast.LENGTH_SHORT).show();
             return false;
         } else if (username.length() <= 6) {
-            progressBar.setVisibility(View.GONE);
             Toast.makeText(SignUp.this, "Username must be longer than 6 characters", Toast.LENGTH_SHORT).show();
             return false;
         } else if (!isUsernameValid(username)) {
-            progressBar.setVisibility(View.GONE);
             Toast.makeText(SignUp.this, "Invalid characters in username", Toast.LENGTH_SHORT).show();
             return false;
         } else if (!password.equals(Confirmpassword)) {
-            progressBar.setVisibility(View.GONE);
             Toast.makeText(SignUp.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
             return false;
         } else if (password.length() < 8) {
-            progressBar.setVisibility(View.GONE);
             Toast.makeText(SignUp.this, "Password must be at least 8 characters long.", Toast.LENGTH_SHORT).show();
             return false;
         } else {
             return true;
         }
-
     }
-
     private boolean isUsernameValid(String username) {
         String regex = "^[a-zA-Z0-9]+$"; // Chỉ chấp nhận ký tự chữ cái và số
         return username.matches(regex);
