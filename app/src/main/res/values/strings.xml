@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Solo Leveling</string>
+    <attr name="MyTextStyle" format="reference" />
+
+    <style name="MyTextStyle">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <string name="title_activity_edit_language">EditLanguage</string>
+
+
 </resources>

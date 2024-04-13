@@ -15,6 +15,7 @@
         android:theme="@style/Theme.Doan"
         tools:targetApi="31">
 
+
         <activity
             android:name=".activities.Splash"
             android:exported="true"
@@ -59,6 +60,18 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.Home"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.EditTextSize"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.Setting"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.EditLanguage"
             android:exported="false"
             android:screenOrientation="portrait" />
     </application>
