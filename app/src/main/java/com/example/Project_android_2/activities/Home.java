@@ -47,13 +47,9 @@ public class Home extends AppCompatActivity {
     String[] title_story = new String[]{
             "Luo Emperor Chapter 83", "Mage Returns Chapter 91", "Tom Raider Chapter 255", "Versatile Maze Chapter 757"
     };
-    ImageView Search_icon, img;
-    SwitchCompat switchmode;
-    boolean nightMode;
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
+    ImageView Search_icon;
     DrawerLayout drawerLayout;
-    ShapeableImageView buttonDrawerToggle, imageViewDrawer,img_fb;
+    ShapeableImageView buttonDrawerToggle, imageViewDrawer;
     TextView username, useremail;
 
     @SuppressLint("MissingInflatedId")
@@ -62,13 +58,10 @@ public class Home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_app);
 
-
         Intent intent = getIntent();
         String userPhotoUrl = intent.getStringExtra("user_photo_url");
         String userName = intent.getStringExtra("user_name");
         String userEmail = intent.getStringExtra("user_email");
-        TextView test__ = findViewById(R.id.test__);
-        test__.setText(userPhotoUrl);
         buttonDrawerToggle = findViewById(R.id.imageUser);
 
         NavigationView navigationView = findViewById(R.id.nav_view);

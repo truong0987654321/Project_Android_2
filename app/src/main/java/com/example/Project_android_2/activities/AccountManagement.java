@@ -2,16 +2,12 @@ package com.example.Project_android_2.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 
 
 import androidx.activity.result.ActivityResult;
@@ -26,6 +22,8 @@ import com.example.Project_android_2.R;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -35,7 +33,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.Firebase;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -43,10 +40,11 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.FirebaseDatabase;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Arrays;
-import java.util.HashMap;
 
 public class AccountManagement extends AppCompatActivity {
     private AppCompatImageView appCompatImageView_exit;
@@ -71,7 +69,6 @@ public class AccountManagement extends AppCompatActivity {
                             firebaseAuthWithGoogle(account.getIdToken());
                             progressBar.setVisibility(View.VISIBLE);
                         } catch (ApiException e) {
-                            Log.w("GoogleSignIn", "signInResult:failed code=" + e.getStatusCode());
                             Toast.makeText(AccountManagement.this, "Google sign in failed", Toast.LENGTH_SHORT).show();
                             progressBar.setVisibility(View.VISIBLE);
                         }
@@ -85,13 +82,6 @@ public class AccountManagement extends AppCompatActivity {
         setContentView(R.layout.activity_accountmanagement);
 
         setupUI();
-
-
-        //facebook
-        AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
-
-        FacebookSdk.sdkInitialize(AccountManagement.this);
 
         callbackManager = CallbackManager.Factory.create();
 
@@ -156,30 +146,32 @@ public class AccountManagement extends AppCompatActivity {
     }
 
     private void handleFacebookAccestoken(AccessToken accessToken) {
-        AuthCredential authCredential = FacebookAuthProvider.getCredential(accessToken.getToken());
-        mAuth.signInWithCredential(authCredential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-
-
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    Toast.makeText(AccountManagement.this, "AuthCredential success", Toast.LENGTH_SHORT).show();
-                    updateUI(user);
-                    progressBar.setVisibility(View.GONE);
-                } else {
-                    Toast.makeText(AccountManagement.this, "AuthCredential error", Toast.LENGTH_SHORT).show();
-                    updateUI(null);
-                    progressBar.setVisibility(View.GONE);
-                }
-            }
-        });
+        GraphRequest request = GraphRequest.newMeRequest(
+                accessToken,
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        try {
+                            String userName = object.getString("name"); // Lấy tên của người dùng
+                            String userEmail = object.optString("email", "");  // Lấy email của người dùng (nếu có)
+                            String photoUrl = object.getJSONObject("picture").getJSONObject("data").getString("url");
+                            updateUI_fb(userName, userEmail, photoUrl); // Truyền thông tin người dùng và đường dẫn đến ảnh đại diện
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(AccountManagement.this, "Error getting user info", Toast.LENGTH_SHORT).show();
+                            updateUI_fb("", "", ""); // Xử lý lỗi nếu không thể lấy thông tin người dùng
+                        }
+                    }
+                });
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,name,email,picture.type(large)"); // Yêu cầu lấy ID, tên và email của người dùng
+        request.setParameters(parameters);
+        request.executeAsync();
     }
 
     private void setupFaceBook() {
         callbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().logInWithReadPermissions(AccountManagement.this, Arrays.asList("email", "public_profile"));
-
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -188,15 +180,12 @@ public class AccountManagement extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
                 loading();
                 handleFacebookAccestoken(loginResult.getAccessToken());
-
             }
-
             @Override
             public void onCancel() {
                 // Xử lý khi người dùng hủy đăng nhập
                 Toast.makeText(AccountManagement.this, "login cancel", Toast.LENGTH_SHORT).show();
             }
-
             @Override
             public void onError(FacebookException exception) {
                 // Xử lý khi có lỗi xảy ra
@@ -204,7 +193,6 @@ public class AccountManagement extends AppCompatActivity {
             }
         });
     }
-
     private void handleclickbutton() {
         //thực hiện click button
         buttongoogle.setOnClickListener(new View.OnClickListener() {
@@ -226,7 +214,6 @@ public class AccountManagement extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
         buttonfacebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -234,7 +221,6 @@ public class AccountManagement extends AppCompatActivity {
             }
         });
     }
-
     private void signOut() {
         mAuth.signOut();
         mGoogleSignInClient.signOut().addOnCompleteListener(this, new OnCompleteListener<Void>() {
@@ -245,26 +231,32 @@ public class AccountManagement extends AppCompatActivity {
             }
         });
     }
-
-
     private void updateUI(FirebaseUser user) {
         if (user != null) {
             Intent intent = new Intent(AccountManagement.this, Home.class);
             // Truyền thông tin người dùng đến trang Home
             intent.putExtra("user_name", user.getDisplayName());
             intent.putExtra("user_email", user.getEmail());
-            intent.putExtra("user_photo_url", String.valueOf(user.getPhotoUrl()));
+            intent.putExtra("user_photo_url", user.getPhotoUrl().toString());
             startActivity(intent);
             finish(); // Kết thúc activity hiện tại để ngăn người dùng quay lại màn hình đăng nhập
         }
     }
 
+    private void updateUI_fb(String userName, String userEmail, String photoUrl) {
+        Intent intent = new Intent(AccountManagement.this, Home.class);
+        // Truyền thông tin người dùng đến trang Home
+        intent.putExtra("user_name", userName);
+        intent.putExtra("user_email", userEmail);
+        intent.putExtra("user_photo_url", photoUrl); // Truyền đường dẫn đến ảnh đại diện
+        startActivity(intent);
+        finish(); // Kết thúc activity hiện tại để ngăn người dùng quay lại màn hình đăng nhập
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
-
     private void loading() {
         if (progressBar.getVisibility() == View.VISIBLE) {
             // Nếu progressBar đang hiển thị, vô hiệu hóa RelativeLayout
