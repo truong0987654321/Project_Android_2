@@ -11,8 +11,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/back"
-            android:layout_width="25dp"
-            android:layout_height="32dp"
+            android:layout_width="@dimen/_25dp"
+            android:layout_height="@dimen/_32dp"
             android:src="@drawable/angle_left_solid"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -24,7 +24,7 @@
             android:layout_centerInParent="true"
             android:text="Sign up"
             android:textAlignment="center"
-            android:textColor="#614385"
+            android:textColor="@color/purpleish_blue"
             android:textSize="20sp" />
 
         <View
@@ -37,7 +37,7 @@
 
         <ImageView
             android:id="@+id/id_imglogo"
-            android:layout_width="153dp"
+            android:layout_width="@dimen/layout_width_logo"
             android:layout_height="117dp"
             android:layout_below="@id/line"
             android:layout_centerHorizontal="true"
@@ -46,14 +46,14 @@
 
         <TextView
             android:id="@+id/id_textv"
-            android:layout_width="326dp"
+            android:layout_width="@dimen/_326dp"
             android:layout_height="38dp"
             android:layout_below="@id/id_imglogo"
             android:layout_centerInParent="true"
             android:text="Create an account"
             android:textAlignment="center"
-            android:textColor="#614385"
-            android:textSize="25dp"
+            android:textColor="@color/purpleish_blue"
+            android:textSize="@dimen/_25dp"
             android:textStyle="bold" />
 
         <FrameLayout
@@ -85,13 +85,14 @@
 
         <EditText
             android:id="@+id/exemail"
-            android:layout_width="358dp"
-            android:layout_height="60dp"
+            android:layout_width="@dimen/_358dp"
+            android:layout_height="@dimen/_60dp"
             android:layout_below="@+id/layoutImage"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="19dp"
             android:background="@drawable/edittext_background_rounded"
             android:hint="Enter email"
+            android:textColor="@color/purpleish_blue"
             android:imeOptions="actionNext"
             android:importantForAutofill="no"
             android:inputType="textEmailAddress"
@@ -99,13 +100,14 @@
 
         <EditText
             android:id="@+id/exusername"
-            android:layout_width="358dp"
-            android:layout_height="60dp"
+            android:layout_width="@dimen/_358dp"
+            android:layout_height="@dimen/_60dp"
             android:layout_below="@+id/exemail"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="19dp"
             android:background="@drawable/edittext_background_rounded"
             android:hint="User name"
+            android:textColor="@color/purpleish_blue"
             android:imeOptions="actionNext"
             android:importantForAutofill="no"
             android:inputType="textEmailAddress"
@@ -113,13 +115,14 @@
 
         <EditText
             android:id="@+id/expassword"
-            android:layout_width="358dp"
-            android:layout_height="60dp"
+            android:layout_width="@dimen/_358dp"
+            android:layout_height="@dimen/_60dp"
             android:layout_below="@+id/exusername"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="19dp"
             android:background="@drawable/edittext_background_rounded"
             android:hint="Password"
+            android:textColor="@color/purpleish_blue"
             android:imeOptions="actionNext"
             android:importantForAutofill="no"
             android:inputType="textEmailAddress"
@@ -127,13 +130,14 @@
 
         <EditText
             android:id="@+id/exConfirmpassword"
-            android:layout_width="358dp"
-            android:layout_height="60dp"
+            android:layout_width="@dimen/_358dp"
+            android:layout_height="@dimen/_60dp"
             android:layout_below="@+id/expassword"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="19dp"
             android:background="@drawable/edittext_background_rounded"
             android:hint="Confirm Password"
+            android:textColor="@color/purpleish_blue"
             android:imeOptions="actionNext"
             android:importantForAutofill="no"
             android:inputType="textEmailAddress"
@@ -141,13 +145,13 @@
 
         <Button
             android:id="@+id/buttonsignup"
-            android:layout_width="358dp"
-            android:layout_height="60dp"
+            android:layout_width="@dimen/_358dp"
+            android:layout_height="@dimen/_60dp"
             android:layout_below="@+id/exConfirmpassword"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="19dp"
             android:alpha="0.5"
-            android:backgroundTint="#614385"
+            android:backgroundTint="@color/purpleish_blue"
             android:enabled="false"
             android:text="Sign up"
             android:textColor="#ffffff" />
@@ -158,7 +162,7 @@
         android:id="@+id/progressBar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#99000000"
+        android:background="@color/translucent_dark_gray"
         android:gravity="center"
         android:visibility="gone">
 
@@ -168,7 +172,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:indeterminate="true"
-            android:indeterminateTint="#D8D9E1" />
+            android:indeterminateTint="@color/light_grayish_blue" />
     </FrameLayout>
 
 

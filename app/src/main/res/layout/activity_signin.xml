@@ -9,8 +9,8 @@
         android:layout_margin="20dp">
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/back"
-            android:layout_width="25dp"
-            android:layout_height="32dp"
+            android:layout_width="@dimen/_25dp"
+            android:layout_height="@dimen/_32dp"
             android:src="@drawable/angle_left_solid"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -22,7 +22,7 @@
             android:layout_centerInParent="true"
             android:text="Sign in"
             android:textAlignment="center"
-            android:textColor="#614385"
+            android:textColor="@color/purpleish_blue"
             android:textSize="20sp" />
 
         <View
@@ -35,7 +35,7 @@
 
         <ImageView
             android:id="@+id/id_imglogo"
-            android:layout_width="153dp"
+            android:layout_width="@dimen/layout_width_logo"
             android:layout_height="117dp"
             android:layout_below="@id/line"
             android:layout_centerHorizontal="true"
@@ -44,20 +44,20 @@
 
         <TextView
             android:id="@+id/id_textv"
-            android:layout_width="326dp"
+            android:layout_width="@dimen/_326dp"
             android:layout_height="38dp"
             android:layout_below="@id/id_imglogo"
             android:layout_centerInParent="true"
             android:text="Please in with your email"
             android:textAlignment="center"
-            android:textColor="#614385"
-            android:textSize="25dp"
+            android:textColor="@color/purpleish_blue"
+            android:textSize="@dimen/_25dp"
             android:textStyle="bold" />
 
         <EditText
             android:id="@+id/butonemail_username"
-            android:layout_width="358dp"
-            android:layout_height="60dp"
+            android:layout_width="@dimen/_358dp"
+            android:layout_height="@dimen/_60dp"
             android:layout_below="@+id/id_textv"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="19dp"
@@ -70,8 +70,8 @@
 
         <EditText
             android:id="@+id/buttonpassword"
-            android:layout_width="358dp"
-            android:layout_height="60dp"
+            android:layout_width="@dimen/_358dp"
+            android:layout_height="@dimen/_60dp"
             android:layout_below="@+id/butonemail_username"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="19dp"
@@ -84,19 +84,19 @@
 
         <Button
             android:id="@+id/buttonsignin"
-            android:layout_width="358dp"
-            android:layout_height="60dp"
+            android:layout_width="@dimen/_358dp"
+            android:layout_height="@dimen/_60dp"
             android:layout_below="@+id/buttonpassword"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="19dp"
-            android:backgroundTint="#614385"
+            android:backgroundTint="@color/purpleish_blue"
             android:text="Sign in"
             android:alpha="0.5"
             android:enabled="false"
             android:textColor="#ffffff" />
 
         <LinearLayout
-            android:layout_width="358dp"
+            android:layout_width="@dimen/_358dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/buttonsignin"
             android:layout_centerHorizontal="true"
@@ -111,7 +111,7 @@
                 android:layout_alignBottom="@id/buttonsignin"
                 android:layout_weight="1"
                 android:text="Forgot Password?"
-                android:textColor="#614385"
+                android:textColor="@color/purpleish_blue"
                 android:textSize="15sp" />
 
             <TextView
@@ -121,7 +121,7 @@
                 android:layout_weight="1"
                 android:text="Sign up now"
                 android:textAlignment="textEnd"
-                android:textColor="#614385"
+                android:textColor="@color/purpleish_blue"
                 android:textSize="15sp" />
         </LinearLayout>
     </RelativeLayout>

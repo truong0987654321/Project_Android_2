@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
@@ -65,6 +67,8 @@ public class Home extends AppCompatActivity {
         String userPhotoUrl = intent.getStringExtra("user_photo_url");
         String userName = intent.getStringExtra("user_name");
         String userEmail = intent.getStringExtra("user_email");
+        TextView test__ = findViewById(R.id.test__);
+        test__.setText(userPhotoUrl);
         buttonDrawerToggle = findViewById(R.id.imageUser);
 
         NavigationView navigationView = findViewById(R.id.nav_view);

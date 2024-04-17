@@ -52,13 +52,8 @@ public class AccountManagement extends AppCompatActivity {
     private AppCompatImageView appCompatImageView_exit;
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private Button butonsignin;
-    private Button buttongoogle;
-    private Button buttonfacebook;
+    private Button butonsignin, btButtonTiwtter, buttongoogle, buttonfacebook;
     CallbackManager callbackManager;
-
-    private ShapeableImageView imageView;
-    private TextView nameTextView, emailTextView;
     private FrameLayout progressBar;
 
     private final ActivityResultLauncher<Intent> signInLauncher = registerForActivityResult(
@@ -136,16 +131,64 @@ public class AccountManagement extends AppCompatActivity {
         butonsignin = findViewById(R.id.butonsignin);
         buttongoogle = findViewById(R.id.buttongoogle);
         buttonfacebook = findViewById(R.id.buttonfacebook);
+        btButtonTiwtter = findViewById(R.id.buttontwitter);
+    }
+
+    private void firebaseAuthWithGoogle(String idToken) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(AccountManagement.this, "Authentication failed",
+                                    Toast.LENGTH_SHORT).show();
+                            updateUI(null);
+                        }
+                    }
+                });
+
+    }
+
+    private void handleFacebookAccestoken(AccessToken accessToken) {
+        AuthCredential authCredential = FacebookAuthProvider.getCredential(accessToken.getToken());
+        mAuth.signInWithCredential(authCredential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+
+
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    Toast.makeText(AccountManagement.this, "AuthCredential success", Toast.LENGTH_SHORT).show();
+                    updateUI(user);
+                    progressBar.setVisibility(View.GONE);
+                } else {
+                    Toast.makeText(AccountManagement.this, "AuthCredential error", Toast.LENGTH_SHORT).show();
+                    updateUI(null);
+                    progressBar.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     private void setupFaceBook() {
         callbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().logInWithReadPermissions(AccountManagement.this, Arrays.asList("email", "public_profile"));
+
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 // Xử lý khi đăng nhập thành công
                 Toast.makeText(AccountManagement.this, "login success", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.VISIBLE);
+                loading();
+                handleFacebookAccestoken(loginResult.getAccessToken());
+
             }
 
             @Override
@@ -187,7 +230,7 @@ public class AccountManagement extends AppCompatActivity {
         buttonfacebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LoginManager.getInstance().logOut();
+                setupFaceBook();
             }
         });
     }
@@ -203,27 +246,6 @@ public class AccountManagement extends AppCompatActivity {
         });
     }
 
-    private void firebaseAuthWithGoogle(String idToken) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Toast.makeText(AccountManagement.this, "Authentication failed",
-                                    Toast.LENGTH_SHORT).show();
-                            updateUI(null);
-                        }
-                    }
-                });
-
-    }
-
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
@@ -237,10 +259,25 @@ public class AccountManagement extends AppCompatActivity {
         }
     }
 
-    //facebook
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void loading() {
+        if (progressBar.getVisibility() == View.VISIBLE) {
+            // Nếu progressBar đang hiển thị, vô hiệu hóa RelativeLayout
+            butonsignin.setEnabled(false);
+            buttonfacebook.setEnabled(false);
+            buttongoogle.setEnabled(false);
+            btButtonTiwtter.setEnabled(false);
+        } else {
+            // Ngược lại, bật lại tính tương tác cho RelativeLayout
+            butonsignin.setEnabled(true);
+            buttonfacebook.setEnabled(true);
+            buttongoogle.setEnabled(true);
+            btButtonTiwtter.setEnabled(true);
+        }
     }
 }
