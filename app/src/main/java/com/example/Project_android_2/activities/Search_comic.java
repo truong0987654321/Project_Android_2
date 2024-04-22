@@ -8,17 +8,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.Project_android_2.R;
-<<<<<<< HEAD
 import com.example.Project_android_2.RC_recyclerView.RCAdapter;
 import com.example.Project_android_2.RC_recyclerView.RCAdapter_type_two;
 import com.example.Project_android_2.RC_recyclerView.RCModel;
 import com.example.Project_android_2.RC_recyclerView.RCModel_type_two;
-=======
-import com.example.Project_android_2.activities.RC_recyclerView.RCAdapter;
-import com.example.Project_android_2.activities.RC_recyclerView.RCAdapter_type_two;
-import com.example.Project_android_2.activities.RC_recyclerView.RCModel;
-import com.example.Project_android_2.activities.RC_recyclerView.RCModel_type_two;
->>>>>>> 1ba55fdf714bea67dc4b63bcaaf75ead075ac222
 
 import java.util.ArrayList;
 
@@ -105,8 +98,4 @@ public class Search_comic extends AppCompatActivity {
         }
         rcAdapterTypeTwo.notifyDataSetChanged();
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 1ba55fdf714bea67dc4b63bcaaf75ead075ac222

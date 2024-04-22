@@ -35,11 +35,8 @@
         android:layout_columnWeight="2"
         android:layout_gravity="right"
         tools:ignore="RtlHardcoded" />
-<<<<<<< HEAD
-    <ImageView
-=======
     <com.google.android.material.imageview.ShapeableImageView
->>>>>>> 1ba55fdf714bea67dc4b63bcaaf75ead075ac222
+
         android:id="@+id/imageUser"
         app:srcCompat="@drawable/user_icon"
         android:layout_width="40dp"
@@ -49,10 +46,6 @@
         android:layout_column="2"
         android:layout_columnWeight="2"
         android:layout_gravity="right|end"
-<<<<<<< HEAD
-        tools:ignore="RtlHardcoded" />
-=======
         tools:ignore="RtlHardcoded"
         app:shapeAppearanceOverlay="@style/roundedImageView"/>
->>>>>>> 1ba55fdf714bea67dc4b63bcaaf75ead075ac222
 </GridLayout>

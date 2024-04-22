@@ -29,16 +29,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
-<!--        <activity-->
-<!--            android:name=".MainActivity"-->
-<!--            android:exported="true"-->
-<!--            android:screenOrientation="portrait" />-->
-=======
->>>>>>> 1ba55fdf714bea67dc4b63bcaaf75ead075ac222
         <activity
             android:name=".activities.AccountManagement"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.SignUp"
@@ -70,14 +63,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.Home"
-
             android:exported="false"
             android:screenOrientation="portrait" />
-<<<<<<< HEAD
-        <activity android:name=".activities.Search_comic"
-            android:exported="false"
-            android:screenOrientation="portrait"/>
-=======
         <activity
             android:name=".activities.Search_comic"
             android:exported="false"
@@ -102,7 +89,6 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
->>>>>>> 1ba55fdf714bea67dc4b63bcaaf75ead075ac222
     </application>
 
 </manifest>

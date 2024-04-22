@@ -1,20 +1,6 @@
 package com.example.Project_android_2.activities;
 
 import android.annotation.SuppressLint;
-<<<<<<< HEAD
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
-import androidx.appcompat.widget.SwitchCompat;
-=======
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,100 +9,70 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.view.GravityCompat;
->>>>>>> 1ba55fdf714bea67dc4b63bcaaf75ead075ac222
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.Project_android_2.R;
-<<<<<<< HEAD
-import com.example.Project_android_2.RC_recyclerView.RCAdapter;
-import com.example.Project_android_2.RC_recyclerView.RCAdapter_Trending;
-import com.example.Project_android_2.RC_recyclerView.RCModel;
-import com.example.Project_android_2.RC_recyclerView.RCModel_title_story;
-=======
+import com.example.Project_android_2.activities.RC_recyclerView.DAL.category_DAL;
+import com.example.Project_android_2.activities.RC_recyclerView.DAL.chapter_DAL;
+import com.example.Project_android_2.activities.RC_recyclerView.DAL.chapter_interface;
+import com.example.Project_android_2.activities.RC_recyclerView.DAL.comic_DAL;
+import com.example.Project_android_2.activities.RC_recyclerView.DAL.comic_interface;
 import com.example.Project_android_2.activities.RC_recyclerView.RCAdapter;
 import com.example.Project_android_2.activities.RC_recyclerView.RCAdapter_Trending;
 import com.example.Project_android_2.activities.RC_recyclerView.RCModel;
 import com.example.Project_android_2.activities.RC_recyclerView.RCModel_title_story;
+import com.example.Project_android_2.activities.RC_recyclerView.chapter_model;
+import com.example.Project_android_2.activities.RC_recyclerView.comic_chapter_model;
+import com.example.Project_android_2.activities.RC_recyclerView.comic_model;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
->>>>>>> 1ba55fdf714bea67dc4b63bcaaf75ead075ac222
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Objects;
 
 public class Home extends AppCompatActivity {
 
     RecyclerView recyclerView2;
 
-    ArrayList<RCModel_title_story> modeArrList_story;
+    //ArrayList<RCModel_title_story> modeArrList_story;
 
     RCAdapter_Trending rcAdapter2;
-<<<<<<< HEAD
-
-    String[] title_story = new String[]{
-            "Luo Emperor Chapter 83","Mage Returns Chapter 91","Tom Raider Chapter 255","Versatile Maze Chapter 757"
-    };
-    ImageView Search_icon;
-=======
-    String[] title_story = new String[]{
+    /*String[] title_story = new String[]{
             "Luo Emperor Chapter 83", "Mage Returns Chapter 91", "Tom Raider Chapter 255", "Versatile Maze Chapter 757"
-    };
-    ImageView Search_icon, img;
->>>>>>> 1ba55fdf714bea67dc4b63bcaaf75ead075ac222
-    SwitchCompat switchmode;
-    boolean nightMode;
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
+    };*/
+    ArrayList<comic_chapter_model> comic_chapter = new ArrayList<>();
+    ArrayList<chapter_model> lastchapter = new ArrayList<>();
+    ImageView Search_icon;
     DrawerLayout drawerLayout;
-<<<<<<< HEAD
-    ImageView buttonDrawerToggle;
-=======
-    ShapeableImageView buttonDrawerToggle, imageViewDrawer,img_fb;
+    ShapeableImageView buttonDrawerToggle, imageViewDrawer;
     TextView username, useremail;
-
->>>>>>> 1ba55fdf714bea67dc4b63bcaaf75ead075ac222
     @SuppressLint("MissingInflatedId")
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_app);
-<<<<<<< HEAD
-
-        createList_story();
-        handleSearch();
-        handleslidermenu();
-      //  handleswitch();
-    }
-
-    @SuppressLint("WrongViewCast")
-    public void createList_story(){
-        recyclerView2 = findViewById((R.id.rc_story));
-        recyclerView2.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        recyclerView2.setHasFixedSize(true);
-        modeArrList_story = new ArrayList<>();
-        rcAdapter2 = new RCAdapter_Trending(this,modeArrList_story);
-        recyclerView2.setAdapter(rcAdapter2);
-        for(int i = 0;i < title_story.length;i++){
-            RCModel_title_story rcModel2 = new RCModel_title_story(title_story[i]);
-            modeArrList_story.add(rcModel2);
-        }
-        rcAdapter2.notifyDataSetChanged();
-=======
->>>>>>> 1ba55fdf714bea67dc4b63bcaaf75ead075ac222
-
 
         Intent intent = getIntent();
         String userPhotoUrl = intent.getStringExtra("user_photo_url");
@@ -149,76 +105,116 @@ public class Home extends AppCompatActivity {
 
 
         Glide.with(this).load(userPhotoUrl).into(buttonDrawerToggle);
-        createList_story();
+        getListChapter();
         handleSearch();
         handleslidermenu(userPhotoUrl, userName, userEmail);
         //  handleswitch();
     }
-<<<<<<< HEAD
-    @SuppressLint("ResourceType")
-    public void handleSearch(){
-        Search_icon = findViewById(R.id.imageSearch);
-        Search_icon.setOnClickListener(new View.OnClickListener() {
+
+    public void getListChapter(){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference chapterRef = database.getReference("chapter");
+        chapterRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            final ArrayList<chapter_model> list_chapter = new ArrayList<>();
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Home.this,Search_comic.class);
-                startActivity(intent);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot chaptershot : snapshot.getChildren()){
+                    int chapter_index = chaptershot.child("CHAPTER_INDEX").getValue(Integer.class);
+                    String Content = chaptershot.child("CONTENT").getValue(String.class);
+                    String id_comic = chaptershot.child("ID_COMIC").getValue(String.class);
+                    String title = chaptershot.child("TITLE").getValue(String.class);
+                    String create_at = chaptershot.child("create_at").getValue(String.class);
+                    int has_html = chaptershot.child("has_html").getValue(Integer.class);
+                    String id = chaptershot.getKey();
+                    chapter_model model = new chapter_model(id, chapter_index, Content, id_comic, title, create_at, has_html);
+                    list_chapter.add(model);
+                }
+               // Toast.makeText(Home.this,list_chapter.get(0).getID()+" "+list_chapter.get(0).getTITLE(),Toast.LENGTH_SHORT).show();
+                getCommit(list_chapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(Home.this,"cannot have data comic",Toast.LENGTH_SHORT).show();
             }
         });
     }
-    @SuppressLint("WrongViewCast")
-    public void handleslidermenu (){
-        drawerLayout = findViewById(R.id.drawerLayout);
-        buttonDrawerToggle = findViewById(R.id.imageUser);
-        buttonDrawerToggle.setOnClickListener(new View.OnClickListener() {
+
+    private void getCommit(ArrayList<chapter_model> list_chapter) {
+ //       Toast.makeText(Home.this,listChapter.get(0).getID_COMIC()+" "+listChapter.get(0).getTITLE(),Toast.LENGTH_SHORT).show();
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference comicsRef = database.getReference("comic");
+        comicsRef.addValueEventListener(new ValueEventListener() {
+            ArrayList<comic_model> arr_comic = new ArrayList<>();
             @Override
-            public void onClick(View v) {
-                drawerLayout.open();
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot comicsnap : snapshot.getChildren()){
+                    comic_model model = comicsnap.getValue(comic_model.class);
+                    arr_comic.add(model);
+                }
+                create_list_comic_chapter(list_chapter,arr_comic);
+               // Toast.makeText(Home.this,arr_comic.get(0).getTITLE(),Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(Home.this,"cannot have data comic",Toast.LENGTH_SHORT).show();
             }
         });
     }
-//    public void handleswitch(){
-//        switchmode = findViewById(R.id.switchMode);
-//        sharedPreferences = getSharedPreferences("MODE", Context.MODE_PRIVATE);
-//        nightMode = sharedPreferences.getBoolean("nightMode",false);
-//        if(nightMode){
-//            switchmode.setChecked(true);
-//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-//        }
-//        switchmode.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(nightMode){
-//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-//                    editor = sharedPreferences.edit();
-//                    editor.putBoolean("nightMode",false);
-//                }else {
-//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-//                    editor = sharedPreferences.edit();
-//                    editor.putBoolean("nightMode",true);
-//                }
-//                editor.apply();
-//            }
-//        });
-//    }
-}
-=======
->>>>>>> 1ba55fdf714bea67dc4b63bcaaf75ead075ac222
+    public void create_list_comic_chapter (ArrayList<chapter_model> listChapter, ArrayList<comic_model> arr_comic) {
+        try {
+            HashMap<String, chapter_model> lastChapterMap = new HashMap<>();
+            // Xóa hết các phần tử cũ trong lastChapters
+            if (!lastchapter.isEmpty()) {
+                lastchapter.clear();
+            }
+            // Lặp qua danh sách các chapter
+            for (chapter_model chapter : listChapter) {
+                // Lấy id_comic của chapter
+                String id_comic = chapter.getID_COMIC();
 
+                // Lấy chapter cuối cùng của id_comic từ lastChapterMap, nếu có
+                chapter_model lastChapter = lastChapterMap.get(id_comic);
 
-    @SuppressLint("WrongViewCast")
-    public void createList_story() {
-        recyclerView2 = findViewById((R.id.rc_story));
-        recyclerView2.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        recyclerView2.setHasFixedSize(true);
-        modeArrList_story = new ArrayList<>();
-        rcAdapter2 = new RCAdapter_Trending(this, modeArrList_story);
-        recyclerView2.setAdapter(rcAdapter2);
-        for (int i = 0; i < title_story.length; i++) {
-            RCModel_title_story rcModel2 = new RCModel_title_story(title_story[i]);
-            modeArrList_story.add(rcModel2);
+                // Nếu không có chapter cuối cùng hoặc chapter hiện tại mới hơn
+                if (lastChapter == null || lastChapter.getCreate_At() == null ||
+                        (chapter.getCreate_At() != null && chapter.getCreate_At().compareTo(lastChapter.getCreate_At()) > 0)) {
+                    // Thêm chapter vào lastChapterMap
+                    lastChapterMap.put(id_comic, chapter);
+                }
+            }
+
+            // Tạo một ArrayList mới chỉ chứa các chapter cuối cùng đã được lựa chọn
+            lastchapter.addAll(lastChapterMap.values());
+
+            for (chapter_model chapter : lastchapter) {
+                String id_comic = chapter.getID_COMIC();
+                for (comic_model comic : arr_comic) {
+                    if (id_comic.equals(comic.getID())) {
+                        comic_chapter_model md = new comic_chapter_model(comic.getTITLE(), chapter.getCHAPTER_INDEX(), comic.getTHUMBNAIL());
+                        comic_chapter.add(md);
+                        break;
+                    }
+                }
+            }
+            createList_story();
+        } catch (Exception e) {
+            e.printStackTrace(); // In ra log lỗi nếu có
+            // Xử lý các ngoại lệ nếu cần
         }
-        rcAdapter2.notifyDataSetChanged();
+    }
+    @SuppressLint({"WrongViewCast", "NotifyDataSetChanged"})
+    public void createList_story() {
+        if(!comic_chapter.isEmpty()){
+            recyclerView2 = findViewById((R.id.rc_story));
+            recyclerView2.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+            recyclerView2.setHasFixedSize(true);
+            rcAdapter2 = new RCAdapter_Trending(this, comic_chapter);
+            recyclerView2.setAdapter(rcAdapter2);
+            rcAdapter2.notifyDataSetChanged();
+        }
     }
 
     @SuppressLint("ResourceType")
@@ -236,17 +232,14 @@ public class Home extends AppCompatActivity {
     @SuppressLint("WrongViewCast")
     public void handleslidermenu(String userPhotoUrl, String userName, String userEmail) {
         drawerLayout = findViewById(R.id.drawerLayout);
-        buttonDrawerToggle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawerLayout.open();
-                imageViewDrawer = drawerLayout.findViewById(R.id.imageUserViewDrawer);
-                username = drawerLayout.findViewById(R.id.username);
-                useremail = drawerLayout.findViewById(R.id.userEmail);
-                Glide.with(Home.this).load(userPhotoUrl).into(imageViewDrawer);
-                username.setText(userName);
-                useremail.setText(userEmail);
-            }
+        buttonDrawerToggle.setOnClickListener(v -> {
+            drawerLayout.open();
+            imageViewDrawer = drawerLayout.findViewById(R.id.imageUserViewDrawer);
+            username = drawerLayout.findViewById(R.id.username);
+            useremail = drawerLayout.findViewById(R.id.userEmail);
+            Glide.with(Home.this).load(userPhotoUrl).into(imageViewDrawer);
+            username.setText(userName);
+            useremail.setText(userEmail);
         });
     }
 
