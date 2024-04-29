@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -53,21 +54,16 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class Home extends AppCompatActivity {
-
     RecyclerView recyclerView2;
-
-    //ArrayList<RCModel_title_story> modeArrList_story;
-
     RCAdapter_Trending rcAdapter2;
-    /*String[] title_story = new String[]{
-            "Luo Emperor Chapter 83", "Mage Returns Chapter 91", "Tom Raider Chapter 255", "Versatile Maze Chapter 757"
-    };*/
     ArrayList<comic_chapter_model> comic_chapter = new ArrayList<>();
     ArrayList<chapter_model> lastchapter = new ArrayList<>();
     ImageView Search_icon;
     DrawerLayout drawerLayout;
     ShapeableImageView buttonDrawerToggle, imageViewDrawer;
     TextView username, useremail;
+    private ALodingDialog aLodingDialog;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,117 +99,164 @@ public class Home extends AppCompatActivity {
         });
 
 
-
         Glide.with(this).load(userPhotoUrl).into(buttonDrawerToggle);
+        // Khởi tạo aLodingDialog
+        aLodingDialog = new ALodingDialog(this);
         getListChapter();
+
         handleSearch();
         handleslidermenu(userPhotoUrl, userName, userEmail);
         //  handleswitch();
     }
 
-    public void getListChapter(){
+    public void getListChapter() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference chapterRef = database.getReference("chapter");
-        chapterRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            final ArrayList<chapter_model> list_chapter = new ArrayList<>();
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot chaptershot : snapshot.getChildren()){
-                    int chapter_index = chaptershot.child("CHAPTER_INDEX").getValue(Integer.class);
-                    String Content = chaptershot.child("CONTENT").getValue(String.class);
-                    String id_comic = chaptershot.child("ID_COMIC").getValue(String.class);
-                    String title = chaptershot.child("TITLE").getValue(String.class);
-                    String create_at = chaptershot.child("create_at").getValue(String.class);
-                    int has_html = chaptershot.child("has_html").getValue(Integer.class);
-                    String id = chaptershot.getKey();
-                    chapter_model model = new chapter_model(id, chapter_index, Content, id_comic, title, create_at, has_html);
-                    list_chapter.add(model);
-                }
-               // Toast.makeText(Home.this,list_chapter.get(0).getID()+" "+list_chapter.get(0).getTITLE(),Toast.LENGTH_SHORT).show();
-                getCommit(list_chapter);
-            }
+        // Hiển thị aLodingDialog
+        if (aLodingDialog != null) {
+            aLodingDialog.show();
+        }
+            chapterRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                final ArrayList<chapter_model> list_chapter = new ArrayList<>();
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(Home.this,"cannot have data comic",Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                    for (DataSnapshot chaptershot : snapshot.getChildren()) {
+                        int chapter_index = chaptershot.child("CHAPTER_INDEX").getValue(Integer.class);
+                        String Content = chaptershot.child("CONTENT").getValue(String.class);
+                        String id_comic = chaptershot.child("ID_COMIC").getValue(String.class);
+                        String title = chaptershot.child("TITLE").getValue(String.class);
+                        String create_at = chaptershot.child("create_at").getValue(String.class);
+                        int has_html = chaptershot.child("has_html").getValue(Integer.class);
+                        String id = chaptershot.getKey();
+                        chapter_model model = new chapter_model(id, chapter_index, Content, id_comic, title, create_at, has_html);
+                        list_chapter.add(model);
+                    }
+                    getCommit(list_chapter);
+                    // Ẩn aLodingDialog khi dữ liệu đã được tải xong
+                    if (aLodingDialog != null && aLodingDialog.isShowing()) {
+                        aLodingDialog.dismiss();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(Home.this, "cannot have data comic", Toast.LENGTH_SHORT).show();
+                    // Ẩn aLodingDialog khi dữ liệu đã được tải xong
+                    if (aLodingDialog != null && aLodingDialog.isShowing()) {
+                        aLodingDialog.dismiss();
+                    }
+                }
+            });
     }
 
     private void getCommit(ArrayList<chapter_model> list_chapter) {
- //       Toast.makeText(Home.this,listChapter.get(0).getID_COMIC()+" "+listChapter.get(0).getTITLE(),Toast.LENGTH_SHORT).show();
+        //       Toast.makeText(Home.this,listChapter.get(0).getID_COMIC()+" "+listChapter.get(0).getTITLE(),Toast.LENGTH_SHORT).show();
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference comicsRef = database.getReference("comic");
-        comicsRef.addValueEventListener(new ValueEventListener() {
-            ArrayList<comic_model> arr_comic = new ArrayList<>();
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot comicsnap : snapshot.getChildren()){
-                    comic_model model = comicsnap.getValue(comic_model.class);
-                    arr_comic.add(model);
-                }
-                create_list_comic_chapter(list_chapter,arr_comic);
-               // Toast.makeText(Home.this,arr_comic.get(0).getTITLE(),Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(Home.this,"cannot have data comic",Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-    public void create_list_comic_chapter (ArrayList<chapter_model> listChapter, ArrayList<comic_model> arr_comic) {
-        try {
-            HashMap<String, chapter_model> lastChapterMap = new HashMap<>();
-            // Xóa hết các phần tử cũ trong lastChapters
-            if (!lastchapter.isEmpty()) {
-                lastchapter.clear();
-            }
-            // Lặp qua danh sách các chapter
-            for (chapter_model chapter : listChapter) {
-                // Lấy id_comic của chapter
-                String id_comic = chapter.getID_COMIC();
-
-                // Lấy chapter cuối cùng của id_comic từ lastChapterMap, nếu có
-                chapter_model lastChapter = lastChapterMap.get(id_comic);
-
-                // Nếu không có chapter cuối cùng hoặc chapter hiện tại mới hơn
-                if (lastChapter == null || lastChapter.getCreate_At() == null ||
-                        (chapter.getCreate_At() != null && chapter.getCreate_At().compareTo(lastChapter.getCreate_At()) > 0)) {
-                    // Thêm chapter vào lastChapterMap
-                    lastChapterMap.put(id_comic, chapter);
-                }
-            }
-
-            // Tạo một ArrayList mới chỉ chứa các chapter cuối cùng đã được lựa chọn
-            lastchapter.addAll(lastChapterMap.values());
-
-            for (chapter_model chapter : lastchapter) {
-                String id_comic = chapter.getID_COMIC();
-                for (comic_model comic : arr_comic) {
-                    if (id_comic.equals(comic.getID())) {
-                        comic_chapter_model md = new comic_chapter_model(comic.getTITLE(), chapter.getCHAPTER_INDEX(), comic.getTHUMBNAIL());
-                        comic_chapter.add(md);
-                        break;
-                    }
-                }
-            }
-            createList_story();
-        } catch (Exception e) {
-            e.printStackTrace(); // In ra log lỗi nếu có
-            // Xử lý các ngoại lệ nếu cần
+        // Hiển thị aLodingDialog
+        if (aLodingDialog != null) {
+            aLodingDialog.show();
         }
+                comicsRef.addValueEventListener(new ValueEventListener() {
+                    ArrayList<comic_model> arr_comic = new ArrayList<>();
+
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot comicsnap : snapshot.getChildren()) {
+                            comic_model model = comicsnap.getValue(comic_model.class);
+                            arr_comic.add(model);
+                        }
+                        create_list_comic_chapter(list_chapter, arr_comic);
+                        // Ẩn aLodingDialog khi dữ liệu đã được tải xong
+                        if (aLodingDialog != null && aLodingDialog.isShowing()) {
+                            aLodingDialog.dismiss();
+                        }
+                        // Toast.makeText(Home.this,arr_comic.get(0).getTITLE(),Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(Home.this, "cannot have data comic", Toast.LENGTH_SHORT).show();
+                        // Ẩn aLodingDialog khi dữ liệu đã được tải xong
+                        if (aLodingDialog != null && aLodingDialog.isShowing()) {
+                            aLodingDialog.dismiss();
+                        }
+                    }
+                });
     }
+
+    public void create_list_comic_chapter(ArrayList<chapter_model> listChapter, ArrayList<comic_model> arr_comic) {
+        // Hiển thị aLodingDialog
+        if (aLodingDialog != null) {
+            aLodingDialog.show();
+        }
+
+                try {
+                    HashMap<String, chapter_model> lastChapterMap = new HashMap<>();
+                    // Xóa hết các phần tử cũ trong lastChapters
+                    if (!lastchapter.isEmpty()) {
+                        lastchapter.clear();
+                    }
+                    // Lặp qua danh sách các chapter
+                    for (chapter_model chapter : listChapter) {
+                        // Lấy id_comic của chapter
+                        String id_comic = chapter.getID_COMIC();
+
+                        // Lấy chapter cuối cùng của id_comic từ lastChapterMap, nếu có
+                        chapter_model lastChapter = lastChapterMap.get(id_comic);
+
+                        // Nếu không có chapter cuối cùng hoặc chapter hiện tại mới hơn
+                        if (lastChapter == null || lastChapter.getCreate_At() == null ||
+                                (chapter.getCreate_At() != null && chapter.getCreate_At().compareTo(lastChapter.getCreate_At()) > 0)) {
+                            // Thêm chapter vào lastChapterMap
+                            lastChapterMap.put(id_comic, chapter);
+                        }
+                    }
+
+                    // Tạo một ArrayList mới chỉ chứa các chapter cuối cùng đã được lựa chọn
+                    lastchapter.addAll(lastChapterMap.values());
+
+                    for (chapter_model chapter : lastchapter) {
+                        String id_comic = chapter.getID_COMIC();
+                        for (comic_model comic : arr_comic) {
+                            if (id_comic.equals(comic.getID())) {
+                                comic_chapter_model md = new comic_chapter_model(comic.getTITLE(), chapter.getCHAPTER_INDEX(), comic.getTHUMBNAIL());
+                                comic_chapter.add(md);
+                                break;
+                            }
+                        }
+                    }
+                    createList_story();
+                    // Ẩn aLodingDialog khi dữ liệu đã được tải xong
+                    if (aLodingDialog != null && aLodingDialog.isShowing()) {
+                        aLodingDialog.dismiss();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace(); // In ra log lỗi nếu có
+                    // Xử lý các ngoại lệ nếu cần
+                }
+    }
+
     @SuppressLint({"WrongViewCast", "NotifyDataSetChanged"})
     public void createList_story() {
-        if(!comic_chapter.isEmpty()){
+        // Hiển thị aLodingDialog
+        if (aLodingDialog != null) {
+            aLodingDialog.show();
+        }
+        if (!comic_chapter.isEmpty()) {
             recyclerView2 = findViewById((R.id.rc_story));
             recyclerView2.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
             recyclerView2.setHasFixedSize(true);
             rcAdapter2 = new RCAdapter_Trending(this, comic_chapter);
             recyclerView2.setAdapter(rcAdapter2);
             rcAdapter2.notifyDataSetChanged();
+        }
+        // Ẩn aLodingDialog khi RecyclerView đã được hiển thị hoàn chỉnh
+        if (aLodingDialog != null && aLodingDialog.isShowing()) {
+            aLodingDialog.dismiss();
         }
     }
 
@@ -242,7 +285,7 @@ public class Home extends AppCompatActivity {
             useremail.setText(userEmail);
         });
     }
-
+}
 
 //    public void handleswitch(){
 //        switchmode = findViewById(R.id.switchMode);
@@ -268,4 +311,3 @@ public class Home extends AppCompatActivity {
 //            }
 //        });
 //    }
-}
