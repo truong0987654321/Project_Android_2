@@ -22,11 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.Project_android_2.R;
-import com.example.Project_android_2.activities.RC_recyclerView.DAL.category_DAL;
-import com.example.Project_android_2.activities.RC_recyclerView.DAL.chapter_DAL;
-import com.example.Project_android_2.activities.RC_recyclerView.DAL.chapter_interface;
-import com.example.Project_android_2.activities.RC_recyclerView.DAL.comic_DAL;
-import com.example.Project_android_2.activities.RC_recyclerView.DAL.comic_interface;
+
 import com.example.Project_android_2.activities.RC_recyclerView.RCAdapter;
 import com.example.Project_android_2.activities.RC_recyclerView.RCAdapter_Trending;
 import com.example.Project_android_2.activities.RC_recyclerView.RCModel;
@@ -133,7 +129,10 @@ public class Home extends AppCompatActivity {
                         chapter_model model = new chapter_model(id, chapter_index, Content, id_comic, title, create_at, has_html);
                         list_chapter.add(model);
                     }
-                    getCommit(list_chapter);
+                    if(!list_chapter.isEmpty()){
+                        getCommit(list_chapter);
+                    }
+                    else Toast.makeText(Home.this,"Cannot found list comic with last update",Toast.LENGTH_SHORT).show();
                     // Ẩn aLodingDialog khi dữ liệu đã được tải xong
                     if (aLodingDialog != null && aLodingDialog.isShowing()) {
                         aLodingDialog.dismiss();

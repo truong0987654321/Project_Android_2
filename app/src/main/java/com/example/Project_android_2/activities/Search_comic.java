@@ -128,7 +128,10 @@ public class Search_comic extends AppCompatActivity implements RecyclerViewInter
                         category_model model = cateshot.getValue(category_model.class);
                         modelListcate.add(model);
                     }
-                    createList_cate(modelListcate);
+                    if(!modelListcate.isEmpty()){
+                        createList_cate(modelListcate);
+                    }
+                    else Toast.makeText(Search_comic.this,"Cannot found data categori",Toast.LENGTH_SHORT).show();
                     if (aLodingDialog != null && aLodingDialog.isShowing()) {
                         aLodingDialog.dismiss();
                     }
@@ -176,7 +179,10 @@ public class Search_comic extends AppCompatActivity implements RecyclerViewInter
                     String id_comic = comic_cate_snap.child("ID_COMIC").getValue(String.class);
                     ID_comic.add(id_comic);
                 }
-                getComic_from_ID_comic(ID_comic);
+                if(!ID_comic.isEmpty()){
+                    getComic_from_ID_comic(ID_comic);
+                }
+                else Toast.makeText(Search_comic.this,"Cannot found comic with category",Toast.LENGTH_SHORT).show();
                 if (aLodingDialog != null && aLodingDialog.isShowing()) {
                     aLodingDialog.dismiss();
                 }
