@@ -1,6 +1,6 @@
 package com.example.Project_android_2.models;
 
-public class comic {
+public class commic {
     private int id;
     private String title;
     private String sub_title;
@@ -10,12 +10,11 @@ public class comic {
     private String author;
     private String publish_by;
 
-    public comic() {
+    public commic() {
 
     }
 
-    public comic(int id, String title, String sub_title, String thumbnail, String synopsis, String country,
-            String author, String publish_by) {
+    public commic(int id, String title, String sub_title, String thumbnail, String synopsis, String country, String author, String publish_by) {
         this.id = id;
         this.title = title;
         this.sub_title = sub_title;
