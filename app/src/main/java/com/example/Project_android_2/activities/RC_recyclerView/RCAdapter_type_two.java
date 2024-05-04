@@ -5,22 +5,26 @@ import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.Project_android_2.R;
+import com.example.Project_android_2.activities.RC_recyclerView.author_comic_model;
+import com.example.Project_android_2.activities.RC_recyclerView.comic_model;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class RCAdapter_type_two extends RecyclerView.Adapter<RCAdapter_type_two.RCViewHolder_type_two> {
 
     Context context;
-    ArrayList<RCModel_type_two> modelArrtype_two;
-    public RCAdapter_type_two (Context context,ArrayList<RCModel_type_two> modelArrtype_two){
+    ArrayList<author_comic_model> author_comic_model;
+    public RCAdapter_type_two (Context context,ArrayList<author_comic_model> author_comic_model){
         this.context = context;
-        this.modelArrtype_two = modelArrtype_two;
+        this.author_comic_model = author_comic_model;
     }
     @NonNull
     @Override
@@ -32,21 +36,24 @@ public class RCAdapter_type_two extends RecyclerView.Adapter<RCAdapter_type_two.
 
     @Override
     public void onBindViewHolder(@NonNull RCViewHolder_type_two holder, int position) {
-        RCModel_type_two rcmodel = modelArrtype_two.get(position);
+        author_comic_model rcmodel = author_comic_model.get(position);
         holder.Name_comic.setText(rcmodel.getName_comic());
         holder.Name_author.setText(rcmodel.getName_author());
+        Picasso.get().load(rcmodel.getImage_comic()).into(holder.imgview);
     }
     @Override
     public int getItemCount() {
-        return modelArrtype_two.size();
+        return author_comic_model.size();
     }
     public class RCViewHolder_type_two extends RecyclerView.ViewHolder{
         TextView Name_comic;
         TextView Name_author;
+        ImageView imgview;
         public RCViewHolder_type_two (View itemView){
             super(itemView);
             Name_comic = itemView.findViewById(R.id.txt_name_comic);
             Name_author =itemView.findViewById(R.id.txt_name_author);
+            imgview = itemView.findViewById(R.id.img_comic_two);
         }
     }
 }

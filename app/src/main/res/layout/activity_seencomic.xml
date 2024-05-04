@@ -6,153 +6,162 @@
     android:layout_height="match_parent"
     android:background="@drawable/seen_comic"
     >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/refund_ring"
+            android:layout_width="42dp"
+            android:layout_height="34dp"
+            android:layout_toStartOf="@id/logo_195e0d"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="28dp"
+            android:src="@drawable/refund_ring_back"
+            android:elevation="4dp">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/refund_ring"
-        android:layout_width="42dp"
-        android:layout_height="34dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="29dp"
-        android:layout_marginTop="21dp"
-        android:src="@drawable/refund_ring_back"
-        android:elevation="4dp">
+        </androidx.appcompat.widget.AppCompatImageView>
 
-    </androidx.appcompat.widget.AppCompatImageView>
+        <View
+            android:id="@+id/logo_195e0d"
+            android:layout_width="173dp"
+            android:layout_height="137dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/logo" />
 
-    <View
-        android:id="@+id/logo_195e0d"
-        android:layout_width="173dp"
-        android:layout_height="137dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="117dp"
-        android:layout_marginLeft="116dp"
-        android:layout_marginTop="14dp"
-        android:layout_marginEnd="122dp"
-        android:background="@drawable/logo" />
+        <View
+            android:id="@+id/group_4"
+            android:layout_width="55dp"
+            android:layout_height="60dp"
+            android:layout_toEndOf="@id/logo_195e0d"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="28dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginStart="28dp"
+            android:background="@drawable/group_4" />
 
-    <View
-        android:id="@+id/group_4"
-        android:layout_width="55dp"
-        android:layout_height="60dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="335dp"
-        android:layout_marginTop="14dp"
-        android:background="@drawable/group_4" />
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="198dp"
+            android:layout_height="37dp"
+            android:layout_below="@id/logo_195e0d"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="31dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="182dp"
+            android:gravity="top"
+            android:textSize="30sp"
+            tools:text="Shogun" />
 
-    <TextView
-        android:id="@+id/textViewTitle"
-        android:layout_width="198dp"
-        android:layout_height="37dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="31dp"
-        android:layout_marginLeft="31dp"
-        android:layout_marginTop="133dp"
-        android:layout_marginEnd="182dp"
-        android:gravity="top"
-        android:textSize="30sp"
-        tools:text="Shogun" />
+        <View
+            android:id="@+id/cardboard"
+            android:layout_width="262dp"
+            android:layout_height="323dp"
+            android:layout_below="@id/textViewTitle"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/retangle" />
 
-    <View
-        android:id="@+id/cardboard"
-        android:layout_width="262dp"
-        android:layout_height="323dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="77dp"
-        android:layout_marginTop="178dp"
-        android:background="@drawable/retangle" />
+        <ImageView
+            android:id="@+id/imageViewLogo"
+            android:layout_width="147dp"
+            android:layout_height="198dp"
+            android:layout_centerInParent= "true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="248dp"
+            android:background="@drawable/retangle2"
+            android:src="@drawable/mask_group" />
 
-    <ImageView
-        android:id="@+id/imageViewLogo"
-        android:layout_width="147dp"
-        android:layout_height="198dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="133dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="214dp"
-        android:background="@drawable/retangle2"
-        android:src="@drawable/mask_group" />
+        <Button
+            android:id="@+id/confirm_button"
+            android:layout_width="128dp"
+            android:layout_height="51dp"
+            android:layout_below="@id/imageViewLogo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="38dp"
+            android:background="@drawable/retangle3"
+            android:onClick="confirm"
+            android:text="Confirm" />
 
-    <Button
-        android:id="@+id/confirm_button"
-        android:layout_width="128dp"
-        android:layout_height="51dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="143dp"
-        android:layout_marginTop="449dp"
-        android:background="@drawable/retangle3"
-        android:onClick="confirm"
-        android:text="Confirm" />
+        <TextView
+            android:id="@+id/author"
+            android:layout_width="310dp"
+            android:layout_height="44dp"
+            android:layout_below="@id/cardboard"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="31dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="48dp"
+            android:gravity="top"
+            android:text="Author:Nobunaga"
+            android:textSize="30sp" />
 
-    <TextView
-        android:id="@+id/author"
-        android:layout_width="310dp"
-        android:layout_height="44dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="518dp"
-        android:gravity="top"
-        android:text="Author:Nobunaga"
-        android:textSize="30sp" />
+        <include
+            android:id="@+id/include2"
+            layout="@layout/list_rc_comic_type_two"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_below="@id/author"
+            android:layout_centerVertical="true"
+            />
 
-    <TextView
-        android:id="@+id/chap1"
-        android:layout_width="318dp"
-        android:layout_height="38dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="29dp"
-        android:layout_marginTop="578dp"
-        android:background="@drawable/retangle"
-        android:gravity="center_vertical"
-        android:onClick="chooseChapter"
-        android:text="Chap 1:"
-        android:textSize="20sp"
-        android:paddingLeft="10dp"
+        <View
+            android:id="@+id/premium_qua"
+            android:layout_width="39dp"
+            android:layout_height="39dp"
+            android:layout_below="@id/logo_195e0d"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="314dp"
+            android:layout_marginTop="48dp"
+            android:background="@drawable/premium_quality_1"
+            />
 
-        />
+        <View
+            android:id="@+id/check_1"
+            android:layout_width="39dp"
+            android:layout_height="39dp"
+            android:layout_below="@id/premium_qua"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="314dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/check_1"
+            />
 
-    <View
-        android:id="@+id/premium_qua"
-        android:layout_width="39dp"
-        android:layout_height="39dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="314dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="167dp"
-        android:background="@drawable/premium_quality_1"
-        />
+        <View
+            android:id="@+id/heart_1_1"
+            android:layout_width="39dp"
+            android:layout_height="39dp"
+            android:layout_below="@id/check_1"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="314dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/heart_1"
+            />
 
-    <View
-        android:id="@+id/check_1"
-        android:layout_width="39dp"
-        android:layout_height="39dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="314dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="223dp"
-        android:background="@drawable/check_1"
-        />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_below="@id/author"
+            app:layout_constraintStart_toStartOf="parent">
 
-    <View
-        android:id="@+id/heart_1_1"
-        android:layout_width="39dp"
-        android:layout_height="39dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="314dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="279dp"
-        android:background="@drawable/heart_1"
-        />
 
+            <include
+                android:id="@+id/include"
+                layout="@layout/list_rc_chap"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                />
+        </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>

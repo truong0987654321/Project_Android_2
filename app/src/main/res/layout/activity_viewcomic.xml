@@ -9,10 +9,10 @@
         android:id="@+id/refund_ring"
         android:layout_width="42dp"
         android:layout_height="34dp"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="29dp"
-        android:layout_marginTop="21dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="28dp"
         android:src="@drawable/refund_ring_back"
         android:elevation="4dp">
     </androidx.appcompat.widget.AppCompatImageView>
@@ -21,39 +21,29 @@
         android:id="@+id/group_4"
         android:layout_width="55dp"
         android:layout_height="60dp"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginLeft="335dp"
-        android:layout_marginTop="14dp"
-        android:layout_marginEnd="21dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="24dp"
         android:background="@drawable/group_4" />
 
     <TextView
         android:id="@+id/chap1"
         android:layout_width="225dp"
         android:layout_height="30dp"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="98dp"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="89dp"
-        android:layout_marginEnd="88dp"
-        android:layout_marginBottom="604dp"
         android:background="@drawable/retangle"
-        android:gravity="center_vertical"
-        android:onClick="chooseChapter"
+        android:paddingStart="10dp"
         android:text="Chap 1:"
-        android:textSize="20sp"
-        android:paddingLeft="10dp"
-        />
+        android:textSize="20sp" />
     <View
         android:id="@+id/arrow_left_long"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="36dp"
+        android:layout_toStartOf="@id/chap1"
+        android:layout_marginEnd="12dp"
         android:layout_alignParentTop="true"
         android:layout_marginTop="95dp"
         android:background="@drawable/arrow_left_long"
@@ -63,27 +53,25 @@
         android:id="@+id/arrow_right"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="347dp"
+        android:layout_toEndOf="@id/chap1"
+        android:layout_marginStart="12dp"
         android:layout_alignParentTop="true"
         android:layout_marginTop="95dp"
         android:background="@drawable/arrow_right_long"
         />
 
-    <ImageView
-        android:id="@+id/imageViewComic"
-        android:layout_width="280dp"
-        android:layout_height="80dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="67dp"
-        android:layout_marginLeft="67dp"
-        android:layout_marginTop="173dp"
-        android:layout_marginEnd="64dp"
-        android:layout_marginBottom="139dp"
-        android:background="@drawable/retangle" />
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="15dp"
+        android:layout_below="@id/chap1"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="24dp"
+        >
+        <TextView
+            android:id="@+id/txtViewComic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/retangle" />
+    </ScrollView>
 </RelativeLayout>

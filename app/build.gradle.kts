@@ -50,5 +50,6 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:21.0.0")
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     implementation ("com.facebook.android:facebook-android-sdk:17.0.0")
-
+    implementation ("com.airbnb.android:lottie:6.4.0")
+    implementation ("com.squareup.picasso:picasso:2.71828")
 }

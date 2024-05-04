@@ -14,7 +14,8 @@ public class commic {
 
     }
 
-    public commic(int id, String title, String sub_title, String thumbnail, String synopsis, String country, String author, String publish_by) {
+    public commic(int id, String title, String sub_title, String thumbnail, String synopsis, String country,
+                 String author, String publish_by) {
         this.id = id;
         this.title = title;
         this.sub_title = sub_title;
