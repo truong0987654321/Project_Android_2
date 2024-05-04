@@ -1,17 +1,15 @@
 package com.example.Project_android_2.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 
 
 import androidx.activity.result.ActivityResult;
@@ -26,6 +24,8 @@ import com.example.Project_android_2.R;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -34,19 +34,27 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.Firebase;
+import com.google.firebase.auth.AdditionalUserInfo;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.auth.OAuthCredential;
+import com.google.firebase.auth.OAuthProvider;
+import com.google.firebase.auth.TwitterAuthProvider;
+import com.google.firebase.auth.UserProfileChangeRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Map;
 
 public class AccountManagement extends AppCompatActivity {
     private AppCompatImageView appCompatImageView_exit;
@@ -71,9 +79,8 @@ public class AccountManagement extends AppCompatActivity {
                             firebaseAuthWithGoogle(account.getIdToken());
                             progressBar.setVisibility(View.VISIBLE);
                         } catch (ApiException e) {
-                            Log.w("GoogleSignIn", "signInResult:failed code=" + e.getStatusCode());
                             Toast.makeText(AccountManagement.this, "Google sign in failed", Toast.LENGTH_SHORT).show();
-                            progressBar.setVisibility(View.VISIBLE);
+                            progressBar.setVisibility(View.GONE);
                         }
                     }
                 }
@@ -83,26 +90,15 @@ public class AccountManagement extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accountmanagement);
-
         setupUI();
 
-
-        //facebook
-        AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
-
-        FacebookSdk.sdkInitialize(AccountManagement.this);
-
         callbackManager = CallbackManager.Factory.create();
-
         //google
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.client_id))
                 .requestEmail()
                 .build();
-
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
         boolean logoutRequested = getIntent().getBooleanExtra("logout", false);
         if (logoutRequested) {
             // Thực hiện đăng xuất
@@ -110,10 +106,26 @@ public class AccountManagement extends AppCompatActivity {
         }
         handleclickbutton();
 //        setupFaceBook();
-        // Nếu đã đăng nhập, chuyển hướng trực tiếp đến trang Home
+        // Nếu đã đăng nhập, chuyển hướng trực tiếp đến t Home
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             updateUI(currentUser);
+        }
+        SharedPreferences sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE);
+        boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
+
+        if (isLoggedIn) {
+            String userEmail = sharedPreferences.getString("userEmail", "");
+            String userName = sharedPreferences.getString("userName", "");
+            String photoUrl = sharedPreferences.getString("photoUrl", "");
+
+            // Chuyển hướng người dùng đến màn hình Home và truyền thông tin người dùng
+            Intent intent = new Intent(AccountManagement.this, Home.class);
+            intent.putExtra("user_name", userName);
+            intent.putExtra("user_email", userEmail);
+            intent.putExtra("user_photo_url", photoUrl);
+            startActivity(intent);
+            finish();
         }
 
     }
@@ -146,40 +158,44 @@ public class AccountManagement extends AppCompatActivity {
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(AccountManagement.this, "Authentication failed",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AccountManagement.this, "Google sign-in failed. Please try again or use another method to sign in.", Toast.LENGTH_SHORT).show();
                             updateUI(null);
+                            mGoogleSignInClient.signOut();
+                            progressBar.setVisibility(View.GONE);
                         }
                     }
                 });
 
     }
 
-    private void handleFacebookAccestoken(AccessToken accessToken) {
-        AuthCredential authCredential = FacebookAuthProvider.getCredential(accessToken.getToken());
-        mAuth.signInWithCredential(authCredential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-
-
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    Toast.makeText(AccountManagement.this, "AuthCredential success", Toast.LENGTH_SHORT).show();
-                    updateUI(user);
-                    progressBar.setVisibility(View.GONE);
-                } else {
-                    Toast.makeText(AccountManagement.this, "AuthCredential error", Toast.LENGTH_SHORT).show();
-                    updateUI(null);
-                    progressBar.setVisibility(View.GONE);
-                }
-            }
-        });
+    private void handleFaceBookAccestoken(AccessToken accessToken) {
+        GraphRequest request = GraphRequest.newMeRequest(
+                accessToken,
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        try {
+                            String userName = object.getString("name"); // Lấy tên của người dùng
+                            String userEmail = object.optString("email", "");  // Lấy email của người dùng (nếu có)
+                            String photoUrl = object.getJSONObject("picture").getJSONObject("data").getString("url");
+                            updateUI_fb_tw(userName, userEmail, photoUrl); // Truyền thông tin người dùng và đường dẫn đến ảnh đại diện
+                            saveUserInfoToSharedPreferences(userEmail, userName, photoUrl);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(AccountManagement.this, "Error getting user info", Toast.LENGTH_SHORT).show();
+                            updateUI_fb_tw("", "", ""); // Xử lý lỗi nếu không thể lấy thông tin người dùng
+                        }
+                    }
+                });
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,name,email,picture.type(large)"); // Yêu cầu lấy ID, tên và email của người dùng
+        request.setParameters(parameters);
+        request.executeAsync();
     }
 
     private void setupFaceBook() {
         callbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().logInWithReadPermissions(AccountManagement.this, Arrays.asList("email", "public_profile"));
-
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -187,22 +203,104 @@ public class AccountManagement extends AppCompatActivity {
                 Toast.makeText(AccountManagement.this, "login success", Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.VISIBLE);
                 loading();
-                handleFacebookAccestoken(loginResult.getAccessToken());
-
+                handleFaceBookAccestoken(loginResult.getAccessToken());
             }
 
             @Override
             public void onCancel() {
-                // Xử lý khi người dùng hủy đăng nhập
-                Toast.makeText(AccountManagement.this, "login cancel", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError(FacebookException exception) {
                 // Xử lý khi có lỗi xảy ra
                 Toast.makeText(AccountManagement.this, "login error", Toast.LENGTH_SHORT).show();
+                updateUI(null);
+                mGoogleSignInClient.signOut();
             }
         });
+    }
+
+    private void setupTiwtter() {
+        OAuthProvider.Builder provider = OAuthProvider.newBuilder("twitter.com");
+        // Localize to French.
+        provider.addCustomParameter("lang", "fr");
+
+        Task<AuthResult> pendingResultTask = mAuth.getPendingAuthResult();
+        if (pendingResultTask != null) {
+            // There's something already here! Finish the sign-in for your user.
+            pendingResultTask
+                    .addOnSuccessListener(
+                            new OnSuccessListener<AuthResult>() {
+                                @Override
+                                public void onSuccess(AuthResult authResult) {
+                                    Toast.makeText(AccountManagement.this, "login success", Toast.LENGTH_SHORT).show();
+                                    progressBar.setVisibility(View.VISIBLE);
+                                    loading();
+                                    Map<String, Object> profileInfo = authResult.getAdditionalUserInfo().getProfile();
+                                    String userEmail = (String) profileInfo.get("email"); // Lấy email
+                                    String userName = (String) profileInfo.get("name"); // Lấy tên người dùng
+                                    String photoUrl = (String) profileInfo.get("profile_image_url_https");
+                                    updateUI_fb_tw(userName, userEmail, photoUrl);
+                                    saveUserInfoToSharedPreferences(userEmail, userName, photoUrl);
+                                    progressBar.setVisibility(View.GONE);
+                                }
+                            })
+                    .addOnFailureListener(
+                            new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(AccountManagement.this, "login fail :" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    updateUI_fb_tw(null, null, null);
+                                }
+                            });
+        } else {
+            mAuth
+                    .startActivityForSignInWithProvider(AccountManagement.this, provider.build())
+                    .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                        @Override
+                        public void onSuccess(AuthResult authResult) {
+                            // Xử lý khi đăng nhập thành công với Twitter
+                            Toast.makeText(AccountManagement.this, "login success", Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.VISIBLE);
+                            loading();
+                            Map<String, Object> profileInfo = authResult.getAdditionalUserInfo().getProfile();
+                            String userEmail = (String) profileInfo.get("email"); // Lấy email
+                            String userName = (String) profileInfo.get("name"); // Lấy tên người dùng
+                            String photoUrl = (String) profileInfo.get("profile_image_url_https");
+                            updateUI_fb_tw(userName, userEmail, photoUrl);
+                            saveUserInfoToSharedPreferences(userEmail, userName, photoUrl);
+                            progressBar.setVisibility(View.GONE);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            // Xử lý khi đăng nhập thất bại
+                            Toast.makeText(AccountManagement.this, "login fail :" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            updateUI_fb_tw(null, null, null);
+                        }
+                    });
+        }
+    }
+
+    private void saveUserInfoToSharedPreferences(String userEmail, String userName, String photoUrl) {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("isLoggedIn", true);
+        editor.putString("userEmail", userEmail);
+        editor.putString("userName", userName);
+        editor.putString("photoUrl", photoUrl);
+        editor.apply();
+    }
+
+    private void clearUserInfoFromSharedPreferences() {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("isLoggedIn");
+        editor.remove("userEmail");
+        editor.remove("userName");
+        editor.remove("photoUrl");
+        editor.apply();
     }
 
     private void handleclickbutton() {
@@ -226,17 +324,23 @@ public class AccountManagement extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
         buttonfacebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setupFaceBook();
             }
         });
+        btButtonTiwtter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setupTiwtter();
+            }
+        });
     }
 
     private void signOut() {
         mAuth.signOut();
+        clearUserInfoFromSharedPreferences();
         mGoogleSignInClient.signOut().addOnCompleteListener(this, new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -246,17 +350,25 @@ public class AccountManagement extends AppCompatActivity {
         });
     }
 
-
     private void updateUI(FirebaseUser user) {
         if (user != null) {
             Intent intent = new Intent(AccountManagement.this, Home.class);
             // Truyền thông tin người dùng đến trang Home
             intent.putExtra("user_name", user.getDisplayName());
             intent.putExtra("user_email", user.getEmail());
-            intent.putExtra("user_photo_url", String.valueOf(user.getPhotoUrl()));
+            intent.putExtra("user_photo_url", user.getPhotoUrl().toString());
             startActivity(intent);
-            finish(); // Kết thúc activity hiện tại để ngăn người dùng quay lại màn hình đăng nhập
+            finish();
         }
+    }
+
+    private void updateUI_fb_tw(String userName, String userEmail, String photoUrl) {
+        Intent intent = new Intent(AccountManagement.this, Home.class);
+        intent.putExtra("user_name", userName);
+        intent.putExtra("user_email", userEmail);
+        intent.putExtra("user_photo_url", photoUrl);
+        startActivity(intent);
+        finish();
     }
 
     @Override

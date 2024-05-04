@@ -10,8 +10,9 @@
     <androidx.cardview.widget.CardView
         android:layout_width="60dp"
         android:layout_height="60dp"
-        app:cardCornerRadius="40dp"
+        app:cardCornerRadius="30dp"
         app:cardElevation="0dp"
+        android:layout_marginTop="10dp"
         android:backgroundTint="#B8B8B8">
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imageUserViewDrawer"
@@ -19,8 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:shapeAppearanceOverlay="@style/roundedImageView"/>
-
     </androidx.cardview.widget.CardView>
+
     <TextView
         android:id="@+id/username"
         android:layout_width="match_parent"

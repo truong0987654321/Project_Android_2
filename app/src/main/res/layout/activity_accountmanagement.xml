@@ -51,9 +51,9 @@
             android:backgroundTint="@drawable/button_background_tint"
             android:drawableLeft="@drawable/button_with_circle_envelope_solid"
             android:text="Log in with your email or username"
+            android:paddingStart="15dp"
             android:textAlignment="viewStart"
-            android:textColor="@color/purpleish_blue"
-/>
+            android:textColor="@color/purpleish_blue" />
 
         <Button
             android:id="@+id/buttongoogle"
@@ -65,6 +65,7 @@
             android:backgroundTint="@drawable/button_background_tint"
             android:drawableLeft="@drawable/button_with_circle_logo_google"
             android:text="Sign in with Google "
+            android:paddingStart="15dp"
             android:textAlignment="viewStart"
             android:textColor="@color/purpleish_blue" />
 
@@ -78,6 +79,7 @@
             android:backgroundTint="@drawable/button_background_tint"
             android:drawableLeft="@drawable/button_with_circle_logo_facebook"
             android:text="Sign in with Facebook"
+            android:paddingStart="15dp"
             android:textAlignment="viewStart"
             android:textColor="@color/purpleish_blue" />
 
@@ -91,6 +93,8 @@
             android:backgroundTint="@drawable/button_background_tint"
             android:drawableLeft="@drawable/button_with_circle_logo_twitter"
             android:text="Sign in with Tiwtter"
+            android:paddingStart="15dp"
+
             android:textAlignment="viewStart"
             android:textColor="@color/purpleish_blue" />
     </RelativeLayout>

@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -30,8 +31,12 @@ import com.example.Project_android_2.R;
 import com.example.Project_android_2.models.user;
 import com.example.Project_android_2.utils.NetworkUtils;
 import com.example.Project_android_2.utils.PasswordHelper;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,6 +47,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.makeramen.roundedimageview.RoundedImageView;
+
+import java.io.File;
 
 public class SignUp extends AppCompatActivity {
 
@@ -55,7 +62,7 @@ public class SignUp extends AppCompatActivity {
     private StorageTask storageTask;
     private DatabaseReference databaseReference;
     private FrameLayout progressBar;
-
+    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,21 +128,17 @@ public class SignUp extends AppCompatActivity {
                 } else {
                     if (isValidSignInDetails()) {
                         checkIfEmailExists();
+
                     }
                 }
             }
         });
     }
 
-    private String getFileExtension(Uri uri) {
-        ContentResolver contentResolver = getContentResolver();
-        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
-    }
-
     private void UploadFile() {
         if (uri != null) {
-            StorageReference fileReference = storageReference.child(System.currentTimeMillis() + "." + getFileExtension(uri));
+            String fileName = new File(uri.getPath()).getName();
+            StorageReference fileReference = storageReference.child(fileName);
             storageTask = fileReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -200,6 +203,7 @@ public class SignUp extends AppCompatActivity {
             updateButtonState();
         }
     };
+
 
     private void updateButtonState() {
         String email = editText_exemail.getText().toString();
