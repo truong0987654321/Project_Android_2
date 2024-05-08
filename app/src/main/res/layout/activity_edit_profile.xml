@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="@color/white">
+    android:layout_margin="20dp"
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -18,20 +19,10 @@
             android:layout_marginTop="23dp"
             android:layout_marginEnd="23dp"
             android:layout_marginBottom="23dp"
-            android:src="@drawable/angle_left_solid"/>
+            android:src="@drawable/angle_left_solid" />
         <!--            app:layout_constraintStart_toStartOf="parent"-->
         <!--            app:layout_constraintTop_toTopOf="parent" />-->
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/settings"
-            android:layout_width="30dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="23dp"
-            android:layout_marginTop="23dp"
-            android:layout_marginEnd="23dp"
-            android:layout_marginBottom="23dp"
-            android:src="@drawable/brightness_low_24"
-            android:layout_alignParentEnd="true"/>
         <TextView
             android:layout_width="103dp"
             android:layout_height="25dp"
@@ -57,116 +48,71 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <FrameLayout
+            android:id="@+id/layoutImage"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_below="@id/id_textv"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="1dp">
 
-            <ImageView
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/imageProfile"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/account_circle_24" />
-            <LinearLayout
-                android:layout_width="match_parent"
+                android:background="@drawable/circle_background_d9d9d9"
+                android:scaleType="centerCrop"
+                app:riv_oval="true" />
+
+            <TextView
+                android:id="@+id/textAdImage"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical"
-                android:padding="15dp">
+                android:layout_gravity="center"
+                android:text="Select An Image"
+                android:textColor="#878998"
+                android:textSize="10sp" />
+        </FrameLayout>
+    </RelativeLayout>
 
-                <!-- Full Name -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Full Name"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:textStyle="bold"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-                <EditText
-                    android:id="@+id/editTextFullName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Enter your full name"
-                    android:textColor="#000000"
-                    android:textSize="14sp"/>
-
-                <!-- Email -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Email"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:textStyle="bold"/>
-
-                <EditText
-                    android:id="@+id/editTextEmail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Enter your email"
-                    android:textColor="#000000"
-                    android:textSize="14sp"/>
-
-                <!-- Password -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Password"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:textStyle="bold"/>
-
-                <EditText
-                    android:id="@+id/editTextPassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Enter your password"
-                    android:inputType="textPassword"
-                    android:textColor="#000000"
-                    android:textSize="14sp"/>
-
-                <!-- Phone Number -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Phone Number"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:textStyle="bold"/>
-
-                <EditText
-                    android:id="@+id/editTextPhoneNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Enter your phone number"
-                    android:inputType="phone"
-                    android:textColor="#000000"
-                    android:textSize="14sp"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="UserName"
+            android:textColor="#000000"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button_save"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/background_edit"
-        android:enabled="false"
-        android:paddingStart="30dp"
-        android:paddingEnd="30dp"
-        android:text="Save"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_save"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/background_edit"
+            android:enabled="false"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            android:text="Save"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:layout_marginEnd="20dp" /> <!-- Đặt khoảng cách bên phải -->
+
+    </RelativeLayout>
+
 
 </LinearLayout>

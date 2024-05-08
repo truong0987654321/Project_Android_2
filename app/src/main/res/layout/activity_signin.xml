@@ -55,7 +55,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/butonemail_username"
+            android:id="@+id/EdTemail_username"
             android:layout_width="@dimen/_358dp"
             android:layout_height="@dimen/_60dp"
             android:layout_below="@+id/id_textv"
@@ -69,24 +69,24 @@
             android:paddingStart="30dp" />
 
         <EditText
-            android:id="@+id/buttonpassword"
+            android:id="@+id/EdTpassword"
             android:layout_width="@dimen/_358dp"
             android:layout_height="@dimen/_60dp"
-            android:layout_below="@+id/butonemail_username"
+            android:layout_below="@+id/EdTemail_username"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="19dp"
             android:background="@drawable/edittext_background_rounded"
             android:hint="Password"
             android:imeOptions="actionNext"
             android:importantForAutofill="no"
-            android:inputType="textEmailAddress"
+            android:inputType="textPassword"
             android:paddingStart="30dp" />
 
         <Button
             android:id="@+id/buttonsignin"
             android:layout_width="@dimen/_358dp"
             android:layout_height="@dimen/_60dp"
-            android:layout_below="@+id/buttonpassword"
+            android:layout_below="@+id/EdTpassword"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="19dp"
             android:backgroundTint="@color/purpleish_blue"

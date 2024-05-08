@@ -37,6 +37,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -49,6 +50,8 @@ import com.google.firebase.storage.UploadTask;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.io.File;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SignUp extends AppCompatActivity {
 
@@ -62,7 +65,7 @@ public class SignUp extends AppCompatActivity {
     private StorageTask storageTask;
     private DatabaseReference databaseReference;
     private FrameLayout progressBar;
-    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,8 +125,7 @@ public class SignUp extends AppCompatActivity {
             public void onClick(View view) {
                 if (!NetworkUtils.isNetworkAvailable(SignUp.this)) {
                     Toast.makeText(SignUp.this, "No internet connection. Please check your network settings.", Toast.LENGTH_SHORT).show();
-                }
-                if (storageTask != null && storageTask.isInProgress()) {
+                } else if (storageTask != null && storageTask.isInProgress()) {
                     Toast.makeText(SignUp.this, "Upload is in progress", Toast.LENGTH_SHORT).show();
                 } else {
                     if (isValidSignInDetails()) {
@@ -134,6 +136,7 @@ public class SignUp extends AppCompatActivity {
             }
         });
     }
+
 
     private void UploadFile() {
         if (uri != null) {
@@ -158,6 +161,9 @@ public class SignUp extends AppCompatActivity {
                             user user = new user(id, avatarUrl, email, hashPassword, username, uploadId);
                             databaseReference.child(uploadId).setValue(user);
                             progressBar.setVisibility(View.GONE);
+                            Intent intent = new Intent(SignUp.this,SignIn.class);
+                            startActivity(intent);
+                            finish();
                         }
                     });
                 }
@@ -193,10 +199,12 @@ public class SignUp extends AppCompatActivity {
 
     private final TextWatcher textWatcher = new TextWatcher() {
         @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
 
         @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
 
         @Override
         public void afterTextChanged(Editable editable) {
@@ -219,14 +227,16 @@ public class SignUp extends AppCompatActivity {
         String email = editText_exemail.getText().toString();
         String password = editText_expassword.getText().toString();
         String Confirmpassword = editText_exConfirmpassword.getText().toString();
+        Pattern pattern = Pattern.compile("[^a-zA-Z0-9]");
+        Matcher matcher = pattern.matcher(password);
         if (!isValidEmail(email)) {
             Toast.makeText(this, "Invalid email format", Toast.LENGTH_SHORT).show();
             return false;
         } else if (username.length() <= 6) {
             Toast.makeText(SignUp.this, "Username must be longer than 6 characters", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (!isUsernameValid(username)) {
-            Toast.makeText(SignUp.this, "Invalid characters in username", Toast.LENGTH_SHORT).show();
+        } else if (matcher.find()) {
+            Toast.makeText(getApplicationContext(), "Password contains special characters", Toast.LENGTH_SHORT).show();
             return false;
         } else if (!password.equals(Confirmpassword)) {
             Toast.makeText(SignUp.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
@@ -237,10 +247,6 @@ public class SignUp extends AppCompatActivity {
         } else {
             return true;
         }
-    }
-    private boolean isUsernameValid(String username) {
-        String regex = "^[a-zA-Z0-9]+$"; // Chỉ chấp nhận ký tự chữ cái và số
-        return username.matches(regex);
     }
 
     private boolean isValidEmail(String email) {

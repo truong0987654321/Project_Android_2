@@ -7,4 +7,9 @@
     <string name="fb_login_protocol_scheme">fb795775572607729</string>
     <string name="facebook_client_token">56789</string>
 
+    <style name="MyTextStyle">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <string name="title_activity_edit_language">EditLanguage</string>
 </resources>

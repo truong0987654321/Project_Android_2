@@ -15,4 +15,5 @@
     <color name="purpleish_blue">#614385</color>
     <color name="translucent_dark_gray">#99000000</color>
     <color name="light_grayish_blue">#D8D9E1</color>
+    <color name="gray">#EAEAEA</color>
 </resources>
