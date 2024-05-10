@@ -24,7 +24,7 @@
         android:layout_marginBottom="20dp"
         android:outlineSpotShadowColor="#6C77E3"
         app:cardCornerRadius="25dp"
-        app:cardElevation="20dp"
+
         android:layout_toEndOf="@id/back_home"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="56dp"
@@ -38,7 +38,7 @@
             android:layout_weight="1"
             android:background="#ffffff"
             android:ems="10"
-            android:hint="Search info"
+            android:hint="Tìm kiếm thông tin"
             android:imeOptions="actionSearch"
             android:inputType="text"
             android:paddingLeft="15dp"

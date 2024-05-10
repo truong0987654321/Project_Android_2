@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="_25dp">25dp</dimen>
-    <dimen name="layout_width_logo">153dp</dimen>
+    <dimen name="layout_width_logo">130dp</dimen>
+    <dimen name="layout_height_logo">100dp</dimen>
     <dimen name="_32dp">32dp</dimen>
     <dimen name="_358dp">358dp</dimen>
     <dimen name="_60dp">60dp</dimen>

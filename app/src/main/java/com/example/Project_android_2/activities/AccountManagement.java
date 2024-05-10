@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -73,7 +74,7 @@ public class AccountManagement extends AppCompatActivity {
                             firebaseAuthWithGoogle(account.getIdToken());
                             progressBar.setVisibility(View.VISIBLE);
                         } catch (ApiException e) {
-                            Toast.makeText(AccountManagement.this, "Google sign in failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AccountManagement.this, "Đăng nhập Google không thành công", Toast.LENGTH_SHORT).show();
                             progressBar.setVisibility(View.GONE);
                         }
                     }
@@ -138,6 +139,7 @@ public class AccountManagement extends AppCompatActivity {
         buttongoogle = findViewById(R.id.buttongoogle);
         buttonfacebook = findViewById(R.id.buttonfacebook);
         btButtonTiwtter = findViewById(R.id.buttontwitter);
+        loading();
     }
 
     private void firebaseAuthWithGoogle(String idToken) {
@@ -152,7 +154,7 @@ public class AccountManagement extends AppCompatActivity {
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(AccountManagement.this, "Google sign-in failed. Please try again or use another method to sign in.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AccountManagement.this, "Đăng nhập Google không thành công. Vui lòng thử lại hoặc sử dụng phương pháp khác để đăng nhập.", Toast.LENGTH_SHORT).show();
                             updateUI(null);
                             mGoogleSignInClient.signOut();
                             progressBar.setVisibility(View.GONE);
@@ -176,7 +178,7 @@ public class AccountManagement extends AppCompatActivity {
                             saveUserInfoToSharedPreferences(userEmail, userName, photoUrl);
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(AccountManagement.this, "Error getting user info", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AccountManagement.this, "Lỗi lấy thông tin người dùng", Toast.LENGTH_SHORT).show();
                             updateUI_fb_tw("", "", ""); // Xử lý lỗi nếu không thể lấy thông tin người dùng
                         }
                     }
@@ -194,9 +196,9 @@ public class AccountManagement extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 // Xử lý khi đăng nhập thành công
-                Toast.makeText(AccountManagement.this, "login success", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AccountManagement.this, "Đăng nhập thành công.", Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.VISIBLE);
-                loading();
+
                 handleFaceBookAccestoken(loginResult.getAccessToken());
             }
 
@@ -207,7 +209,7 @@ public class AccountManagement extends AppCompatActivity {
             @Override
             public void onError(FacebookException exception) {
                 // Xử lý khi có lỗi xảy ra
-                Toast.makeText(AccountManagement.this, "login error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AccountManagement.this, "Đăng nhập không thành công.", Toast.LENGTH_SHORT).show();
                 updateUI(null);
                 mGoogleSignInClient.signOut();
             }
@@ -215,21 +217,22 @@ public class AccountManagement extends AppCompatActivity {
     }
 
     private void setupTiwtter() {
+
         OAuthProvider.Builder provider = OAuthProvider.newBuilder("twitter.com");
         // Localize to French.
         provider.addCustomParameter("lang", "fr");
 
         Task<AuthResult> pendingResultTask = mAuth.getPendingAuthResult();
         if (pendingResultTask != null) {
+            progressBar.setVisibility(View.VISIBLE);
             // There's something already here! Finish the sign-in for your user.
             pendingResultTask
                     .addOnSuccessListener(
                             new OnSuccessListener<AuthResult>() {
                                 @Override
                                 public void onSuccess(AuthResult authResult) {
-                                    Toast.makeText(AccountManagement.this, "login success", Toast.LENGTH_SHORT).show();
-                                    progressBar.setVisibility(View.VISIBLE);
-                                    loading();
+                                    Toast.makeText(AccountManagement.this, "Đăng nhập thành công.", Toast.LENGTH_SHORT).show();
+
                                     Map<String, Object> profileInfo = authResult.getAdditionalUserInfo().getProfile();
                                     String userEmail = (String) profileInfo.get("email"); // Lấy email
                                     String userName = (String) profileInfo.get("name"); // Lấy tên người dùng
@@ -243,19 +246,20 @@ public class AccountManagement extends AppCompatActivity {
                             new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(AccountManagement.this, "login fail :" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(AccountManagement.this, "Lỗi đăng nhập :" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    progressBar.setVisibility(View.GONE);
                                 }
                             });
         } else {
+            progressBar.setVisibility(View.VISIBLE);
             mAuth
                     .startActivityForSignInWithProvider(AccountManagement.this, provider.build())
                     .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override
                         public void onSuccess(AuthResult authResult) {
                             // Xử lý khi đăng nhập thành công với Twitter
-                            Toast.makeText(AccountManagement.this, "login success", Toast.LENGTH_SHORT).show();
-                            progressBar.setVisibility(View.VISIBLE);
-                            loading();
+                            Toast.makeText(AccountManagement.this, "Đăng nhập thành công.", Toast.LENGTH_SHORT).show();
+
                             Map<String, Object> profileInfo = authResult.getAdditionalUserInfo().getProfile();
                             String userEmail = (String) profileInfo.get("email"); // Lấy email
                             String userName = (String) profileInfo.get("name"); // Lấy tên người dùng
@@ -269,7 +273,8 @@ public class AccountManagement extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             // Xử lý khi đăng nhập thất bại
-                            Toast.makeText(AccountManagement.this, "login fail :" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AccountManagement.this, "Lỗi đăng nhập :" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.GONE);
                         }
                     });
         }
@@ -325,6 +330,7 @@ public class AccountManagement extends AppCompatActivity {
         btButtonTiwtter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 setupTiwtter();
             }
         });
@@ -336,7 +342,7 @@ public class AccountManagement extends AppCompatActivity {
         mGoogleSignInClient.signOut().addOnCompleteListener(this, new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                Toast.makeText(AccountManagement.this, "Signed out successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AccountManagement.this, "Đăng xuất thành công.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -369,18 +375,11 @@ public class AccountManagement extends AppCompatActivity {
     }
 
     private void loading() {
-        if (progressBar.getVisibility() == View.VISIBLE) {
-            // Nếu progressBar đang hiển thị, vô hiệu hóa RelativeLayout
-            butonsignin.setEnabled(false);
-            buttonfacebook.setEnabled(false);
-            buttongoogle.setEnabled(false);
-            btButtonTiwtter.setEnabled(false);
-        } else {
-            // Ngược lại, bật lại tính tương tác cho RelativeLayout
-            butonsignin.setEnabled(true);
-            buttonfacebook.setEnabled(true);
-            buttongoogle.setEnabled(true);
-            btButtonTiwtter.setEnabled(true);
-        }
+        progressBar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true; // Chặn sự kiện touch
+            }
+        });
     }
 }

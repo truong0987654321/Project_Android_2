@@ -16,7 +16,6 @@ public class Splash extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        // Thực hiện mã code đợi 2 giây và chuyển sang MainActivity
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

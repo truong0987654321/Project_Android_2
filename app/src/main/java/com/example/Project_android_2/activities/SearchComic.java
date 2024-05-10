@@ -33,12 +33,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class Search_comic extends AppCompatActivity implements RecyclerViewInterface {
+public class SearchComic extends AppCompatActivity implements RecyclerViewInterface {
     RecyclerView recyclerView;
     RecyclerView rc_of_detail_cato;
     RCAdapter rcAdapter;
     RCAdapter_type_two rcAdapterTypeTwo;
     private ALodingDialog aLodingDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -52,19 +53,21 @@ public class Search_comic extends AppCompatActivity implements RecyclerViewInter
 
         setupEditText(editSeach);
     }
+
     /* ------------------------------- phần xử lý back home ---------------------------------------- */
-    public void handleback_home (AppCompatImageView appcompatback_home){
+    public void handleback_home(AppCompatImageView appcompatback_home) {
         appcompatback_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Search_comic.this, Home.class);
+                Intent intent = new Intent(SearchComic.this, Home.class);
                 onBackPressed();
             }
         });
     }
+
     /* -------------------------------- phần xử lý search comic ------------------------------------ */
-    public void setupEditText (EditText edittext){
-        try{
+    public void setupEditText(EditText edittext) {
+        try {
             edittext.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -77,11 +80,12 @@ public class Search_comic extends AppCompatActivity implements RecyclerViewInter
                     return false;
                 }
             });
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    public void getdata_fire_with_seachtext (String textseach){
+
+    public void getdata_fire_with_seachtext(String textseach) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference comicRef = database.getReference("comic");
         Query query = comicRef.orderByChild("TITLE").equalTo(textseach);
@@ -91,29 +95,31 @@ public class Search_comic extends AppCompatActivity implements RecyclerViewInter
         }
         query.addValueEventListener(new ValueEventListener() {
             ArrayList<comic_model> query_comic = new ArrayList<>();
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot comicshot : snapshot.getChildren()){
+                for (DataSnapshot comicshot : snapshot.getChildren()) {
                     comic_model model = comicshot.getValue(comic_model.class);
                     query_comic.add(model);
                 }
                 if (aLodingDialog != null && aLodingDialog.isShowing()) {
                     aLodingDialog.dismiss();
                 }
-                if(!query_comic.isEmpty()){
+                if (!query_comic.isEmpty()) {
                     getAuthor(query_comic);
-                }
-                else Toast.makeText(Search_comic.this,"Cannot seach comic",Toast.LENGTH_SHORT).show();
+                } else
+                    Toast.makeText(SearchComic.this, "Không thể tìm kiếm truyện tranh.", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(Search_comic.this,"Error query seach comic",Toast.LENGTH_SHORT).show();
+                Toast.makeText(SearchComic.this, "Lỗi tìm kiếm truyện tranh", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
     /*------------------------ phần xử lý recyclerview firebase category---------------------------*/
-    public void getList_cate_on_firebase (){
+    public void getList_cate_on_firebase() {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference cateRef = database.getReference("category");
@@ -123,38 +129,41 @@ public class Search_comic extends AppCompatActivity implements RecyclerViewInter
         }
         cateRef.addValueEventListener(new ValueEventListener() {
             ArrayList<category_model> modelListcate = new ArrayList<>();
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot cateshot : snapshot.getChildren()){
+                for (DataSnapshot cateshot : snapshot.getChildren()) {
                     category_model model = cateshot.getValue(category_model.class);
                     modelListcate.add(model);
                 }
-                if(!modelListcate.isEmpty()){
+                if (!modelListcate.isEmpty()) {
                     createList_cate(modelListcate);
-                }
-                else Toast.makeText(Search_comic.this,"Cannot found data categori",Toast.LENGTH_SHORT).show();
+                } else
+                    Toast.makeText(SearchComic.this, "Không tìm thấy thể loại trong dữ liệu.", Toast.LENGTH_SHORT).show();
                 if (aLodingDialog != null && aLodingDialog.isShowing()) {
                     aLodingDialog.dismiss();
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 if (aLodingDialog != null && aLodingDialog.isShowing()) {
                     aLodingDialog.dismiss();
                 }
-                Toast.makeText(Search_comic.this,"Cannot found data",Toast.LENGTH_SHORT).show();
+                Toast.makeText(SearchComic.this, "Không thể tìm thấy dữ liệu.", Toast.LENGTH_SHORT).show();
             }
         });
     }
-    public void createList_cate(ArrayList<category_model> modelListcate){
+
+    public void createList_cate(ArrayList<category_model> modelListcate) {
         if (aLodingDialog != null) {
             aLodingDialog.show();
         }
-        if(!modelListcate.isEmpty()) {
+        if (!modelListcate.isEmpty()) {
             recyclerView = findViewById(R.id.rc_View);
             recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
             recyclerView.setHasFixedSize(true);
-            rcAdapter = new RCAdapter(this,modelListcate,this);
+            rcAdapter = new RCAdapter(this, modelListcate, this);
             recyclerView.setAdapter(rcAdapter);
             rcAdapter.notifyDataSetChanged();
             getID_comic_with_category(modelListcate.get(0).getID());
@@ -163,9 +172,10 @@ public class Search_comic extends AppCompatActivity implements RecyclerViewInter
             aLodingDialog.dismiss();
         }
     }
+
     /*------------------------ phần xử lý recyclerview firebase category---------------------------*/
     /*------------------------ phần xử lý recyclerview firebase comic---------------------------*/
-    public void getID_comic_with_category (String ID_category){
+    public void getID_comic_with_category(String ID_category) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference cateRef = database.getReference("comic_category");
         Query query = cateRef.orderByChild("ID_CATEGORY").equalTo(ID_category);
@@ -174,31 +184,33 @@ public class Search_comic extends AppCompatActivity implements RecyclerViewInter
         }
         query.addValueEventListener(new ValueEventListener() {
             ArrayList<String> ID_comic = new ArrayList<>();
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot comic_cate_snap : snapshot.getChildren()){
+                for (DataSnapshot comic_cate_snap : snapshot.getChildren()) {
                     String id_comic = comic_cate_snap.child("ID_COMIC").getValue(String.class);
                     ID_comic.add(id_comic);
                 }
-                if(!ID_comic.isEmpty()){
+                if (!ID_comic.isEmpty()) {
                     getComic_from_ID_comic(ID_comic);
-                }
-                else Toast.makeText(Search_comic.this,"Cannot found comic with category",Toast.LENGTH_SHORT).show();
+                } else
+                    Toast.makeText(SearchComic.this, "Không thể tìm thấy truyện tranh cùng thể loại.", Toast.LENGTH_SHORT).show();
                 if (aLodingDialog != null && aLodingDialog.isShowing()) {
                     aLodingDialog.dismiss();
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 if (aLodingDialog != null && aLodingDialog.isShowing()) {
                     aLodingDialog.dismiss();
                 }
-                Toast.makeText(Search_comic.this,"Cannot get Comic",Toast.LENGTH_SHORT).show();
+                Toast.makeText(SearchComic.this, "Không thể lấy truyện tranh", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    public void getComic_from_ID_comic(ArrayList<String> ID_comics){
+    public void getComic_from_ID_comic(ArrayList<String> ID_comics) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference comicRef = database.getReference("comic");
         if (aLodingDialog != null) {
@@ -206,15 +218,16 @@ public class Search_comic extends AppCompatActivity implements RecyclerViewInter
         }
         comicRef.addValueEventListener(new ValueEventListener() {
             ArrayList<comic_model> comicmodel = new ArrayList<>();
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot snap : snapshot.getChildren()){
+                for (DataSnapshot snap : snapshot.getChildren()) {
                     comic_model model = snap.getValue(comic_model.class);
                     comicmodel.add(model);
                 }
                 ArrayList<comic_model> new_comic = new ArrayList<>();
-                for(comic_model kt : comicmodel){
-                    if(ID_comics.contains(kt.getID()))
+                for (comic_model kt : comicmodel) {
+                    if (ID_comics.contains(kt.getID()))
                         new_comic.add(kt);
                 }
                 getAuthor(new_comic);
@@ -222,16 +235,18 @@ public class Search_comic extends AppCompatActivity implements RecyclerViewInter
                     aLodingDialog.dismiss();
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 if (aLodingDialog != null && aLodingDialog.isShowing()) {
                     aLodingDialog.dismiss();
                 }
-                Toast.makeText(Search_comic.this,"Cannot found comic",Toast.LENGTH_SHORT).show();
+                Toast.makeText(SearchComic.this, "Không thể tìm thấy truyện tranh", Toast.LENGTH_SHORT).show();
             }
         });
     }
-    public void getAuthor(ArrayList<comic_model> new_comic){
+
+    public void getAuthor(ArrayList<comic_model> new_comic) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference authorRef = database.getReference("author");
         if (aLodingDialog != null) {
@@ -239,25 +254,26 @@ public class Search_comic extends AppCompatActivity implements RecyclerViewInter
         }
         authorRef.addValueEventListener(new ValueEventListener() {
             ArrayList<author_model> author_arr = new ArrayList<>();
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot snap :snapshot.getChildren()){
+                for (DataSnapshot snap : snapshot.getChildren()) {
                     String ID_author = snap.getKey();
                     String info = snap.child("INFO").getValue(String.class);
                     String name = snap.child("NAME").getValue(String.class);
                     String create_At = snap.child("create_At").getValue(String.class);
-                    author_model model = new author_model(ID_author,info,name,create_At);
+                    author_model model = new author_model(ID_author, info, name, create_At);
                     author_arr.add(model);
                 }
                 ArrayList<author_comic_model> au_co_model = new ArrayList<>();
                 ArrayList<String> ID_authors = new ArrayList<>();
-                for(comic_model query : new_comic){
+                for (comic_model query : new_comic) {
                     ID_authors.add(query.getAUTHOR());
                 }
-                for(author_model query : author_arr){
-                    if(ID_authors.contains(query.getID_author())){
-                        comic_model model = getName_comic(new_comic,query.getID_author());
-                        author_comic_model au_co = new author_comic_model(model.getID(),model.getTITLE(),query.getID_author(),query.getNAME(),model.getTHUMBNAIL());
+                for (author_model query : author_arr) {
+                    if (ID_authors.contains(query.getID_author())) {
+                        comic_model model = getName_comic(new_comic, query.getID_author());
+                        author_comic_model au_co = new author_comic_model(model.getID(), model.getTITLE(), query.getID_author(), query.getNAME(), model.getTHUMBNAIL());
                         au_co_model.add(au_co);
                     }
                 }
@@ -266,19 +282,21 @@ public class Search_comic extends AppCompatActivity implements RecyclerViewInter
                     aLodingDialog.dismiss();
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 if (aLodingDialog != null && aLodingDialog.isShowing()) {
                     aLodingDialog.dismiss();
                 }
-                Toast.makeText(Search_comic.this,"Cannot found author",Toast.LENGTH_SHORT).show();
+                Toast.makeText(SearchComic.this, "Không thể tìm thấy tác giả", Toast.LENGTH_SHORT).show();
             }
         });
     }
-    public comic_model getName_comic(ArrayList<comic_model> comic_md,String ID_author){
+
+    public comic_model getName_comic(ArrayList<comic_model> comic_md, String ID_author) {
         comic_model model = new comic_model();
-        for(comic_model kt : comic_md){
-            if(kt.getAUTHOR().equals(ID_author)){
+        for (comic_model kt : comic_md) {
+            if (kt.getAUTHOR().equals(ID_author)) {
                 model.setTITLE(kt.getTITLE());
                 model.setID(kt.getID());
                 model.setTHUMBNAIL(kt.getTHUMBNAIL());
@@ -286,16 +304,17 @@ public class Search_comic extends AppCompatActivity implements RecyclerViewInter
         }
         return model;
     }
-    public void createList_cate_two(ArrayList<author_comic_model> new_comic){
+
+    public void createList_cate_two(ArrayList<author_comic_model> new_comic) {
         if (aLodingDialog != null) {
             aLodingDialog.show();
         }
-        if(!new_comic.isEmpty()){
+        if (!new_comic.isEmpty()) {
             rc_of_detail_cato = findViewById(R.id.rc_comic_two);
             GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
             rc_of_detail_cato.setLayoutManager(layoutManager);
             rc_of_detail_cato.setHasFixedSize(true);
-            rcAdapterTypeTwo = new RCAdapter_type_two(this,new_comic);
+            rcAdapterTypeTwo = new RCAdapter_type_two(this, new_comic);
             rc_of_detail_cato.setAdapter(rcAdapterTypeTwo);
             rcAdapterTypeTwo.notifyDataSetChanged();
         }
@@ -303,6 +322,7 @@ public class Search_comic extends AppCompatActivity implements RecyclerViewInter
             aLodingDialog.dismiss();
         }
     }
+
     /*------------------------ phần xử lý recyclerview firebase comic---------------------------*/
     @Override
     public void onItemClick(category_model model) {

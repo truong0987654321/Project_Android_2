@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".activities.NewPass">
+
     <RelativeLayout
-        android:id="@+id/rlLayout"
-        android:layout_marginTop="20dp"
+        android:id="@+id/rlLoayout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/back"
             android:layout_width="@dimen/_25dp"
@@ -22,7 +26,7 @@
             android:layout_height="32dp"
             android:layout_above="@+id/line"
             android:layout_centerInParent="true"
-            android:text="Đăng nhập"
+            android:text="Quên Mật Khẩu"
             android:textAlignment="center"
             android:textColor="@color/color_edit"
             android:textSize="20sp" />
@@ -37,9 +41,10 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rlLoayout_1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/rlLayout"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlLoayout"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
@@ -48,63 +53,78 @@
 
         <ImageView
             android:id="@+id/id_imglogo"
-            android:layout_width="@dimen/layout_width_logo"
-            android:layout_height="@dimen/layout_height_logo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/logo" />
+            android:src="@drawable/background_unlock" />
+
+        <TextView
+            android:id="@+id/id_textvbig"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_38dp"
+            android:layout_below="@id/id_imglogo"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="@dimen/_19dp"
+            android:text="Thiết lập mật khẩu"
+            android:textAlignment="center"
+            android:textColor="@color/color_edit"
+            android:textSize="30dp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/id_textv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/id_imglogo"
+            android:layout_width="@dimen/_326dp"
+            android:layout_height="38dp"
+            android:layout_below="@id/id_textvbig"
             android:layout_centerInParent="true"
-            android:text="Vui lòng đăng nhập bằng email"
+            android:text="Vui lòng thiết lập mật khẩu tương đối mạnh."
             android:textAlignment="center"
             android:textColor="@color/color_edit"
-            android:textSize="@dimen/_25dp"
-            android:textStyle="bold" />
+            android:textSize="15dp" />
+
 
         <EditText
-            android:id="@+id/EdTemail_username"
+            android:id="@+id/edpasss"
             android:layout_width="@dimen/_358dp"
             android:layout_height="@dimen/_60dp"
             android:layout_below="@+id/id_textv"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="19dp"
             android:background="@drawable/edittext_background_rounded"
-            android:hint="Email"
-            android:imeOptions="actionNext"
-            android:importantForAutofill="no"
-            android:inputType="textEmailAddress"
-            android:paddingStart="30dp"
-            android:paddingEnd="50dp"/>
-
-        <EditText
-            android:id="@+id/EdTpassword"
-            android:layout_width="@dimen/_358dp"
-            android:layout_height="@dimen/_60dp"
-            android:layout_below="@+id/EdTemail_username"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="19dp"
-            android:background="@drawable/edittext_background_rounded"
-            android:hint="Mật Khẩu"
+            android:hint="Vui lòng nhập mật khẩu"
             android:imeOptions="actionNext"
             android:importantForAutofill="no"
             android:inputType="textPassword"
             android:paddingStart="30dp"
             android:paddingEnd="70dp"/>
+
+
+        <EditText
+            android:id="@+id/edConfirmpassword"
+            android:layout_width="@dimen/_358dp"
+            android:layout_height="@dimen/_60dp"
+            android:layout_below="@+id/edpasss"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="19dp"
+            android:background="@drawable/edittext_background_rounded"
+            android:hint="Vui lòng nhập lại mật khẩu"
+            android:imeOptions="actionNext"
+            android:importantForAutofill="no"
+            android:inputType="textPassword"
+            android:paddingStart="30dp"
+            android:paddingEnd="70dp"/>
+
         <TextView
             android:id="@+id/eyeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/EdTpassword"
-            android:layout_alignEnd="@id/EdTpassword"
-            android:layout_alignRight="@id/EdTpassword"
-            android:layout_alignBottom="@id/EdTpassword"
+            android:layout_alignTop="@+id/edpasss"
+            android:layout_alignEnd="@id/edpasss"
+            android:layout_alignRight="@id/edpasss"
+            android:layout_alignBottom="@id/edpasss"
             android:layout_marginEnd="10dp"
             android:drawableRight="@drawable/eye_slash_regular" />
+
         <TextView
             android:id="@+id/clearTextView_pass"
             android:visibility="gone"
@@ -117,59 +137,79 @@
             android:layout_marginEnd="30dp"
             android:drawableRight="@drawable/bacground_remove_d9d9d9" />
         <TextView
-            android:id="@+id/clearTextView_email"
+            android:id="@+id/eyeTextView_cpasss"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/edConfirmpassword"
+            android:layout_alignEnd="@id/edConfirmpassword"
+            android:layout_alignRight="@id/edConfirmpassword"
+            android:layout_alignBottom="@id/edConfirmpassword"
+            android:layout_marginEnd="10dp"
+            android:drawableRight="@drawable/eye_slash_regular" />
+        <TextView
+            android:id="@+id/clearTextView_Cpass"
             android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/EdTemail_username"
-            android:layout_alignEnd="@id/EdTemail_username"
-            android:layout_alignRight="@id/EdTemail_username"
-            android:layout_alignBottom="@id/EdTemail_username"
-            android:layout_marginEnd="10dp"
+            android:layout_alignTop="@+id/eyeTextView_cpasss"
+            android:layout_alignEnd="@id/eyeTextView_cpasss"
+            android:layout_alignRight="@id/eyeTextView_cpasss"
+            android:layout_alignBottom="@id/eyeTextView_cpasss"
+            android:layout_marginEnd="30dp"
             android:drawableRight="@drawable/bacground_remove_d9d9d9" />
+        <TextView
+            android:id="@+id/password_sign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edConfirmpassword"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/background_chest"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:text="Mật khẩu không có dấu"
+            android:textColor="@color/translucent_dark_gray" />
+
+        <TextView
+            android:id="@+id/password_minimum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/password_sign"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/background_chest"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:text="Mật khẩu phải trên 8 ký tự"
+            android:textColor="@color/translucent_dark_gray" />
+
+        <TextView
+            android:id="@+id/Confirmpassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/password_minimum"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/background_chest"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:text="Đảm bảo hai lần nhập mật khẩu giống nhau"
+            android:textColor="@color/translucent_dark_gray" />
+
         <Button
-            android:id="@+id/buttonsignin"
+            android:id="@+id/butnsuccess"
             android:layout_width="@dimen/_358dp"
             android:layout_height="@dimen/_60dp"
-            android:layout_below="@+id/EdTpassword"
+            android:layout_below="@+id/Confirmpassword"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="19dp"
             android:alpha="0.5"
             android:backgroundTint="@color/color_edit"
             android:enabled="false"
-            android:text="Đăng nhập"
-            android:textColor="#ffffff" />
-
-        <LinearLayout
-            android:layout_width="@dimen/_358dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/buttonsignin"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="19dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textv_fpassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:layout_alignBottom="@id/buttonsignin"
-                android:layout_weight="1"
-                android:text="Quên Mật Khẩu?"
-                android:textColor="@color/color_edit"
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/textv_SignUpnow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Đăng Ký Ngay"
-                android:textAlignment="textEnd"
-                android:textColor="@color/color_edit"
-                android:textSize="15sp" />
-        </LinearLayout>
+            android:text="Hoàn thành"
+            android:textColor="@color/white" />
     </RelativeLayout>
+
     <FrameLayout
         android:id="@+id/progressBar"
         android:layout_width="match_parent"

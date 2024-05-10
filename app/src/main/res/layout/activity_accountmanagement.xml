@@ -9,8 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="20dp"
-        android:enabled="false"
-        >
+        android:enabled="false">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/exit"
@@ -23,7 +22,7 @@
         <ImageView
             android:id="@+id/id_imglogo"
             android:layout_width="@dimen/layout_width_logo"
-            android:layout_height="117dp"
+            android:layout_height="@dimen/layout_height_logo"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="70dp"
             android:src="@drawable/logo"
@@ -35,7 +34,7 @@
             android:layout_height="@dimen/_38dp"
             android:layout_below="@id/id_imglogo"
             android:layout_centerInParent="true"
-            android:text="Sign In/Create An Account"
+            android:text="Đăng Nhập/Tạo Tài Khoản"
             android:textAlignment="center"
             android:textColor="#614385"
             android:textSize="@dimen/_25dp"
@@ -50,10 +49,10 @@
             android:layout_marginTop="@dimen/_19dp"
             android:backgroundTint="@drawable/button_background_tint"
             android:drawableLeft="@drawable/button_with_circle_envelope_solid"
-            android:text="Log in with your email or username"
+            android:text="Đăng nhập bằng Email/Tên người dùng"
             android:paddingStart="15dp"
             android:textAlignment="viewStart"
-            android:textColor="@color/purpleish_blue" />
+            android:textColor="@color/color_edit" />
 
         <Button
             android:id="@+id/buttongoogle"
@@ -64,10 +63,10 @@
             android:layout_marginTop="@dimen/_19dp"
             android:backgroundTint="@drawable/button_background_tint"
             android:drawableLeft="@drawable/button_with_circle_logo_google"
-            android:text="Sign in with Google "
+            android:text="Đăng nhập bằng Google"
             android:paddingStart="15dp"
             android:textAlignment="viewStart"
-            android:textColor="@color/purpleish_blue" />
+            android:textColor="@color/color_edit" />
 
         <Button
             android:id="@+id/buttonfacebook"
@@ -78,10 +77,10 @@
             android:layout_marginTop="@dimen/_19dp"
             android:backgroundTint="@drawable/button_background_tint"
             android:drawableLeft="@drawable/button_with_circle_logo_facebook"
-            android:text="Sign in with Facebook"
+            android:text="Đăng nhập bằng Facebook"
             android:paddingStart="15dp"
             android:textAlignment="viewStart"
-            android:textColor="@color/purpleish_blue" />
+            android:textColor="@color/color_edit" />
 
         <Button
             android:id="@+id/buttontwitter"
@@ -92,11 +91,11 @@
             android:layout_marginTop="@dimen/_19dp"
             android:backgroundTint="@drawable/button_background_tint"
             android:drawableLeft="@drawable/button_with_circle_logo_twitter"
-            android:text="Sign in with Tiwtter"
+            android:text="Đăng nhập bằng Tiwtter"
             android:paddingStart="15dp"
 
             android:textAlignment="viewStart"
-            android:textColor="@color/purpleish_blue" />
+            android:textColor="@color/color_edit" />
     </RelativeLayout>
     <FrameLayout
         android:id="@+id/progressBar"
