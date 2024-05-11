@@ -1,6 +1,7 @@
 package com.example.Project_android_2.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,11 +13,12 @@ import androidx.appcompat.widget.AppCompatImageView;
 
 import com.bumptech.glide.Glide;
 import com.example.Project_android_2.R;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 public class User extends AppCompatActivity {
     private RelativeLayout editProfileLayout, editTextSizeLayout, editLanguageLayout;
     private AppCompatImageView appCompatImageView_back;
-    private ImageView img_user;
+    private RoundedImageView img_user;
     private TextView username;
 
     @Override
@@ -25,24 +27,26 @@ public class User extends AppCompatActivity {
         setContentView(R.layout.activity_user);
 
         setupUI();
-        Intent intent = getIntent();
-        String userPhotoUrl = intent.getStringExtra("user_photo_url");
-        String userName = intent.getStringExtra("user_name");
-        String userEmail = intent.getStringExtra("user_email");
+        SharedPreferences sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE);
+        String userUid = sharedPreferences.getString("userUid", "");
+        String userPhotoUrl = sharedPreferences.getString("photoUrl", "");
+        String userName = sharedPreferences.getString("userName", "");
+        String userEmail = sharedPreferences.getString("userEmail", "");
+
         Glide.with(this).load(userPhotoUrl).into(img_user);
         username.setText(userName);
         appCompatImageView_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBackPressed();
+                Intent intent = new Intent(User.this, Home.class);
+                startActivity(intent);
+                finish();
             }
         });
         editProfileLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(User.this, EditUser.class);
-                intent.putExtra("user_name", userName);
-                intent.putExtra("user_photo_url", userPhotoUrl);
                 startActivity(intent);
             }
         });

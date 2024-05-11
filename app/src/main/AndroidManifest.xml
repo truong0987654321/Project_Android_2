@@ -80,7 +80,6 @@
             android:name=".activities.Otp"
             android:exported="false"
             android:screenOrientation="portrait" />
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />

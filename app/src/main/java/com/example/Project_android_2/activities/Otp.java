@@ -33,7 +33,6 @@ public class Otp extends AppCompatActivity {
     private String code_otp_string, Email_otp_;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,10 +40,12 @@ public class Otp extends AppCompatActivity {
 
         setupUI();
 
-        text_title.setText("Quên mật khẩu");
         Intent intent = getIntent();
         Email_otp_ = intent.getStringExtra("Email_otp");
         int code_otp = intent.getIntExtra("Code_otp", 0);
+        if (Email_otp_ != null) {
+            text_title.setText("Quên mật khẩu");
+        }
         code_otp_string = String.valueOf(code_otp);
         Email_otp.setText(Email_otp_);
         otpEt1.addTextChangedListener(textWatcher);
@@ -91,7 +92,7 @@ public class Otp extends AppCompatActivity {
         appCompatImageView_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogHelper.showBottomDialog(Otp.this);
+                DialogHelper.showBottomDialog(Otp.this, ForgotPassword.class);
             }
         });
 
@@ -193,7 +194,6 @@ public class Otp extends AppCompatActivity {
             }
         }
     };
-
 
 
     @Override

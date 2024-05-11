@@ -207,7 +207,7 @@ public class SignUp extends AppCompatActivity {
                             String hashPassword = PasswordHelper.hashPassword(password);
                             String username = editText_exusername.getText().toString();
 
-                            user user = new user(id, avatarUrl, email, hashPassword, username, uploadId);
+                            user user = new user(id, avatarUrl, email, hashPassword, username, "email");
                             databaseReference.child(uploadId).setValue(user);
                             progressBar.setVisibility(View.GONE);
                             Intent intent = new Intent(SignUp.this, SignIn.class);
@@ -305,8 +305,8 @@ public class SignUp extends AppCompatActivity {
         if (!isValidEmail(email)) {
             Toast.makeText(this, "Định dạng email không hợp lệ.", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (username.length() <= 6) {
-            Toast.makeText(SignUp.this, "Tên người dùng phải dài hơn 6 ký tự.", Toast.LENGTH_SHORT).show();
+        } else if (username.length() <= 20) {
+            Toast.makeText(SignUp.this, "Tên người dùng phải dài hơn 20 ký tự.", Toast.LENGTH_SHORT).show();
             return false;
         } else if (!password.equals(normalizedPassword)) {
             Toast.makeText(getApplicationContext(), "Mật khẩu chứa dấu.", Toast.LENGTH_SHORT).show();

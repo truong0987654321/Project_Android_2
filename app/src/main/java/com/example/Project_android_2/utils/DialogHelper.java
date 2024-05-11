@@ -19,7 +19,7 @@ import com.example.Project_android_2.activities.ForgotPassword;
 
 public class DialogHelper {
 
-    public static void showBottomDialog(Context context) {
+    public static void showBottomDialog(Context context, Class<?> targetClass) {
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.activity_bottomsheetlayout);
@@ -36,7 +36,7 @@ public class DialogHelper {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                Intent intent = new Intent(context, ForgotPassword.class);
+                Intent intent = new Intent(context, targetClass); // Sử dụng targetClass được truyền vào
                 context.startActivity(intent);
                 if (context instanceof Activity) {
                     ((Activity) context).finish();
@@ -50,6 +50,7 @@ public class DialogHelper {
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
+
 }
 
 

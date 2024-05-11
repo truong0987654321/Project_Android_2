@@ -3,6 +3,7 @@ package com.example.Project_android_2.activities;
 import android.annotation.SuppressLint;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,13 +25,13 @@ import com.example.Project_android_2.activities.RC_recyclerView.RCAdapter_Trendi
 import com.example.Project_android_2.activities.RC_recyclerView.chapter_model;
 import com.example.Project_android_2.activities.RC_recyclerView.comic_chapter_model;
 import com.example.Project_android_2.activities.RC_recyclerView.comic_model;
-import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +43,7 @@ public class Home extends AppCompatActivity {
     ArrayList<chapter_model> lastchapter = new ArrayList<>();
     ImageView Search_icon;
     DrawerLayout drawerLayout;
-    ShapeableImageView buttonDrawerToggle, imageViewDrawer;
+    RoundedImageView buttonDrawerToggle, imageViewDrawer;
     TextView username, useremail;
     private ALodingDialog aLodingDialog;
 
@@ -52,10 +53,11 @@ public class Home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_app);
 
-        Intent intent = getIntent();
-        String userPhotoUrl = intent.getStringExtra("user_photo_url");
-        String userName = intent.getStringExtra("user_name");
-        String userEmail = intent.getStringExtra("user_email");
+        SharedPreferences sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE);
+        String userUid = sharedPreferences.getString("userUid", "");
+        String userPhotoUrl = sharedPreferences.getString("photoUrl", "");
+        String userName = sharedPreferences.getString("userName", "");
+        String userEmail = sharedPreferences.getString("userEmail", "");
 
         buttonDrawerToggle = findViewById(R.id.imageUser);
 
@@ -77,15 +79,12 @@ public class Home extends AppCompatActivity {
                     drawer.closeDrawer(GravityCompat.START);
                     return true;
                 }
-                if(id ==R.id.nav_setting){
+                if (id == R.id.nav_setting) {
                     Intent intentProfile = new Intent(Home.this, User.class);
-                    intentProfile.putExtra("user_name", userName);
-                    intentProfile.putExtra("user_email", userName);
-                    intentProfile.putExtra("user_photo_url", userPhotoUrl);
                     startActivity(intentProfile);
                     return true;
                 }
-                if(id ==R.id.nav_home){
+                if (id == R.id.nav_home) {
                     recreate();
                     DrawerLayout drawer = findViewById(R.id.drawerLayout);
                     drawer.closeDrawer(GravityCompat.START);

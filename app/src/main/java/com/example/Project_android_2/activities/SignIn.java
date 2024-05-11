@@ -180,12 +180,10 @@ public class SignIn extends AppCompatActivity {
                         // Nếu trùng khớp, chuyển dữ liệu qua màn hình Home
                         String name = user.getUsername();
                         String email = user.getEmail();
+                        String uid = user.getUid();
                         String avatar = user.getAvatar().toString();
-                        saveUserInfoToSharedPreferences(email, name, avatar);
+                        saveUserInfoToSharedPreferences(email, name, avatar,uid);
                         Intent intent = new Intent(SignIn.this, Home.class);
-                        intent.putExtra("user_name", name);
-                        intent.putExtra("user_email", email);
-                        intent.putExtra("user_photo_url", avatar);
                         progressBar.setVisibility(View.GONE);
                         startActivity(intent);
                         finish();
@@ -206,10 +204,11 @@ public class SignIn extends AppCompatActivity {
         });
     }
 
-    private void saveUserInfoToSharedPreferences(String userEmail, String userName, String photoUrl) {
+    private void saveUserInfoToSharedPreferences(String userEmail, String userName, String photoUrl,String userUid) {
         SharedPreferences sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("isLoggedIn", true);
+        editor.putString("userUid", userUid);
         editor.putString("userEmail", userEmail);
         editor.putString("userName", userName);
         editor.putString("photoUrl", photoUrl);

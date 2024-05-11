@@ -88,7 +88,7 @@ public class NewPass extends AppCompatActivity {
         appCompatImageView_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogHelper.showBottomDialog(NewPass.this);
+                DialogHelper.showBottomDialog(NewPass.this, ForgotPassword.class);
             }
         });
 

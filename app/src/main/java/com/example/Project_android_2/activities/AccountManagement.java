@@ -40,6 +40,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
@@ -110,12 +111,14 @@ public class AccountManagement extends AppCompatActivity {
         boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
 
         if (isLoggedIn) {
+            String userUid = sharedPreferences.getString("user_uid", "");
             String userEmail = sharedPreferences.getString("userEmail", "");
             String userName = sharedPreferences.getString("userName", "");
             String photoUrl = sharedPreferences.getString("photoUrl", "");
 
             // Chuyển hướng người dùng đến màn hình Home và truyền thông tin người dùng
             Intent intent = new Intent(AccountManagement.this, Home.class);
+            intent.putExtra("user_uid", userUid);
             intent.putExtra("user_name", userName);
             intent.putExtra("user_email", userEmail);
             intent.putExtra("user_photo_url", photoUrl);
@@ -165,28 +168,21 @@ public class AccountManagement extends AppCompatActivity {
     }
 
     private void handleFaceBookAccestoken(AccessToken accessToken) {
-        GraphRequest request = GraphRequest.newMeRequest(
-                accessToken,
-                new GraphRequest.GraphJSONObjectCallback() {
+        AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
-                    public void onCompleted(JSONObject object, GraphResponse response) {
-                        try {
-                            String userName = object.getString("name"); // Lấy tên của người dùng
-                            String userEmail = object.optString("email", "");  // Lấy email của người dùng (nếu có)
-                            String photoUrl = object.getJSONObject("picture").getJSONObject("data").getString("url");
-                            updateUI_fb_tw(userName, userEmail, photoUrl); // Truyền thông tin người dùng và đường dẫn đến ảnh đại diện
-                            saveUserInfoToSharedPreferences(userEmail, userName, photoUrl);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Toast.makeText(AccountManagement.this, "Lỗi lấy thông tin người dùng", Toast.LENGTH_SHORT).show();
-                            updateUI_fb_tw("", "", ""); // Xử lý lỗi nếu không thể lấy thông tin người dùng
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                        } else {
+                            Toast.makeText(AccountManagement.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            updateUI(null);
                         }
                     }
                 });
-        Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,name,email,picture.type(large)"); // Yêu cầu lấy ID, tên và email của người dùng
-        request.setParameters(parameters);
-        request.executeAsync();
     }
 
     private void setupFaceBook() {
@@ -233,12 +229,8 @@ public class AccountManagement extends AppCompatActivity {
                                 public void onSuccess(AuthResult authResult) {
                                     Toast.makeText(AccountManagement.this, "Đăng nhập thành công.", Toast.LENGTH_SHORT).show();
 
-                                    Map<String, Object> profileInfo = authResult.getAdditionalUserInfo().getProfile();
-                                    String userEmail = (String) profileInfo.get("email"); // Lấy email
-                                    String userName = (String) profileInfo.get("name"); // Lấy tên người dùng
-                                    String photoUrl = (String) profileInfo.get("profile_image_url_https");
-                                    updateUI_fb_tw(userName, userEmail, photoUrl);
-                                    saveUserInfoToSharedPreferences(userEmail, userName, photoUrl);
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    updateUI(user);
                                     progressBar.setVisibility(View.GONE);
                                 }
                             })
@@ -247,6 +239,7 @@ public class AccountManagement extends AppCompatActivity {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     Toast.makeText(AccountManagement.this, "Lỗi đăng nhập :" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    updateUI(null);
                                     progressBar.setVisibility(View.GONE);
                                 }
                             });
@@ -259,13 +252,8 @@ public class AccountManagement extends AppCompatActivity {
                         public void onSuccess(AuthResult authResult) {
                             // Xử lý khi đăng nhập thành công với Twitter
                             Toast.makeText(AccountManagement.this, "Đăng nhập thành công.", Toast.LENGTH_SHORT).show();
-
-                            Map<String, Object> profileInfo = authResult.getAdditionalUserInfo().getProfile();
-                            String userEmail = (String) profileInfo.get("email"); // Lấy email
-                            String userName = (String) profileInfo.get("name"); // Lấy tên người dùng
-                            String photoUrl = (String) profileInfo.get("profile_image_url_https");
-                            updateUI_fb_tw(userName, userEmail, photoUrl);
-                            saveUserInfoToSharedPreferences(userEmail, userName, photoUrl);
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
                             progressBar.setVisibility(View.GONE);
                         }
                     })
@@ -274,6 +262,7 @@ public class AccountManagement extends AppCompatActivity {
                         public void onFailure(@NonNull Exception e) {
                             // Xử lý khi đăng nhập thất bại
                             Toast.makeText(AccountManagement.this, "Lỗi đăng nhập :" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            updateUI(null);
                             progressBar.setVisibility(View.GONE);
                         }
                     });
@@ -296,6 +285,7 @@ public class AccountManagement extends AppCompatActivity {
         editor.remove("isLoggedIn");
         editor.remove("userEmail");
         editor.remove("userName");
+        editor.remove("userUid");
         editor.remove("photoUrl");
         editor.apply();
     }
@@ -350,23 +340,12 @@ public class AccountManagement extends AppCompatActivity {
     private void updateUI(FirebaseUser user) {
         if (user != null) {
             Intent intent = new Intent(AccountManagement.this, Home.class);
-            // Truyền thông tin người dùng đến trang Home
-            intent.putExtra("user_name", user.getDisplayName());
-            intent.putExtra("user_email", user.getEmail());
-            intent.putExtra("user_photo_url", user.getPhotoUrl().toString());
+            saveUserInfoToSharedPreferences(user.getEmail(), user.getDisplayName(), user.getPhotoUrl().toString()) ;
             startActivity(intent);
             finish();
         }
     }
 
-    private void updateUI_fb_tw(String userName, String userEmail, String photoUrl) {
-        Intent intent = new Intent(AccountManagement.this, Home.class);
-        intent.putExtra("user_name", userName);
-        intent.putExtra("user_email", userEmail);
-        intent.putExtra("user_photo_url", photoUrl);
-        startActivity(intent);
-        finish();
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
