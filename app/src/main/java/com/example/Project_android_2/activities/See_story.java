@@ -1,41 +1,20 @@
 package com.example.Project_android_2.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
-
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.Project_android_2.R;
-import com.example.Project_android_2.activities.Fragment_Seencomic.ListChapterFragment;
-import com.example.Project_android_2.activities.Fragment_Seencomic.SeenComicAdapter;
-import com.example.Project_android_2.activities.RC_recyclerView.RCAdapter_Chap;
-import com.example.Project_android_2.activities.RC_recyclerView.RCModel_Chap;
-import com.example.Project_android_2.models.chapter;
-import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import com.example.Project_android_2.R;
+import com.example.Project_android_2.activities.Fragment_Seencomic.SeenComicAdapter;
+import com.google.android.material.tabs.TabLayout;
 
 public class See_story extends AppCompatActivity {
 

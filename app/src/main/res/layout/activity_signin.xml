@@ -4,25 +4,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="20dp">
+        android:id="@+id/rlLayout"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/back"
             android:layout_width="@dimen/_25dp"
             android:layout_height="@dimen/_32dp"
+            android:layout_marginLeft="20dp"
             android:src="@drawable/angle_left_solid"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:layout_width="67dp"
+            android:layout_width="wrap_content"
             android:layout_height="32dp"
             android:layout_above="@+id/line"
             android:layout_centerInParent="true"
-            android:text="Sign in"
+            android:text="Đăng nhập"
             android:textAlignment="center"
-            android:textColor="@color/purpleish_blue"
+            android:textColor="@color/color_edit"
             android:textSize="20sp" />
 
         <View
@@ -32,25 +34,35 @@
             android:layout_below="@+id/back"
             android:layout_marginTop="10dp"
             android:background="@drawable/divider_line" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rlLayout"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp">
+
 
         <ImageView
             android:id="@+id/id_imglogo"
             android:layout_width="@dimen/layout_width_logo"
-            android:layout_height="117dp"
-            android:layout_below="@id/line"
+            android:layout_height="@dimen/layout_height_logo"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:src="@drawable/logo" />
 
         <TextView
             android:id="@+id/id_textv"
-            android:layout_width="@dimen/_326dp"
-            android:layout_height="38dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@id/id_imglogo"
             android:layout_centerInParent="true"
-            android:text="Please in with your email"
+            android:text="Vui lòng đăng nhập bằng email"
             android:textAlignment="center"
-            android:textColor="@color/purpleish_blue"
+            android:textColor="@color/color_edit"
             android:textSize="@dimen/_25dp"
             android:textStyle="bold" />
 
@@ -62,11 +74,12 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="19dp"
             android:background="@drawable/edittext_background_rounded"
-            android:hint="Enter email or username"
+            android:hint="Email"
             android:imeOptions="actionNext"
             android:importantForAutofill="no"
             android:inputType="textEmailAddress"
-            android:paddingStart="30dp" />
+            android:paddingStart="30dp"
+            android:paddingEnd="50dp"/>
 
         <EditText
             android:id="@+id/EdTpassword"
@@ -76,12 +89,44 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="19dp"
             android:background="@drawable/edittext_background_rounded"
-            android:hint="Password"
+            android:hint="Mật Khẩu"
             android:imeOptions="actionNext"
             android:importantForAutofill="no"
             android:inputType="textPassword"
-            android:paddingStart="30dp" />
-
+            android:paddingStart="30dp"
+            android:paddingEnd="70dp"/>
+        <TextView
+            android:id="@+id/eyeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/EdTpassword"
+            android:layout_alignEnd="@id/EdTpassword"
+            android:layout_alignRight="@id/EdTpassword"
+            android:layout_alignBottom="@id/EdTpassword"
+            android:layout_marginEnd="10dp"
+            android:drawableRight="@drawable/eye_slash_regular" />
+        <TextView
+            android:id="@+id/clearTextView_pass"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/eyeTextView"
+            android:layout_alignEnd="@id/eyeTextView"
+            android:layout_alignRight="@id/eyeTextView"
+            android:layout_alignBottom="@id/eyeTextView"
+            android:layout_marginEnd="30dp"
+            android:drawableRight="@drawable/bacground_remove_d9d9d9" />
+        <TextView
+            android:id="@+id/clearTextView_email"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/EdTemail_username"
+            android:layout_alignEnd="@id/EdTemail_username"
+            android:layout_alignRight="@id/EdTemail_username"
+            android:layout_alignBottom="@id/EdTemail_username"
+            android:layout_marginEnd="10dp"
+            android:drawableRight="@drawable/bacground_remove_d9d9d9" />
         <Button
             android:id="@+id/buttonsignin"
             android:layout_width="@dimen/_358dp"
@@ -89,10 +134,10 @@
             android:layout_below="@+id/EdTpassword"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="19dp"
-            android:backgroundTint="@color/purpleish_blue"
-            android:text="Sign in"
             android:alpha="0.5"
+            android:backgroundTint="@color/color_edit"
             android:enabled="false"
+            android:text="Đăng nhập"
             android:textColor="#ffffff" />
 
         <LinearLayout
@@ -110,8 +155,8 @@
 
                 android:layout_alignBottom="@id/buttonsignin"
                 android:layout_weight="1"
-                android:text="Forgot Password?"
-                android:textColor="@color/purpleish_blue"
+                android:text="Quên Mật Khẩu?"
+                android:textColor="@color/color_edit"
                 android:textSize="15sp" />
 
             <TextView
@@ -119,11 +164,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Sign up now"
+                android:text="Đăng Ký Ngay"
                 android:textAlignment="textEnd"
-                android:textColor="@color/purpleish_blue"
+                android:textColor="@color/color_edit"
                 android:textSize="15sp" />
         </LinearLayout>
     </RelativeLayout>
+    <FrameLayout
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/translucent_dark_gray"
+        android:gravity="center"
+        android:visibility="gone">
 
+        <ProgressBar
+            android:id="@+id/progressContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/light_grayish_blue" />
+    </FrameLayout>
 </RelativeLayout>

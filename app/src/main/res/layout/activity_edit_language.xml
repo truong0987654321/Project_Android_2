@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="20dp"
     android:background="@color/white"
     android:orientation="vertical">
 
@@ -15,7 +14,7 @@
             android:id="@+id/back"
             android:layout_width="25dp"
             android:layout_height="32dp"
-            android:layout_marginStart="23dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="23dp"
             android:layout_marginEnd="23dp"
             android:layout_marginBottom="23dp"
@@ -29,7 +28,7 @@
             android:layout_above="@+id/line"
             android:layout_centerInParent="true"
             android:layout_marginBottom="27dp"
-            android:text="Language"
+            android:text="Ngôn ngữ"
             android:textAlignment="center"
             android:textColor="#000000"
             android:textSize="20sp" />
@@ -41,17 +40,11 @@
             android:layout_height="2dp"
             android:layout_below="@+id/back"
             android:background="@drawable/divider_line" />
-
     </RelativeLayout>
-
-
-
-
     <RelativeLayout
+        android:layout_margin="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-
 
     </RelativeLayout>
 

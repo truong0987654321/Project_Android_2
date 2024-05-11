@@ -1,15 +1,21 @@
 package com.example.Project_android_2.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.example.Project_android_2.R;
 
 public class Setting extends AppCompatActivity {
+    SharedPreferences sharedPreferences;
+    boolean isNightMode;
+    SharedPreferences.Editor editor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,6 +25,23 @@ public class Setting extends AppCompatActivity {
         RelativeLayout editProfileLayout = findViewById(R.id.editProfileLayout);
         RelativeLayout editTextSizeLayout = findViewById(R.id.editTextSizeLayout);
         RelativeLayout editLanguageLayout = findViewById(R.id.editLanguageLayout);
+//        SwitchCompat switchCompat = findViewById(R.id.switchNightMode);
+//        sharedPreferences = getSharedPreferences(getString(R.string.app_name),MODE_PRIVATE);
+//        editor = sharedPreferences.edit();
+//
+//        isNightMode = sharedPreferences.getBoolean("nightMode", false);
+//        if (isNightMode){
+//            switchCompat.setChecked(true);
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//        }
+//
+//
+//    //on off night mode
+//        switchCompat.setOnClickListener(v -> {
+//            myThemes();
+//        });
+
+
         // Gán OnClickListener cho RelativeLayout
         editProfileLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,4 +68,16 @@ public class Setting extends AppCompatActivity {
         });
 
     }
+
+//    private void myThemes() {
+//        if(isNightMode){
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//            editor.putBoolean("nightMode", false);
+//        }else {
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//            editor.putBoolean("nightMode",true);
+//        }
+//        editor.apply();
+//
+//    }
 }

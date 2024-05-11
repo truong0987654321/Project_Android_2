@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="20dp"
     android:background="@color/white"
     android:orientation="vertical">
 
@@ -15,14 +14,11 @@
             android:id="@+id/back"
             android:layout_width="25dp"
             android:layout_height="32dp"
-            android:layout_marginStart="23dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="23dp"
             android:layout_marginEnd="23dp"
             android:layout_marginBottom="23dp"
             android:src="@drawable/angle_left_solid" />
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintTop_toTopOf="parent" />-->
-
 
         <TextView
             android:layout_width="103dp"
@@ -30,11 +26,10 @@
             android:layout_above="@+id/line"
             android:layout_centerInParent="true"
             android:layout_marginBottom="27dp"
-            android:text="Text Size"
+            android:text="Cỡ chữ"
             android:textAlignment="center"
             android:textColor="#000000"
             android:textSize="20sp" />
-
 
         <View
             android:id="@+id/line"
@@ -46,6 +41,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:layout_margin="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp">
@@ -67,7 +63,7 @@
             android:layout_below="@id/seekBarTextSize"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
-            android:text="Story Title"
+            android:text="Tiêu đề câu chuyện"
             android:textSize="24sp"
             android:textStyle="bold" />
 
@@ -78,7 +74,7 @@
             android:layout_below="@id/textViewStoryTitle"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
-            android:text="Chapter Title"
+            android:text="Tiêu đề chương"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -91,9 +87,8 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginRight="16dp"
-            android:text="Chapter Content" />
+            android:text="Nội dung chương" />
 
     </RelativeLayout>
-
 
 </LinearLayout>

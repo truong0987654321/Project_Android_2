@@ -63,13 +63,11 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="15dp"
         android:layout_below="@id/chap1"
         android:layout_centerInParent="true"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="15dp">
-
+        android:layout_marginTop="24dp"
+        >
         <TextView
             android:id="@+id/txtViewComic"
             android:layout_width="match_parent"

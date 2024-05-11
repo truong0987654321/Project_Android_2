@@ -53,22 +53,21 @@
             android:layout_below="@id/logo_195e0d"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="33dp"
-            android:layout_marginTop="-8dp"
-            android:layout_marginEnd="180dp"
+            android:layout_marginStart="31dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="182dp"
             android:gravity="top"
             android:textSize="30sp"
             tools:text="Shogun" />
 
         <View
             android:id="@+id/cardboard"
-            android:layout_width="232dp"
-            android:layout_height="293dp"
+            android:layout_width="262dp"
+            android:layout_height="323dp"
             android:layout_below="@id/textViewTitle"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="18dp"
             android:background="@drawable/retangle" />
-
 
         <ImageView
             android:id="@+id/imageViewLogo"
@@ -76,7 +75,7 @@
             android:layout_height="198dp"
             android:layout_alignParentTop="true"
             android:layout_centerInParent="true"
-            android:layout_marginTop="218dp"
+            android:layout_marginTop="248dp"
             android:background="@drawable/retangle2"
             android:src="@drawable/mask_group" />
 
@@ -86,7 +85,7 @@
             android:layout_height="51dp"
             android:layout_below="@id/imageViewLogo"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="13dp"
+            android:layout_marginTop="38dp"
             android:background="@drawable/retangle3"
             android:onClick="confirm"
             android:text="Confirm" />
@@ -100,7 +99,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginStart="31dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="48dp"
             android:gravity="top"
             android:text="Author:Nobunaga"
             android:textSize="30sp" />
@@ -121,7 +120,7 @@
             android:layout_height="39dp"
             android:layout_below="@id/logo_195e0d"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="274dp"
+            android:layout_marginStart="314dp"
             android:layout_marginTop="48dp"
             android:background="@drawable/premium_quality_1"
             />
@@ -132,7 +131,7 @@
             android:layout_height="39dp"
             android:layout_below="@id/premium_qua"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="274dp"
+            android:layout_marginLeft="314dp"
             android:layout_marginTop="12dp"
             android:background="@drawable/check_1"
             />
@@ -143,7 +142,7 @@
             android:layout_height="39dp"
             android:layout_below="@id/check_1"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="274dp"
+            android:layout_marginLeft="314dp"
             android:layout_marginTop="12dp"
             android:background="@drawable/heart_1"
             />

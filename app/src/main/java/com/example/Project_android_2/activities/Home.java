@@ -3,9 +3,7 @@ package com.example.Project_android_2.activities;
 import android.annotation.SuppressLint;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,7 +12,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,31 +20,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.Project_android_2.R;
 
-import com.example.Project_android_2.activities.RC_recyclerView.RCAdapter;
 import com.example.Project_android_2.activities.RC_recyclerView.RCAdapter_Trending;
-import com.example.Project_android_2.activities.RC_recyclerView.RCModel;
-import com.example.Project_android_2.activities.RC_recyclerView.RCModel_title_story;
 import com.example.Project_android_2.activities.RC_recyclerView.chapter_model;
 import com.example.Project_android_2.activities.RC_recyclerView.comic_chapter_model;
 import com.example.Project_android_2.activities.RC_recyclerView.comic_model;
-import com.facebook.AccessToken;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 
 public class Home extends AppCompatActivity {
     RecyclerView recyclerView2;
@@ -70,6 +56,7 @@ public class Home extends AppCompatActivity {
         String userPhotoUrl = intent.getStringExtra("user_photo_url");
         String userName = intent.getStringExtra("user_name");
         String userEmail = intent.getStringExtra("user_email");
+
         buttonDrawerToggle = findViewById(R.id.imageUser);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -86,6 +73,20 @@ public class Home extends AppCompatActivity {
                     intent.putExtra("logout", true);
                     startActivity(intent);
                     // Đóng drawer sau khi xử lý sự kiện
+                    DrawerLayout drawer = findViewById(R.id.drawerLayout);
+                    drawer.closeDrawer(GravityCompat.START);
+                    return true;
+                }
+                if(id ==R.id.nav_setting){
+                    Intent intentProfile = new Intent(Home.this, User.class);
+                    intentProfile.putExtra("user_name", userName);
+                    intentProfile.putExtra("user_email", userName);
+                    intentProfile.putExtra("user_photo_url", userPhotoUrl);
+                    startActivity(intentProfile);
+                    return true;
+                }
+                if(id ==R.id.nav_home){
+                    recreate();
                     DrawerLayout drawer = findViewById(R.id.drawerLayout);
                     drawer.closeDrawer(GravityCompat.START);
                     return true;
@@ -129,10 +130,10 @@ public class Home extends AppCompatActivity {
                     chapter_model model = new chapter_model(id, chapter_index, Content, id_comic, title, create_at, has_html);
                     list_chapter.add(model);
                 }
-                if(!list_chapter.isEmpty()){
+                if (!list_chapter.isEmpty()) {
                     getCommit(list_chapter);
-                }
-                else Toast.makeText(Home.this,"Cannot found list comic with last update",Toast.LENGTH_SHORT).show();
+                } else
+                    Toast.makeText(Home.this, "Không thể tìm thấy danh sách truyện tranh có bản cập nhật mới nhất.", Toast.LENGTH_SHORT).show();
                 // Ẩn aLodingDialog khi dữ liệu đã được tải xong
                 if (aLodingDialog != null && aLodingDialog.isShowing()) {
                     aLodingDialog.dismiss();
@@ -141,7 +142,7 @@ public class Home extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(Home.this, "cannot have data comic", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Home.this, "Không có dữ liệu truyện tranh nào.", Toast.LENGTH_SHORT).show();
                 // Ẩn aLodingDialog khi dữ liệu đã được tải xong
                 if (aLodingDialog != null && aLodingDialog.isShowing()) {
                     aLodingDialog.dismiss();
@@ -178,7 +179,7 @@ public class Home extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(Home.this, "cannot have data comic", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Home.this, "Không có dữ liệu truyện tranh nào.", Toast.LENGTH_SHORT).show();
                 // Ẩn aLodingDialog khi dữ liệu đã được tải xong
                 if (aLodingDialog != null && aLodingDialog.isShowing()) {
                     aLodingDialog.dismiss();
@@ -265,7 +266,7 @@ public class Home extends AppCompatActivity {
         Search_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Home.this, Search_comic.class);
+                Intent intent = new Intent(Home.this, SearchComic.class);
                 startActivity(intent);
             }
         });

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -31,6 +32,7 @@ import com.example.Project_android_2.R;
 import com.example.Project_android_2.models.user;
 import com.example.Project_android_2.utils.NetworkUtils;
 import com.example.Project_android_2.utils.PasswordHelper;
+import com.example.Project_android_2.utils.PasswordUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -57,7 +59,7 @@ public class SignUp extends AppCompatActivity {
 
     private AppCompatImageView appCompatImageView_back;
     private EditText editText_exemail, editText_exusername, editText_expassword, editText_exConfirmpassword;
-    private TextView textAdImage;
+    private TextView textAdImage, clearTextView_email, clearTextView_User, clearTextView_pass, clearTextView_cpass,eyeTextView,eyeTextView_cpasss;
     private Button buttonsignup;
     private RoundedImageView roundedImageView_imageProfile;
     private Uri uri;
@@ -65,11 +67,12 @@ public class SignUp extends AppCompatActivity {
     private StorageTask storageTask;
     private DatabaseReference databaseReference;
     private FrameLayout progressBar;
-
+    private boolean isPasswordVisible = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+
 
         appCompatImageView_back = findViewById(R.id.back);
         editText_exemail = findViewById(R.id.exemail);
@@ -80,8 +83,15 @@ public class SignUp extends AppCompatActivity {
         textAdImage = findViewById(R.id.textAdImage);
         buttonsignup = findViewById(R.id.buttonsignup);
         progressBar = findViewById(R.id.progressBar);
-
+        eyeTextView = findViewById(R.id.eyeTextView);
+        eyeTextView_cpasss = findViewById(R.id.eyeTextView_cpasss);
+        clearTextView_email = findViewById(R.id.clearTextView_email);
+        clearTextView_User = findViewById(R.id.clearTextView_User);
+        clearTextView_pass = findViewById(R.id.clearTextView_pass);
+        clearTextView_cpass = findViewById(R.id.clearTextView_cpass);
+        loading();
         editText_exemail.addTextChangedListener(textWatcher);
+        editText_exusername.addTextChangedListener(textWatcher);
         editText_expassword.addTextChangedListener(textWatcher);
         editText_exConfirmpassword.addTextChangedListener(textWatcher);
 
@@ -105,8 +115,8 @@ public class SignUp extends AppCompatActivity {
                             uri = dataI.getData();
                             roundedImageView_imageProfile.setImageURI(uri);
                         } else {
-                            Toast.makeText(SignUp.this, "No Image Selected", Toast.LENGTH_SHORT).show();
-                            textAdImage.setText("Select An Image");
+                            Toast.makeText(SignUp.this, "Không có hình ảnh nào được chọn", Toast.LENGTH_SHORT).show();
+                            textAdImage.setText("Chọn một hình ảnh");
                         }
                     }
                 });
@@ -124,9 +134,9 @@ public class SignUp extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!NetworkUtils.isNetworkAvailable(SignUp.this)) {
-                    Toast.makeText(SignUp.this, "No internet connection. Please check your network settings.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUp.this, "Không có kết nối Internet. Vui lòng kiểm tra cài đặt mạng của bạn.", Toast.LENGTH_SHORT).show();
                 } else if (storageTask != null && storageTask.isInProgress()) {
-                    Toast.makeText(SignUp.this, "Upload is in progress", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUp.this, "Đang tải lên", Toast.LENGTH_SHORT).show();
                 } else {
                     if (isValidSignInDetails()) {
                         checkIfEmailExists();
@@ -135,6 +145,45 @@ public class SignUp extends AppCompatActivity {
                 }
             }
         });
+        eyeTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PasswordUtils.togglePasswordVisibility(editText_expassword, eyeTextView, isPasswordVisible);
+                isPasswordVisible = !isPasswordVisible;
+            }
+        });
+        eyeTextView_cpasss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PasswordUtils.togglePasswordVisibility(editText_exConfirmpassword, eyeTextView_cpasss, isPasswordVisible);
+                isPasswordVisible = !isPasswordVisible;
+            }
+        });
+        clearTextView_email.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editText_exemail.setText("");
+            }
+        });
+        clearTextView_User.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editText_exusername.setText("");
+            }
+        });
+        clearTextView_pass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editText_expassword.setText("");
+            }
+        });
+        clearTextView_cpass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editText_exConfirmpassword.setText("");
+            }
+        });
+
     }
 
 
@@ -148,7 +197,7 @@ public class SignUp extends AppCompatActivity {
                     taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri downloadUri) {
-                            Toast.makeText(SignUp.this, "Sign up successful", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUp.this, "Đăng ký thành công.", Toast.LENGTH_SHORT).show();
 
                             String uploadId = databaseReference.push().getKey();
                             int id = IdGeneratorHelper.generateAutomaticId();
@@ -161,7 +210,7 @@ public class SignUp extends AppCompatActivity {
                             user user = new user(id, avatarUrl, email, hashPassword, username, uploadId);
                             databaseReference.child(uploadId).setValue(user);
                             progressBar.setVisibility(View.GONE);
-                            Intent intent = new Intent(SignUp.this,SignIn.class);
+                            Intent intent = new Intent(SignUp.this, SignIn.class);
                             startActivity(intent);
                             finish();
                         }
@@ -183,7 +232,7 @@ public class SignUp extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    Toast.makeText(SignUp.this, "This email is already registered. Please use a different email.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUp.this, "Email này đã được đăng ký. Vui lòng sử dụng một email khác.", Toast.LENGTH_SHORT).show();
                 } else {
                     UploadFile();
                     progressBar.setVisibility(View.VISIBLE);
@@ -192,7 +241,7 @@ public class SignUp extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(SignUp.this, "Database error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUp.this, "Lỗi cơ sở dữ liệu: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -209,15 +258,40 @@ public class SignUp extends AppCompatActivity {
         @Override
         public void afterTextChanged(Editable editable) {
             updateButtonState();
+            String email = editText_exemail.getText().toString().trim();
+            String username = editText_exusername.getText().toString().trim();
+            String pass = editText_expassword.getText().toString().trim();
+            String confirpass = editText_exConfirmpassword.getText().toString().trim();
+            if (email.isEmpty()) {
+                clearTextView_email.setVisibility(View.GONE);
+            } else {
+                clearTextView_email.setVisibility(View.VISIBLE);
+            }
+            if (username.isEmpty()) {
+                clearTextView_User.setVisibility(View.GONE);
+            } else {
+                clearTextView_User.setVisibility(View.VISIBLE);
+            }
+            if (pass.isEmpty()) {
+                clearTextView_pass.setVisibility(View.GONE);
+            } else {
+                clearTextView_pass.setVisibility(View.VISIBLE);
+            }
+            if (confirpass.isEmpty()) {
+                clearTextView_cpass.setVisibility(View.GONE);
+            } else {
+                clearTextView_cpass.setVisibility(View.VISIBLE);
+            }
         }
     };
 
 
     private void updateButtonState() {
         String email = editText_exemail.getText().toString();
+        String username = editText_exusername.getText().toString().trim();
         String password = editText_expassword.getText().toString();
         String confirmPassword = editText_exConfirmpassword.getText().toString();
-        boolean isButtonEnabled = !email.isEmpty() && !password.isEmpty() && !confirmPassword.isEmpty() && uri != null;
+        boolean isButtonEnabled = !email.isEmpty() && !username.isEmpty() && !password.isEmpty() && !confirmPassword.isEmpty() && uri != null;
         buttonsignup.setEnabled(isButtonEnabled);
         buttonsignup.setAlpha(isButtonEnabled ? 1.0f : 0.5f);
     }
@@ -227,22 +301,21 @@ public class SignUp extends AppCompatActivity {
         String email = editText_exemail.getText().toString();
         String password = editText_expassword.getText().toString();
         String Confirmpassword = editText_exConfirmpassword.getText().toString();
-        Pattern pattern = Pattern.compile("[^a-zA-Z0-9]");
-        Matcher matcher = pattern.matcher(password);
+        String normalizedPassword = password.replaceAll("[^\\x00-\\x7F]", "");
         if (!isValidEmail(email)) {
-            Toast.makeText(this, "Invalid email format", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Định dạng email không hợp lệ.", Toast.LENGTH_SHORT).show();
             return false;
         } else if (username.length() <= 6) {
-            Toast.makeText(SignUp.this, "Username must be longer than 6 characters", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignUp.this, "Tên người dùng phải dài hơn 6 ký tự.", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (matcher.find()) {
-            Toast.makeText(getApplicationContext(), "Password contains special characters", Toast.LENGTH_SHORT).show();
+        } else if (!password.equals(normalizedPassword)) {
+            Toast.makeText(getApplicationContext(), "Mật khẩu chứa dấu.", Toast.LENGTH_SHORT).show();
             return false;
         } else if (!password.equals(Confirmpassword)) {
-            Toast.makeText(SignUp.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignUp.this, "Mật khẩu không phù hợp", Toast.LENGTH_SHORT).show();
             return false;
         } else if (password.length() < 8) {
-            Toast.makeText(SignUp.this, "Password must be at least 8 characters long.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignUp.this, "Mật khẩu phải dài ít nhất 8 ký tự.", Toast.LENGTH_SHORT).show();
             return false;
         } else {
             return true;
@@ -254,4 +327,12 @@ public class SignUp extends AppCompatActivity {
         return email.matches(emailRegex);
     }
 
+    private void loading() {
+        progressBar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true; // Chặn sự kiện touch
+            }
+        });
+    }
 }
