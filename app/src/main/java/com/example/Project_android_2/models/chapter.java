@@ -1,7 +1,7 @@
 package com.example.Project_android_2.models;
 
 public class chapter {
-    private int id;
+    private String id;
     private String title;
     private String index;
     private String content;
@@ -11,7 +11,7 @@ public class chapter {
 
     }
 
-    public chapter(int id, String title, String index, String content, String id_comic) {
+    public chapter(String id, String title, String index, String content, String id_comic) {
         this.id = id;
         this.title = title;
         this.index = index;
@@ -19,11 +19,11 @@ public class chapter {
         this.id_comic = id_comic;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

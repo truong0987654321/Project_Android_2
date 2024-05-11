@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- Kích thước văn bản tối thiểu -->
-    <dimen name="min_text_size">12sp</dimen>
-
-    <!-- Kích thước văn bản tối đa -->
-    <dimen name="max_text_size">24sp</dimen>
-</resources>

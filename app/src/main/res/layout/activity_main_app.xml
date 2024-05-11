@@ -13,6 +13,7 @@
         layout="@layout/activity_contain_main"
         tools:ignore="ResourceCycle" />
     <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:menu="@menu/nav_menu"

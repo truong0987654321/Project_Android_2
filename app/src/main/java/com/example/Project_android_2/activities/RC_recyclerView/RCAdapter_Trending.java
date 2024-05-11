@@ -1,22 +1,25 @@
 package com.example.Project_android_2.activities.RC_recyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.Project_android_2.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class RCAdapter_Trending extends RecyclerView.Adapter<RCAdapter_Trending.RCViewholder_story>  {
     Context context;
-    ArrayList<RCModel_title_story> mListStory;
-    public RCAdapter_Trending(Context context,ArrayList<RCModel_title_story> mlistStory){
+    ArrayList<comic_chapter_model> mListStory;
+    public RCAdapter_Trending(Context context,ArrayList<comic_chapter_model> mlistStory){
         this.context = context;
         this.mListStory = mlistStory;
     }
@@ -29,11 +32,12 @@ public class RCAdapter_Trending extends RecyclerView.Adapter<RCAdapter_Trending.
         return new RCViewholder_story(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull RCViewholder_story holder, int position) {
-        RCModel_title_story mstory = mListStory.get(position);
-        holder.rc_textview.setText(mstory.title);
-
+        comic_chapter_model mstory = mListStory.get(position);
+        holder.rc_textview.setText(mstory.getName_comic() + " \nChapter "+mstory.getChapter_index());
+        Picasso.get().load(mstory.getImage_comic()).into(holder.rc_image);
     }
 
     @Override
@@ -42,10 +46,11 @@ public class RCAdapter_Trending extends RecyclerView.Adapter<RCAdapter_Trending.
     }
     public class RCViewholder_story extends RecyclerView.ViewHolder {
         TextView rc_textview;
-
+        ImageView rc_image;
         public RCViewholder_story(@NonNull View itemView) {
             super(itemView);
             rc_textview = itemView.findViewById(R.id.rc_title_story);
+            rc_image = itemView.findViewById(R.id.img_comic);
         }
     }
 }

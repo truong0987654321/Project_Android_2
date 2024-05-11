@@ -26,7 +26,7 @@ public class EditTextSize extends AppCompatActivity {
         appCompatImageView_back = findViewById(R.id.back);
         // Lấy kích thước văn bản mặc định từ MyTextStyle
         TypedValue typedValue = new TypedValue();
-        getTheme().resolveAttribute(R.attr.MyTextStyle, typedValue, true);
+        getTheme().resolveAttribute(R.style.MyTextStyle, typedValue, true);
         defaultTextSize = typedValue.getDimension(getResources().getDisplayMetrics());
 
         // Đặt sự kiện thay đổi cho SeekBar
