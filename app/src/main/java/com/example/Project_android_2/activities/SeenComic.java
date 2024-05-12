@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.Project_android_2.R;
 import com.example.Project_android_2.activities.RC_recyclerView.RCAdapter_Chap;
 import com.example.Project_android_2.activities.RC_recyclerView.RCModel_Chap;
@@ -26,13 +28,15 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.makeramen.roundedimageview.RoundedImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class SeenComic extends AppCompatActivity {
     private View viewLogo;
-    private View viewUser;
+    private RoundedImageView viewUser;
     private View viewCardBoard;
     private View viewPremium;
     private View viewCheck;
@@ -47,16 +51,32 @@ public class SeenComic extends AppCompatActivity {
 
     ArrayList<RCModel_Chap> modelArrayList;
 
-    private StorageReference storageReference;
-
     private DatabaseReference databaseReference;
+    private ALodingDialog aLodingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seencomic);
+        aLodingDialog = new ALodingDialog(this);
+        setUI();
+        createListChap();
+
+        imageViewRefund.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SeenComic.this, SearchComic.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void setUI()
+    {
+        String photo = getSharedPreferences("UserData", MODE_PRIVATE).getString("photoUrl", "");
         viewLogo = findViewById(R.id.logo_195e0d);
-        viewUser = findViewById(R.id.group_4);
+        viewUser = findViewById(R.id.imageUser);
+        Glide.with(SeenComic.this).load(photo).into(viewUser);
         viewCardBoard = findViewById(R.id.cardboard);
         viewPremium = findViewById(R.id.premium_qua);
         viewCheck = findViewById(R.id.check_1);
@@ -65,30 +85,59 @@ public class SeenComic extends AppCompatActivity {
         imageViewLogo = findViewById(R.id.imageViewLogo);
         btnConfirm = findViewById(R.id.confirm_button);
         txtview_Author = findViewById(R.id.author);
+        txtview_Author.setText("AUTHOR : ");
         txtview_Title = findViewById(R.id.textViewTitle);
+        ComicUI();
+    }
 
-        storageReference = FirebaseStorage.getInstance().getReference("CHAPTER");
-        databaseReference = FirebaseDatabase.getInstance().getReference("chapter");
+    public void ComicUI()
+    {
+        Bundle bundle = getIntent().getExtras();
+        databaseReference = FirebaseDatabase.getInstance().getReference("comic");
+        String idcomic = bundle.getString("ID_COMIC");
+        if(idcomic != null)
+        {
+            Query query = databaseReference.orderByChild("ID").equalTo(idcomic);
+            query.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        for (DataSnapshot comicSnapshot : snapshot.getChildren()) {
+                            String image = comicSnapshot.child("THUMBNAIL").getValue(String.class);
+                            String name_comic = comicSnapshot.child("TITLE").getValue(String.class);
+                            String author = comicSnapshot.child("AUTHOR").getValue(String.class);
+                            Picasso.get().load(image).into(imageViewLogo);
+                            txtview_Title.setText(name_comic);
+                            getAuthor(author);
+                        }
+                    }
+                }
 
-        createListChap();
-        /*
-         * txtview_Chapter.setOnClickListener(new View.OnClickListener() {
-         *
-         * @Override
-         * public void onClick(View view) {
-         * Drawable drawable = getResources().getDrawable(R.drawable.retangle_red);
-         * txtview_Chapter.setBackground(drawable);
-         * Intent intent = new Intent(SeenComic.this, ViewComic.class);
-         * startActivity(intent);
-         * }
-         * });
-         */
-        Log.d("test", "test" + rc_Chapter);
-        imageViewRefund.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+    }
+
+    public void getAuthor(String id)
+    {
+        databaseReference = FirebaseDatabase.getInstance().getReference("author").child(id);
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(SeenComic.this, Home.class);
-                startActivity(intent);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists())
+                {
+                            String author = snapshot.child("NAME").getValue(String.class);
+                            txtview_Author.setText("AUTHOR : "+ author);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }
@@ -102,10 +151,17 @@ public class SeenComic extends AppCompatActivity {
     }
 
     public void getIndexChap() {
-        // Intent intent1 = getIntent();
-        // String idcomic = intent1.getStringExtra("ID");
-        Query query = databaseReference.orderByChild("ID_COMIC").equalTo("a5366deb-7b91-473a-a9c1-05107154cfed");
+         Intent intent1 = getIntent();
+         String idcomic = intent1.getStringExtra("ID_COMIC");
+
+        if (aLodingDialog != null) {
+            aLodingDialog.show();
+        }
+        databaseReference = FirebaseDatabase.getInstance().getReference("chapter");
+        Query query = databaseReference.orderByChild("ID_COMIC").equalTo(idcomic);
+
         query.addListenerForSingleValueEvent(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
@@ -115,16 +171,16 @@ public class SeenComic extends AppCompatActivity {
                         String title = chapterSnapshot.child("TITLE").getValue(String.class);
                         Long chapterIndex = chapterSnapshot.child("CHAPTER_INDEX").getValue(Long.class);
                         String index = chapterIndex + "";
-                        chapter Chapter = new chapter(id, title, index, content,
-                                "a5366deb-7b91-473a-a9c1-05107154cfed");
+                        chapter Chapter = new chapter(id, title, index, content,idcomic);
                         RCModel_Chap rc = new RCModel_Chap(Chapter);
                         modelArrayList.add(rc);
-                        Log.d("MyApp", "Giá trị số nguyên: " + content);
                     }
                 }
-
+                    if (aLodingDialog != null && aLodingDialog.isShowing()) {
+                        aLodingDialog.dismiss();
+                    }
+                int size = (int) snapshot.getChildrenCount();
                 Collections.sort(modelArrayList);
-                Integer size = modelArrayList.size();
                 rcAdapter = new RCAdapter_Chap(SeenComic.this, modelArrayList);
                 rc_Chapter.setAdapter(rcAdapter);
                 rcAdapter.notifyDataSetChanged();
@@ -134,12 +190,12 @@ public class SeenComic extends AppCompatActivity {
                         Intent intent = new Intent(SeenComic.this, ViewComic.class);
                         Bundle bundle = new Bundle();
                         bundle.putString("ID", String.valueOf(position.getId()));
-                        bundle.putString("CONTENT", position.getContent());
                         bundle.putString("CHAPTER_INDEX", position.getIndex());
                         bundle.putString("ID_COMIC", position.getId_comic());
-                        bundle.putString("TITLE", position.getTitle());
                         bundle.putInt("SIZE", size);
+                        Log.d("Test", position.getIndex());
                         intent.putExtras(bundle);
+                        //intent.putExtras(bundle1);
                         startActivity(intent);
                     }
                 });
@@ -147,7 +203,9 @@ public class SeenComic extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                if (aLodingDialog != null && aLodingDialog.isShowing()) {
+                    aLodingDialog.dismiss();
+                }
             }
         });
     }

@@ -252,6 +252,7 @@ public class Home extends AppCompatActivity {
             rcAdapter2 = new RCAdapter_Trending(this, comic_chapter);
             recyclerView2.setAdapter(rcAdapter2);
             rcAdapter2.notifyDataSetChanged();
+
         }
         // Ẩn aLodingDialog khi RecyclerView đã được hiển thị hoàn chỉnh
         if (aLodingDialog != null && aLodingDialog.isShowing()) {

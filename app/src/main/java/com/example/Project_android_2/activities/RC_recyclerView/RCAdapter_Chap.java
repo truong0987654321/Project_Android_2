@@ -75,6 +75,13 @@ public class RCAdapter_Chap extends RecyclerView.Adapter<RCAdapter_Chap.RCViewHo
             rc_chap = itemView.findViewById(R.id.textViewItemChap);
         }
 
+    }
 
+    public ArrayList<String> getChapList() {
+        ArrayList<String> chapList = new ArrayList<>();
+        for (RCModel_Chap rcModel : modelArrayList) {
+            chapList.add("Chap: " + rcModel.getChap().getIndex());
+        }
+        return chapList;
     }
 }

@@ -24,6 +24,7 @@ import com.example.Project_android_2.activities.RC_recyclerView.author_comic_mod
 import com.example.Project_android_2.activities.RC_recyclerView.author_model;
 import com.example.Project_android_2.activities.RC_recyclerView.category_model;
 import com.example.Project_android_2.activities.RC_recyclerView.comic_model;
+import com.example.Project_android_2.models.chapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -317,15 +318,23 @@ public class SearchComic extends AppCompatActivity implements RecyclerViewInterf
             rcAdapterTypeTwo = new RCAdapter_type_two(this, new_comic);
             rc_of_detail_cato.setAdapter(rcAdapterTypeTwo);
             rcAdapterTypeTwo.notifyDataSetChanged();
-        }
-        if (aLodingDialog != null && aLodingDialog.isShowing()) {
-            aLodingDialog.dismiss();
+            rcAdapterTypeTwo.setOnItemClickListener(new RCAdapter_type_two.OnItemClickListener() {
+                @Override
+                public void onItemClick(author_comic_model position) {
+                    Intent intent = new Intent(SearchComic.this, SeenComic.class);
+                    intent.putExtra("ID_COMIC", position.getID_comic());
+                    startActivity(intent);
+                }
+            });
+            if (aLodingDialog != null && aLodingDialog.isShowing()) {
+                aLodingDialog.dismiss();
+            }
         }
     }
 
-    /*------------------------ phần xử lý recyclerview firebase comic---------------------------*/
-    @Override
-    public void onItemClick(category_model model) {
-        getID_comic_with_category(model.getID());
+        /*------------------------ phần xử lý recyclerview firebase comic---------------------------*/
+        @Override
+        public void onItemClick (category_model model){
+            getID_comic_with_category(model.getID());
+        }
     }
-}
