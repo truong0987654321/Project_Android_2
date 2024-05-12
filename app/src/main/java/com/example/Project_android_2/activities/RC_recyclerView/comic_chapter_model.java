@@ -1,6 +1,8 @@
 package com.example.Project_android_2.activities.RC_recyclerView;
 
 public class comic_chapter_model {
+
+    private  String Id_Comic;
     private String Image_comic;
     private String Name_comic;
     private Integer Chapter_index;
@@ -8,7 +10,16 @@ public class comic_chapter_model {
     public comic_chapter_model() {
     }
 
-    public comic_chapter_model(String name_comic, Integer chapter_index,String image) {
+    public String getId_Comic() {
+        return Id_Comic;
+    }
+
+    public void setId_Comic(String id_Comic) {
+        Id_Comic = id_Comic;
+    }
+
+    public comic_chapter_model(String Id_Comic, String name_comic, Integer chapter_index, String image) {
+        this.Id_Comic = Id_Comic;
         Name_comic = name_comic;
         Chapter_index = chapter_index;
         Image_comic = image;

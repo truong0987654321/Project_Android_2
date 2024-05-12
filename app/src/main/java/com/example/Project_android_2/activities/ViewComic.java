@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 
+import com.bumptech.glide.Glide;
 import com.example.Project_android_2.R;
 import com.example.Project_android_2.activities.RC_recyclerView.RCAdapter_Chap;
 import com.example.Project_android_2.activities.RC_recyclerView.RCModel_Chap;
@@ -23,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -35,7 +37,7 @@ import java.util.Collections;
 
 public class ViewComic extends AppCompatActivity {
     private AppCompatImageView imageViewRefund;
-    private View viewUser;
+    private RoundedImageView viewUser;
     private View viewLeft;
     private View viewRight;
     private TextView txt_Chapter;
@@ -80,10 +82,12 @@ public class ViewComic extends AppCompatActivity {
 
     public void setUI()
     {
+        String photo = getSharedPreferences("UserData", MODE_PRIVATE).getString("photoUrl", "");
         String idcomic = bundle.getString("ID_COMIC");
         Long chapterIndex = Long.parseLong(bundle.getString("CHAPTER_INDEX"));
         imageViewRefund = findViewById(R.id.refund_ring);
-        viewUser = findViewById(R.id.group_4);
+        viewUser = findViewById(R.id.imageUser);
+        Glide.with(ViewComic.this).load(photo).into(viewUser);
         viewLeft = findViewById(R.id.arrow_left_long);
         viewRight = findViewById(R.id.arrow_right);
         if (chapterIndex == 1)

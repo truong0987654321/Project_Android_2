@@ -62,6 +62,7 @@ public class SearchComic extends AppCompatActivity implements RecyclerViewInterf
             public void onClick(View view) {
                 Intent intent = new Intent(SearchComic.this, Home.class);
                 onBackPressed();
+                startActivity(intent);
             }
         });
     }

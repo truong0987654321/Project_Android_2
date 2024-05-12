@@ -222,7 +222,7 @@ public class Home extends AppCompatActivity {
                 String id_comic = chapter.getID_COMIC();
                 for (comic_model comic : arr_comic) {
                     if (id_comic.equals(comic.getID())) {
-                        comic_chapter_model md = new comic_chapter_model(comic.getTITLE(), chapter.getCHAPTER_INDEX(), comic.getTHUMBNAIL());
+                        comic_chapter_model md = new comic_chapter_model(chapter.getID_COMIC(),chapter.getTITLE(), chapter.getCHAPTER_INDEX(), comic.getTHUMBNAIL());
                         comic_chapter.add(md);
                         break;
                     }
@@ -252,7 +252,14 @@ public class Home extends AppCompatActivity {
             rcAdapter2 = new RCAdapter_Trending(this, comic_chapter);
             recyclerView2.setAdapter(rcAdapter2);
             rcAdapter2.notifyDataSetChanged();
-
+            rcAdapter2.setOnItemClickListener(new RCAdapter_Trending.OnItemClickListener() {
+                @Override
+                public void onItemClick(comic_chapter_model position) {
+                    Intent intent = new Intent(Home.this, SeenComic.class);
+                    intent.putExtra("ID_COMIC", position.getId_Comic());
+                    startActivity(intent);
+                }
+            });
         }
         // Ẩn aLodingDialog khi RecyclerView đã được hiển thị hoàn chỉnh
         if (aLodingDialog != null && aLodingDialog.isShowing()) {
