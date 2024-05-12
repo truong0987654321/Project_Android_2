@@ -49,7 +49,7 @@
             android:layout_marginTop="@dimen/_19dp"
             android:backgroundTint="@drawable/button_background_tint"
             android:drawableLeft="@drawable/button_with_circle_envelope_solid"
-            android:text="Đăng nhập bằng Email/Tên người dùng"
+            android:text="Đăng nhập bằng Email"
             android:paddingStart="15dp"
             android:textAlignment="viewStart"
             android:textColor="@color/color_edit" />

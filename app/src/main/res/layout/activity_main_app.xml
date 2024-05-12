@@ -12,13 +12,14 @@
     <include
         layout="@layout/activity_contain_main"
         tools:ignore="ResourceCycle" />
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        app:menu="@menu/nav_menu"
-        app:headerLayout="@layout/drawer_menu_header"
         android:layout_gravity="start"
+        app:headerLayout="@layout/drawer_menu_header"
+        app:menu="@menu/nav_menu"
         tools:ignore="MissingConstraints" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -62,7 +62,7 @@ public class ForgotPassword extends AppCompatActivity {
         appCompatImageView_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBackPressed();
+                    onBackPressed();
             }
         });
         buttonSignIn.setOnClickListener(new View.OnClickListener() {

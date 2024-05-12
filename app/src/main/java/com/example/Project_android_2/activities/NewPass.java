@@ -35,10 +35,10 @@ import com.google.firebase.database.ValueEventListener;
 public class NewPass extends AppCompatActivity {
     private AppCompatImageView appCompatImageView_back;
     private EditText edpasss, edConfirmpassword;
-    private TextView Confirmpassword, password_sign, password_minimum, eyeTextView, eyeTextView_cpasss, clearTextView_pass, clearTextView_Cpass;
+    private TextView Confirmpassword, password_sign, password_minimum, eyeTextView, eyeTextView_cpasss, clearTextView_pass, clearTextView_Cpass, title_newpass;
     private Button butnsuccess;
     private FrameLayout progressBar;
-    private String Email_otp_;
+    private String Email_otp_, email_cp;
     private boolean isPasswordVisible = false;
 
     @Override
@@ -49,7 +49,16 @@ public class NewPass extends AppCompatActivity {
         setupUI();
         Intent intent = getIntent();
         Email_otp_ = intent.getStringExtra("email_newPass");
-
+        email_cp = intent.getStringExtra("email_cp");
+        if (Email_otp_ != null) {
+            title_newpass.setText("Quên Mật Khẩu");
+            edConfirmpassword.setHint("Vui lòng nhập lại mật khẩu");
+        }
+        if (email_cp != null) {
+            title_newpass.setText("Đổi Mật Khẩu");
+            edConfirmpassword.setHint("Vui lòng nhập mật khẩu mới");
+            Confirmpassword.setVisibility(View.GONE);
+        }
         textchanged();
         handleclickbutton();
 
@@ -60,35 +69,24 @@ public class NewPass extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 progressBar.setVisibility(View.VISIBLE);
-                String newPassword = edpasss.getText().toString();
-                String hashedPassword = PasswordHelper.hashPassword(newPassword);
+                if (Email_otp_ != null) {
+                    setupNewpass();
+                }
+                if (email_cp != null) {
+                    setuppass();
 
-                // Kiểm tra trên Realtime Database xem email nào trùng khớp với Email_otp_
-                DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("user");
-                usersRef.orderByChild("email").equalTo(Email_otp_).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                            // Lấy thông tin người dùng có email trùng khớp
-                            String userId = userSnapshot.getKey();
-
-                            // Cập nhật mật khẩu mới cho người dùng
-                            updatePasswordInFirebase(userId, hashedPassword);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        // Xử lý khi có lỗi xảy ra
-                        Toast.makeText(NewPass.this, "Không thể truy vấn dữ liệu từ Realtime Database!", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                }
             }
         });
         appCompatImageView_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogHelper.showBottomDialog(NewPass.this, ForgotPassword.class);
+                if (Email_otp_ != null) {
+                    DialogHelper.showBottomDialog(NewPass.this, ForgotPassword.class);
+                }
+                if (email_cp != null) {
+                    DialogHelper.showBottomDialog(NewPass.this, User.class);
+                }
             }
         });
 
@@ -120,6 +118,41 @@ public class NewPass extends AppCompatActivity {
         });
     }
 
+    private void setuppass() {
+        String newPassword = edpasss.getText().toString();
+        String hashedPassword = PasswordHelper.hashPassword(newPassword);
+        String newcfPassword = edConfirmpassword.getText().toString();
+        String hashedcfPassword = PasswordHelper.hashPassword(newcfPassword);
+        updatePasswordIfMatch(email_cp, hashedPassword, hashedcfPassword);
+    }
+
+
+    private void setupNewpass() {
+        String newPassword = edpasss.getText().toString();
+        String hashedPassword = PasswordHelper.hashPassword(newPassword);
+
+        // Kiểm tra trên Realtime Database xem email nào trùng khớp với Email_otp_
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("user");
+        usersRef.orderByChild("email").equalTo(Email_otp_).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                    // Lấy thông tin người dùng có email trùng khớp
+                    String userId = userSnapshot.getKey();
+
+                    // Cập nhật mật khẩu mới cho người dùng
+                    updatePasswordInFirebase(userId, hashedPassword);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Xử lý khi có lỗi xảy ra
+                Toast.makeText(NewPass.this, "Không thể truy vấn dữ liệu từ Realtime Database!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void textchanged() {
         TextWatcher textWatcher = new TextWatcher() {
             @Override
@@ -135,30 +168,55 @@ public class NewPass extends AppCompatActivity {
                 String password = edpasss.getText().toString();
                 String confirmpassword = edConfirmpassword.getText().toString();
                 String normalizedPassword = password.replaceAll("[^\\x00-\\x7F]", "");
+                String normalizedconfiPassword = confirmpassword.replaceAll("[^\\x00-\\x7F]", "");
+
                 if (!password.isEmpty() && !confirmpassword.isEmpty()) {
-                    if (!password.equals(normalizedPassword)) {
-                        setDrawableLeft(NewPass.this, password_sign, R.drawable.background_chest);
-                    } else if (password.equals(normalizedPassword)) {
-                        setDrawableLeft(NewPass.this, password_sign, R.drawable.background_chest_614385);
+                    if (Email_otp_ != null) {
+                        if (!password.equals(normalizedPassword)) {
+                            setDrawableLeft(NewPass.this, password_sign, R.drawable.background_chest);
+                        } else if (password.equals(normalizedPassword)) {
+                            setDrawableLeft(NewPass.this, password_sign, R.drawable.background_chest_614385);
+                        }
+                        if (edpasss.getText().toString().length() > 8) {
+                            setDrawableLeft(NewPass.this, password_minimum, R.drawable.background_chest_614385);
+                        } else {
+                            setDrawableLeft(NewPass.this, password_minimum, R.drawable.background_chest);
+                        }
+                        if (edConfirmpassword.getText().toString().equals(edpasss.getText().toString())) {
+                            // Nếu trùng, đặt drawableLeft cho password_minimum
+                            setDrawableLeft(NewPass.this, Confirmpassword, R.drawable.background_chest_614385);
+                        } else {
+                            setDrawableLeft(NewPass.this, Confirmpassword, R.drawable.background_chest);
+                        }
+                        if (password.equals(normalizedPassword) && edpasss.getText().toString().length() > 8 && edConfirmpassword.getText().toString().equals(edpasss.getText().toString())) {
+                            butnsuccess.setEnabled(true);
+                            butnsuccess.setAlpha(1.0f);
+                        } else {
+                            butnsuccess.setEnabled(false);
+                            butnsuccess.setAlpha(0.5f);
+                        }
                     }
-                    if (edpasss.getText().toString().length() > 8) {
-                        setDrawableLeft(NewPass.this, password_minimum, R.drawable.background_chest_614385);
-                    } else {
-                        setDrawableLeft(NewPass.this, password_minimum, R.drawable.background_chest);
+                    if (email_cp != null) {
+                        if (!confirmpassword.equals(normalizedconfiPassword)) {
+                            setDrawableLeft(NewPass.this, password_sign, R.drawable.background_chest);
+                        } else if (confirmpassword.equals(normalizedconfiPassword)) {
+                            setDrawableLeft(NewPass.this, password_sign, R.drawable.background_chest_614385);
+                        }
+                        if (edConfirmpassword.getText().toString().length() > 8) {
+                            setDrawableLeft(NewPass.this, password_minimum, R.drawable.background_chest_614385);
+                        } else {
+                            setDrawableLeft(NewPass.this, password_minimum, R.drawable.background_chest);
+                        }
+                        if (confirmpassword.equals(normalizedconfiPassword) && edConfirmpassword.getText().toString().length() > 8) {
+
+                            butnsuccess.setEnabled(true);
+                            butnsuccess.setAlpha(1.0f);
+                        } else {
+                            butnsuccess.setEnabled(false);
+                            butnsuccess.setAlpha(0.5f);
+                        }
                     }
-                    if (edConfirmpassword.getText().toString().equals(edpasss.getText().toString())) {
-                        // Nếu trùng, đặt drawableLeft cho password_minimum
-                        setDrawableLeft(NewPass.this, Confirmpassword, R.drawable.background_chest_614385);
-                    } else {
-                        setDrawableLeft(NewPass.this, Confirmpassword, R.drawable.background_chest);
-                    }
-                    if (password.equals(normalizedPassword) && edpasss.getText().toString().length() > 8 && edConfirmpassword.getText().toString().equals(edpasss.getText().toString())) {
-                        butnsuccess.setEnabled(true);
-                        butnsuccess.setAlpha(1.0f);
-                    } else {
-                        butnsuccess.setEnabled(false);
-                        butnsuccess.setAlpha(0.5f);
-                    }
+
                 } else {
                     setDrawableLeft(NewPass.this, Confirmpassword, R.drawable.background_chest);
                     setDrawableLeft(NewPass.this, password_minimum, R.drawable.background_chest);
@@ -205,6 +263,50 @@ public class NewPass extends AppCompatActivity {
         });
     }
 
+    private void updatePasswordIfMatch(String email, String hashedPassword, String newPassword) {
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("user");
+        usersRef.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                    // Lấy thông tin người dùng có email trùng khớp
+                    String currentPassword = userSnapshot.child("password").getValue(String.class);
+
+                    // Kiểm tra nếu password hiện tại trên Firebase giống với hashedPassword
+                    if (currentPassword != null && currentPassword.equals(hashedPassword)) {
+                        // Cập nhật password mới
+                        userSnapshot.getRef().child("password").setValue(newPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(NewPass.this, "Cập nhật mật khẩu thành công!", Toast.LENGTH_SHORT).show();
+                                    progressBar.setVisibility(View.GONE);
+                                    Intent intent = new Intent(NewPass.this, User.class);
+                                    startActivity(intent);
+                                    finish();
+                                } else {
+                                    Toast.makeText(NewPass.this, "Cập nhật mật khẩu thất bại!", Toast.LENGTH_SHORT).show();
+                                    progressBar.setVisibility(View.GONE);
+                                }
+                            }
+                        });
+                    } else {
+                        // Hiển thị thông báo hoặc xử lý khi password hiện tại không khớp
+                        Toast.makeText(NewPass.this, "Mật khẩu hiện tại không đúng!", Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Xử lý khi có lỗi xảy ra
+                Toast.makeText(NewPass.this, "Không thể truy vấn dữ liệu từ Realtime Database!", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+    }
+
     public void setupUI() {
         edpasss = findViewById(R.id.edpasss);
         edConfirmpassword = findViewById(R.id.edConfirmpassword);
@@ -212,6 +314,7 @@ public class NewPass extends AppCompatActivity {
         password_minimum = findViewById(R.id.password_minimum);
         Confirmpassword = findViewById(R.id.Confirmpassword);
         butnsuccess = findViewById(R.id.butnsuccess);
+        title_newpass = findViewById(R.id.title_newpass);
         progressBar = findViewById(R.id.progressBar);
         appCompatImageView_back = findViewById(R.id.back);
         eyeTextView = findViewById(R.id.eyeTextView);

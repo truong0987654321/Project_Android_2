@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.Project_android_2.R;
+import com.example.Project_android_2.models.chapter;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -19,9 +20,18 @@ import java.util.ArrayList;
 public class RCAdapter_Trending extends RecyclerView.Adapter<RCAdapter_Trending.RCViewholder_story>  {
     Context context;
     ArrayList<comic_chapter_model> mListStory;
+    private OnItemClickListener listener;
     public RCAdapter_Trending(Context context,ArrayList<comic_chapter_model> mlistStory){
         this.context = context;
         this.mListStory = mlistStory;
+    }
+    public interface OnItemClickListener {
+        void onItemClick(comic_chapter_model position);
+    }
+
+    // Set the listener
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -38,6 +48,15 @@ public class RCAdapter_Trending extends RecyclerView.Adapter<RCAdapter_Trending.
         comic_chapter_model mstory = mListStory.get(position);
         holder.rc_textview.setText(mstory.getName_comic() + " \nChapter "+mstory.getChapter_index());
         Picasso.get().load(mstory.getImage_comic()).into(holder.rc_image);
+        holder.rc_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null)
+                {
+                    listener.onItemClick(mstory);
+                }
+            }
+        });
     }
 
     @Override

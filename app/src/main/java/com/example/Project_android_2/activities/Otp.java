@@ -30,7 +30,7 @@ public class Otp extends AppCompatActivity {
     private int selectedETPosition = 0;
     private AppCompatImageView appCompatImageView_back;
     private TextView Email_otp, text_title;
-    private String code_otp_string, Email_otp_;
+    private String code_otp_string, Email_otp_, code_cp, email_cp;
 
 
     @Override
@@ -43,11 +43,21 @@ public class Otp extends AppCompatActivity {
         Intent intent = getIntent();
         Email_otp_ = intent.getStringExtra("Email_otp");
         int code_otp = intent.getIntExtra("Code_otp", 0);
+
+        email_cp = intent.getStringExtra("Email_otp_cp");
+        int code_cp_int = intent.getIntExtra("Code_otp_cp", 0);
+
         if (Email_otp_ != null) {
             text_title.setText("Quên mật khẩu");
+            Email_otp.setText(Email_otp_);
+        }
+        if (email_cp != null) {
+            text_title.setText("Đổi mật khẩu");
+            Email_otp.setText(email_cp);
         }
         code_otp_string = String.valueOf(code_otp);
-        Email_otp.setText(Email_otp_);
+        code_cp = String.valueOf(code_cp_int);
+
         otpEt1.addTextChangedListener(textWatcher);
         otpEt2.addTextChangedListener(textWatcher);
         otpEt3.addTextChangedListener(textWatcher);
@@ -92,7 +102,12 @@ public class Otp extends AppCompatActivity {
         appCompatImageView_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogHelper.showBottomDialog(Otp.this, ForgotPassword.class);
+                if (Email_otp_ != null) {
+                    DialogHelper.showBottomDialog(Otp.this, ForgotPassword.class);
+                }
+                if (email_cp != null) {
+                    DialogHelper.showBottomDialog(Otp.this, User.class);
+                }
             }
         });
 
@@ -169,14 +184,19 @@ public class Otp extends AppCompatActivity {
                     final String generateOtp = otpEt1.getText().toString() + otpEt2.getText().toString() + otpEt3.getText().toString() + otpEt4.getText().toString() + otpEt5.getText().toString() + otpEt6.getText().toString();
                     if (generateOtp.length() == 6) {
                         if (generateOtp.equals(code_otp_string)) {
-
                             Intent intent = new Intent(Otp.this, NewPass.class);
                             intent.putExtra("email_newPass", Email_otp_);
+                            startActivity(intent);
+                            finish();
+                        } else if (generateOtp.equals(code_cp)) {
+                            Intent intent = new Intent(Otp.this, NewPass.class);
+                            intent.putExtra("email_cp", email_cp);
                             startActivity(intent);
                             finish();
                         } else {
                             Toast.makeText(Otp.this, "Mã OTP không chính xác. Vui lòng thử lại.", Toast.LENGTH_SHORT).show();
                         }
+
                         otpEt1.setEnabled(true);
                         otpEt6.setEnabled(false);
                         showKeyboard(otpEt1);
@@ -188,7 +208,6 @@ public class Otp extends AppCompatActivity {
                         otpEt5.setText("");
                         otpEt6.setText("");
                     }
-
 
                 }
             }

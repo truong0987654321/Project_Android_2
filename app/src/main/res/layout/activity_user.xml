@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,9 +7,11 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/relative_layout_back"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="20dp"
+        >
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/back"
@@ -41,10 +43,11 @@
     </RelativeLayout>
 
     <ScrollView
+        android:layout_below="@+id/relative_layout_back"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
@@ -219,7 +222,9 @@
                         />
                 </RelativeLayout>
             </LinearLayout>
+
             <LinearLayout
+                android:id="@+id/lnlo_changepass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -249,7 +254,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="10dp"
                         android:layout_toEndOf="@+id/textSize"
-                        android:text="Thiết Lập Cỡ chữ"
+                        android:text="Đổi mật khẩu"
                         android:textColor="#000000"
                         android:textStyle="bold" />
                     <ImageView
@@ -298,6 +303,21 @@
         </LinearLayout>
 
     </ScrollView>
+    <FrameLayout
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/translucent_dark_gray"
+        android:gravity="center"
+        android:visibility="gone">
 
+        <ProgressBar
+            android:id="@+id/progressContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/light_grayish_blue" />
+    </FrameLayout>
 
-</LinearLayout>
+</RelativeLayout>

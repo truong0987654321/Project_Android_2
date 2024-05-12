@@ -161,7 +161,7 @@ public class EditUser extends AppCompatActivity {
                 if (Username.equals(userName)) {
                     onBackPressed();
                 } else {
-                    DialogHelper.showBottomDialog(EditUser.this, Home.class);
+                    DialogHelper.showBottomDialog(EditUser.this, User.class);
                 }
             }
         });
@@ -209,9 +209,7 @@ public class EditUser extends AppCompatActivity {
 
             }
         });
-        
     }
-
     private void setUpdateUser(String userEmail, String newUsername, String imageUrl) {
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("user");
 
@@ -278,7 +276,6 @@ public class EditUser extends AppCompatActivity {
             } else {
                 setupdteUsername(newUsername);
             }
-            progressBar.setVisibility(View.GONE);
         }
     }
 

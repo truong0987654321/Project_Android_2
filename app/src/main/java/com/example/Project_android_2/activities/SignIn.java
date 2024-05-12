@@ -183,8 +183,8 @@ public class SignIn extends AppCompatActivity {
                         String uid = user.getUid();
                         String avatar = user.getAvatar().toString();
                         saveUserInfoToSharedPreferences(email, name, avatar,uid);
-                        Intent intent = new Intent(SignIn.this, Home.class);
                         progressBar.setVisibility(View.GONE);
+                        Intent intent = new Intent(SignIn.this, Home.class);
                         startActivity(intent);
                         finish();
                         return;

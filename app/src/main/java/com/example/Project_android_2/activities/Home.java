@@ -2,16 +2,21 @@ package com.example.Project_android_2.activities;
 
 import android.annotation.SuppressLint;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -25,6 +30,7 @@ import com.example.Project_android_2.activities.RC_recyclerView.RCAdapter_Trendi
 import com.example.Project_android_2.activities.RC_recyclerView.chapter_model;
 import com.example.Project_android_2.activities.RC_recyclerView.comic_chapter_model;
 import com.example.Project_android_2.activities.RC_recyclerView.comic_model;
+import com.example.Project_android_2.utils.NetworkUtils;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -47,6 +53,8 @@ public class Home extends AppCompatActivity {
     TextView username, useremail;
     private ALodingDialog aLodingDialog;
 
+    private LinearLayout listRcCateLayout,noInternetLayout;
+    private Button try_again_button;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +68,15 @@ public class Home extends AppCompatActivity {
         String userEmail = sharedPreferences.getString("userEmail", "");
 
         buttonDrawerToggle = findViewById(R.id.imageUser);
-
+        listRcCateLayout = findViewById(R.id.id_list_rc_cate);
+        noInternetLayout = findViewById(R.id.stub_no_internet);
+        try_again_button = findViewById(R.id.try_again_button);
+        try_again_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recreate();
+            }
+        });
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -90,6 +106,11 @@ public class Home extends AppCompatActivity {
                     drawer.closeDrawer(GravityCompat.START);
                     return true;
                 }
+                if (id == R.id.nav_about){
+                    Intent intentProfile = new Intent(Home.this, AboutUs.class);
+                    startActivity(intentProfile);
+                    return true;
+                }
                 return false;
             }
         });
@@ -112,6 +133,7 @@ public class Home extends AppCompatActivity {
         if (aLodingDialog != null) {
             aLodingDialog.show();
         }
+
         chapterRef.addListenerForSingleValueEvent(new ValueEventListener() {
             final ArrayList<chapter_model> list_chapter = new ArrayList<>();
 
@@ -148,6 +170,29 @@ public class Home extends AppCompatActivity {
                 }
             }
         });
+
+        // Sử dụng Handler để đặt hẹn giờ
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Kiểm tra kết nối mạng sau 2 giây
+                if (!NetworkUtils.isNetworkAvailable(Home.this)) {
+                    // Nếu không có kết nối mạng, ẩn aLodingDialog và hiển thị thông báo
+                    if (aLodingDialog != null && aLodingDialog.isShowing()) {
+                        aLodingDialog.dismiss();
+                    }
+
+                    listRcCateLayout.setVisibility(View.GONE);
+                    noInternetLayout.setVisibility(View.VISIBLE);
+                    Toast.makeText(Home.this, "Không có kết nối Internet. Vui lòng kiểm tra cài đặt mạng của bạn.", Toast.LENGTH_SHORT).show();
+                    return;
+                }else{
+                    listRcCateLayout.setVisibility(View.VISIBLE);
+                    noInternetLayout.setVisibility(View.GONE);
+                }
+
+            }
+        }, 2000);
     }
 
     private void getCommit(ArrayList<chapter_model> list_chapter) {
@@ -222,7 +267,7 @@ public class Home extends AppCompatActivity {
                 String id_comic = chapter.getID_COMIC();
                 for (comic_model comic : arr_comic) {
                     if (id_comic.equals(comic.getID())) {
-                        comic_chapter_model md = new comic_chapter_model(comic.getTITLE(), chapter.getCHAPTER_INDEX(), comic.getTHUMBNAIL());
+                        comic_chapter_model md = new comic_chapter_model(chapter.getID_COMIC(),chapter.getTITLE(), chapter.getCHAPTER_INDEX(), comic.getTHUMBNAIL());
                         comic_chapter.add(md);
                         break;
                     }
@@ -252,7 +297,16 @@ public class Home extends AppCompatActivity {
             rcAdapter2 = new RCAdapter_Trending(this, comic_chapter);
             recyclerView2.setAdapter(rcAdapter2);
             rcAdapter2.notifyDataSetChanged();
+            rcAdapter2.setOnItemClickListener(new RCAdapter_Trending.OnItemClickListener() {
+                @Override
+                public void onItemClick(comic_chapter_model position) {
+                    Intent intent = new Intent(Home.this, SeenComic.class);
+                    intent.putExtra("ID_COMIC", position.getId_Comic());
+                    startActivity(intent);
+                }
+            });
         }
+
         // Ẩn aLodingDialog khi RecyclerView đã được hiển thị hoàn chỉnh
         if (aLodingDialog != null && aLodingDialog.isShowing()) {
             aLodingDialog.dismiss();
@@ -283,6 +337,29 @@ public class Home extends AppCompatActivity {
             username.setText(userName);
             useremail.setText(userEmail);
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Hiển thị AlertDialog khi người dùng nhấn nút "Back"
+        super.onBackPressed();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Bạn có muốn đóng ứng dụng không?");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finishAffinity();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Không làm gì cả, chỉ đóng dialog, không đóng ứng dụng
+                dialog.dismiss();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }
 

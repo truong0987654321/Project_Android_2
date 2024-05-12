@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.Project_android_2.R;
 import com.example.Project_android_2.activities.RC_recyclerView.author_comic_model;
 import com.example.Project_android_2.activities.RC_recyclerView.comic_model;
+import com.example.Project_android_2.models.chapter;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -22,9 +23,18 @@ public class RCAdapter_type_two extends RecyclerView.Adapter<RCAdapter_type_two.
 
     Context context;
     ArrayList<author_comic_model> author_comic_model;
+    private OnItemClickListener listener;
     public RCAdapter_type_two (Context context,ArrayList<author_comic_model> author_comic_model){
         this.context = context;
         this.author_comic_model = author_comic_model;
+    }
+    public interface OnItemClickListener {
+        void onItemClick(author_comic_model position);
+    }
+
+    // Set the listener
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
     @NonNull
     @Override
@@ -40,6 +50,15 @@ public class RCAdapter_type_two extends RecyclerView.Adapter<RCAdapter_type_two.
         holder.Name_comic.setText(rcmodel.getName_comic());
         holder.Name_author.setText(rcmodel.getName_author());
         Picasso.get().load(rcmodel.getImage_comic()).into(holder.imgview);
+        holder.imgview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null)
+                {
+                    listener.onItemClick(rcmodel);
+                }
+            }
+        });
     }
     @Override
     public int getItemCount() {

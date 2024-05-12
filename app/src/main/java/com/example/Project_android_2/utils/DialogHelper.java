@@ -10,17 +10,14 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.LinearLayout;
 
 import com.example.Project_android_2.R;
-import com.example.Project_android_2.activities.ForgotPassword;
 
 public class DialogHelper {
-
-    public static void showBottomDialog(Context context, Class<?> targetClass) {
-        final Dialog dialog = new Dialog(context);
+    // Trong DialogHelper
+    public static void showBottomDialog(Activity activity, Class<?> targetClass) {
+        final Dialog dialog = new Dialog(activity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.activity_bottomsheetlayout);
 
@@ -36,11 +33,10 @@ public class DialogHelper {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                Intent intent = new Intent(context, targetClass); // Sử dụng targetClass được truyền vào
-                context.startActivity(intent);
-                if (context instanceof Activity) {
-                    ((Activity) context).finish();
-                }
+                // Chuyển đến activity targetClass và xóa tất cả các activity khác trên đỉnh stack
+                Intent intent = new Intent(activity, targetClass);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                activity.startActivity(intent);
             }
         });
 

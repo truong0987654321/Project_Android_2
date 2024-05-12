@@ -118,10 +118,6 @@ public class AccountManagement extends AppCompatActivity {
 
             // Chuyển hướng người dùng đến màn hình Home và truyền thông tin người dùng
             Intent intent = new Intent(AccountManagement.this, Home.class);
-            intent.putExtra("user_uid", userUid);
-            intent.putExtra("user_name", userName);
-            intent.putExtra("user_email", userEmail);
-            intent.putExtra("user_photo_url", photoUrl);
             startActivity(intent);
             finish();
         }
@@ -289,7 +285,6 @@ public class AccountManagement extends AppCompatActivity {
         editor.remove("photoUrl");
         editor.apply();
     }
-
     private void handleclickbutton() {
         //thực hiện click button
         buttongoogle.setOnClickListener(new View.OnClickListener() {

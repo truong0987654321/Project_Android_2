@@ -34,17 +34,18 @@
             android:layout_marginTop="14dp"
             android:background="@drawable/logo" />
 
-        <View
-            android:id="@+id/group_4"
-            android:layout_width="55dp"
-            android:layout_height="60dp"
-            android:layout_toEndOf="@id/logo_195e0d"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="28dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginStart="28dp"
-            android:background="@drawable/group_4" />
+<!--        <com.makeramen.roundedimageview.RoundedImageView-->
+<!--            android:id="@+id/imageUser"-->
+<!--            android:layout_width="60dp"-->
+<!--            android:layout_height="60dp"-->
+<!--            android:layout_toEndOf="@id/logo_195e0d"-->
+<!--            android:layout_marginEnd="28dp"-->
+<!--            android:layout_marginTop="18dp"-->
+<!--            android:layout_marginStart="28dp"-->
+<!--            android:background="@drawable/circle_background_d9d9d9"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            app:riv_oval="true"-->
+<!--            />-->
 
         <TextView
             android:id="@+id/textViewTitle"
