@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:gravity="bottom"
     android:padding="20dp"
-    android:background="@color/color_background"
+    style="@style/ScreenBackground"
     android:layout_height="180dp">
     <androidx.cardview.widget.CardView
         android:layout_width="60dp"
@@ -31,6 +31,7 @@
         android:layout_marginBottom="5dp"
         android:textColor="@color/black"
         android:textStyle="bold"
+        style="@style/ScreenBackground"
         android:textSize="15sp"/>
     <TextView
         android:id="@+id/userEmail"
@@ -38,6 +39,7 @@
         android:layout_height="wrap_content"
         android:text="Email người dùng"
         android:textColor="#323232"
+        style="@style/ScreenBackground"
         android:textStyle="bold"
         android:textSize="13sp"/>
 </LinearLayout>

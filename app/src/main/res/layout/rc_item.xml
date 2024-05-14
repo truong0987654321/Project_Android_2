@@ -6,7 +6,6 @@
     android:layout_marginHorizontal="10dp"
     android:layout_marginVertical="10dp"
     android:id="@+id/card_of_topic_comic"
-    style="@style/cardBackground"
     >
     <LinearLayout
         android:layout_width="wrap_content"
@@ -19,6 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/rc_title"
+            android:background="@color/white"
             android:textSize="15dp"
             android:text="Title"
             style="@style/TextColor"

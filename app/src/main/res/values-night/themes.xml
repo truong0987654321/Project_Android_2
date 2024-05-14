@@ -8,23 +8,11 @@
     <style name="Theme.Doan" parent="Base.Theme.Doan" />
 
 
-    <style name="notificationSwitch" parent="Theme.AppCompat.Light">
-        <item name="colorControlActivated">@color/night_mode</item>
-        <item name="colorSwitchThumbNormal">#000000</item>
-        <item name="android:colorForeground">#000000</item>
-    </style>
-
-    <style name="privateAccountSwitch" parent="Theme.AppCompat.Light">
-        <item name="colorControlActivated">@color/night_mode</item>
-        <item name="colorSwitchThumbNormal">#000000</item>
-        <item name="android:colorForeground">#000000</item>
-    </style>
-
-    <style name="nightSwitch" parent="Theme.AppCompat.Light">
-        <item name="colorControlActivated">@color/night_mode</item>
-        <item name="colorSwitchThumbNormal">#000000</item>
-        <item name="android:colorForeground">#000000</item>
-    </style>
+    <!--    <style name="privateAccountSwitch" parent="Theme.AppCompat.Light">-->
+    <!--        <item name="colorControlActivated">@color/night_mode</item>-->
+    <!--        <item name="colorSwitchThumbNormal">#000000</item>-->
+    <!--        <item name="android:colorForeground">#000000</item>-->
+    <!--    </style>-->
 
 
     <style name="ScreenBackground">
@@ -32,10 +20,19 @@
     </style>
 
     <style name="cardBackground">
-        <item name="android:background">@color/white</item>
+        <item name="android:background">@color/color_background</item>
     </style>
 
     <style name="TextColor">
-        <item name="android:textColor">@color/lavender</item>
+        <item name="android:textColor">@color/color_edit</item>
     </style>
+
+    <style name="Screenackground">
+        <item name="android:background">@color/cloud</item>
+    </style>
+
+    <style name="TextColor2">
+        <item name="android:textColor">@color/light_gray</item>
+    </style>
+
 </resources>

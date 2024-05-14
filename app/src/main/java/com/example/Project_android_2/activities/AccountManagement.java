@@ -19,6 +19,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatImageView;
 
 import com.example.Project_android_2.R;
@@ -86,6 +87,14 @@ public class AccountManagement extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accountmanagement);
         setupUI();
+        SharedPreferences sharedPreferences1 = getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE);
+        boolean isNightMode = sharedPreferences1.getBoolean("nightMode", false);
+        if (isNightMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
 
         callbackManager = CallbackManager.Factory.create();
         //google

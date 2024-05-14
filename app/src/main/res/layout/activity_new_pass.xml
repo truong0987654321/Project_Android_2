@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/cardBackground"
     tools:context=".activities.NewPass">
 
     <RelativeLayout
@@ -28,7 +29,7 @@
             android:layout_centerInParent="true"
             android:text="Quên Mật Khẩu"
             android:textAlignment="center"
-            android:textColor="@color/color_edit"
+
             android:textSize="20sp" />
 
         <View
@@ -67,7 +68,7 @@
             android:layout_marginTop="@dimen/_19dp"
             android:text="Thiết lập mật khẩu"
             android:textAlignment="center"
-            android:textColor="@color/color_edit"
+
             android:textSize="30dp"
             android:textStyle="bold" />
 
@@ -79,7 +80,7 @@
             android:layout_centerInParent="true"
             android:text="Vui lòng thiết lập mật khẩu tương đối mạnh."
             android:textAlignment="center"
-            android:textColor="@color/color_edit"
+
             android:textSize="15dp" />
 
 
@@ -95,6 +96,7 @@
             android:imeOptions="actionNext"
             android:importantForAutofill="no"
             android:inputType="textPassword"
+            android:textColorHint="@color/black"
             android:paddingStart="30dp"
             android:paddingEnd="70dp"/>
 
@@ -103,6 +105,7 @@
             android:id="@+id/edConfirmpassword"
             android:layout_width="@dimen/_358dp"
             android:layout_height="@dimen/_60dp"
+            android:textColorHint="@color/black"
             android:layout_below="@+id/edpasss"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="19dp"
@@ -123,6 +126,7 @@
             android:layout_alignRight="@id/edpasss"
             android:layout_alignBottom="@id/edpasss"
             android:layout_marginEnd="10dp"
+            android:background="@drawable/edittext_background_rounded"
             android:drawableRight="@drawable/eye_slash_regular" />
 
         <TextView
@@ -145,6 +149,7 @@
             android:layout_alignRight="@id/edConfirmpassword"
             android:layout_alignBottom="@id/edConfirmpassword"
             android:layout_marginEnd="10dp"
+            android:background="@drawable/edittext_background_rounded"
             android:drawableRight="@drawable/eye_slash_regular" />
         <TextView
             android:id="@+id/clearTextView_Cpass"
@@ -168,7 +173,7 @@
             android:drawablePadding="8dp"
             android:gravity="center_vertical"
             android:text="Mật khẩu không có dấu"
-            android:textColor="@color/translucent_dark_gray" />
+       />
 
         <TextView
             android:id="@+id/password_minimum"
@@ -181,7 +186,7 @@
             android:drawablePadding="8dp"
             android:gravity="center_vertical"
             android:text="Mật khẩu phải trên 8 ký tự"
-            android:textColor="@color/translucent_dark_gray" />
+            />
 
         <TextView
             android:id="@+id/Confirmpassword"
@@ -194,7 +199,7 @@
             android:drawablePadding="8dp"
             android:gravity="center_vertical"
             android:text="Đảm bảo hai lần nhập mật khẩu giống nhau"
-            android:textColor="@color/translucent_dark_gray" />
+         />
 
         <Button
             android:id="@+id/butnsuccess"

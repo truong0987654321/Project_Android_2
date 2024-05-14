@@ -4,20 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    style="@style/ScreenBackground">
+    style="@style/cardBackground"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:orientation="vertical"
+        style="@style/cardBackground"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="15dp"
         tools:layout_editor_absoluteY="15dp">
 
         <TextView
             android:id="@+id/textView4"
-            style="@style/TextColor"
+            style="@style/cardBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -28,6 +30,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rc_View"
+
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical">

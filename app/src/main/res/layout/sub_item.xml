@@ -37,6 +37,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:background="#ffffff"
+            android:textColor="@color/black"
             android:ems="10"
             android:hint="Tìm kiếm thông tin"
             android:imeOptions="actionSearch"
