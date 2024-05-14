@@ -46,7 +46,7 @@ public class RCAdapter_Trending extends RecyclerView.Adapter<RCAdapter_Trending.
     @Override
     public void onBindViewHolder(@NonNull RCViewholder_story holder, int position) {
         comic_chapter_model mstory = mListStory.get(position);
-        holder.rc_textview.setText(mstory.getName_comic() + " \nChapter "+mstory.getChapter_index());
+        holder.rc_textview.setText(mstory.getName_comic() + " \n");
         Picasso.get().load(mstory.getImage_comic()).into(holder.rc_image);
         holder.rc_image.setOnClickListener(new View.OnClickListener() {
             @Override

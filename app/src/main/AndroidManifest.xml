@@ -19,11 +19,17 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.NewPass"
+            android:name=".activities.ViewComic"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.See_story"
+            android:name=".activities.NewPass"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activities.Fragment_Seencomic.ListChapterFragment" />
+
+        <activity
+            android:name=".activities.SeenComic"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
@@ -50,14 +56,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.ForgotPassword"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities.SeenComic"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities.ViewComic"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity

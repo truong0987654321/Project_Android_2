@@ -1,77 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/seen_comic">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/refund_ring"
-        android:layout_width="42dp"
-        android:layout_height="34dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="28dp"
-        android:src="@drawable/refund_ring_back"
-        android:elevation="4dp">
-    </androidx.appcompat.widget.AppCompatImageView>
 
-<!--    <com.makeramen.roundedimageview.RoundedImageView-->
-<!--        android:id="@+id/imageUser"-->
-<!--        android:layout_width="55dp"-->
-<!--        android:layout_height="60dp"-->
-<!--        android:layout_alignParentTop="true"-->
-<!--        android:layout_alignParentEnd="true"-->
-<!--        android:layout_marginTop="18dp"-->
-<!--        android:layout_marginEnd="24dp"-->
-<!--        android:background="@drawable/circle_background_d9d9d9" />-->
-
-    <TextView
-        android:id="@+id/chap1"
-        android:layout_width="225dp"
-        android:layout_height="30dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="89dp"
-        android:background="@drawable/retangle"
-        android:paddingStart="10dp"
-        android:text="Chap 1:"
-        android:textSize="20sp" />
-    <View
-        android:id="@+id/arrow_left_long"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_toStartOf="@id/chap1"
-        android:layout_marginEnd="12dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="95dp"
-        android:background="@drawable/arrow_left_long"
-        />
-
-    <View
-        android:id="@+id/arrow_right"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_toEndOf="@id/chap1"
-        android:layout_marginStart="12dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="95dp"
-        android:background="@drawable/arrow_right_long"
-        />
-
-    <ScrollView
+    <RelativeLayout
+        android:id="@+id/header_title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="15dp"
-        android:layout_below="@id/chap1"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="24dp"
-        >
-        <TextView
-            android:id="@+id/txtViewComic"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/rlLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/retangle" />
-    </ScrollView>
+            android:layout_marginTop="20dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/back"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:src="@drawable/angle_left_solid"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="8dp"
+                android:layout_toEndOf="@id/back"
+                android:text="chương 1 "
+                android:textSize="14dp" />
+
+            <ImageView
+                android:id="@+id/settingIcon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/setting_icon" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/rlLayout">
+
+            <ScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="15dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="20dp" />
+
+                    <TextView
+                        android:id="@+id/txtViewchapter"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="2dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="20dp"
+                        android:gravity="bottom" />
+                </LinearLayout>
+
+            </ScrollView>
+
+            <FrameLayout
+                android:id="@+id/progressBar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:visibility="gone">
+
+                <ProgressBar
+                    android:id="@+id/progressContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:indeterminate="true"
+                    android:indeterminateTint="@color/light_grayish_blue" />
+            </FrameLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/stub_no_internet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <include
+                layout="@layout/activity_nointernet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="270dp" />
+        </LinearLayout>
+    </RelativeLayout>
+
 </RelativeLayout>

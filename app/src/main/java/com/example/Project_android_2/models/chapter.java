@@ -6,17 +6,19 @@ public class chapter {
     private String index;
     private String content;
     private String id_comic;
+    private String create_At;
 
     public chapter() {
 
     }
 
-    public chapter(String id, String title, String index, String content, String id_comic) {
+    public chapter(String id, String title, String index, String content, String id_comic, String create_At) {
         this.id = id;
         this.title = title;
         this.index = index;
         this.content = content;
         this.id_comic = id_comic;
+        this.create_At = create_At;
     }
 
     public String getId() {
@@ -50,7 +52,13 @@ public class chapter {
     public void setContent(String content) {
         this.content = content;
     }
+    public String getCreate_At() {
+        return create_At;
+    }
 
+    public void setCreate_At(String create_At) {
+        this.create_At = create_At;
+    }
     public String getId_comic() {
         return id_comic;
     }

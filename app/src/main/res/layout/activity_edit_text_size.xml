@@ -1,94 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+
+    android:background="@drawable/retangle"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|top"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_round_remove_24" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/back"
-            android:layout_width="25dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="23dp"
-            android:layout_marginEnd="23dp"
-            android:layout_marginBottom="23dp"
-            android:src="@drawable/angle_left_solid" />
-
-        <TextView
-            android:layout_width="103dp"
-            android:layout_height="25dp"
-            android:layout_above="@+id/line"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="27dp"
-            android:text="Cỡ chữ"
-            android:textAlignment="center"
-            android:textColor="#000000"
-            android:textSize="20sp" />
-
-        <View
-            android:id="@+id/line"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_below="@+id/back"
-            android:background="@drawable/divider_line" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_margin="20dp"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dp">
+        android:orientation="horizontal">
 
-        <SeekBar
-            android:id="@+id/seekBarTextSize"
+        <RelativeLayout
+            android:layout_margin="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:max="100"
-            android:progress="50" />
+            android:layout_marginTop="0dp">
+            <TextView
+                android:text="A"
+                android:layout_width="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"
+                android:textSize="10dp"/>
+            <SeekBar
+                android:id="@+id/seekBarTextSize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_centerVertical="true"
+                android:max="100"
+                android:progress="50" />
+            <TextView
+                android:id="@+id/text_bigsize"
+                android:text="A"
+                android:layout_width="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:textSize="30dp"/>
 
-        <TextView
-            android:id="@+id/textViewStoryTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/seekBarTextSize"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
-            android:text="Tiêu đề câu chuyện"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/textViewChapterTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textViewStoryTitle"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
-            android:text="Tiêu đề chương"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/textViewChapterContent"
-            style="@style/MyTextStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textViewChapterTitle"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginRight="16dp"
-            android:text="Nội dung chương" />
-
-    </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

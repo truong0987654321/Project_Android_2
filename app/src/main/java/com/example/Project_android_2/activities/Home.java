@@ -2,11 +2,11 @@ package com.example.Project_android_2.activities;
 
 import android.annotation.SuppressLint;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -52,9 +52,10 @@ public class Home extends AppCompatActivity {
     RoundedImageView buttonDrawerToggle, imageViewDrawer;
     TextView username, useremail;
     private ALodingDialog aLodingDialog;
-
-    private LinearLayout listRcCateLayout,noInternetLayout;
+    private LinearLayout listRcCateLayout, noInternetLayout;
     private Button try_again_button;
+    private boolean shouldExit = false;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +107,7 @@ public class Home extends AppCompatActivity {
                     drawer.closeDrawer(GravityCompat.START);
                     return true;
                 }
-                if (id == R.id.nav_about){
+                if (id == R.id.nav_about) {
                     Intent intentProfile = new Intent(Home.this, AboutUs.class);
                     startActivity(intentProfile);
                     return true;
@@ -186,7 +187,7 @@ public class Home extends AppCompatActivity {
                     noInternetLayout.setVisibility(View.VISIBLE);
                     Toast.makeText(Home.this, "Không có kết nối Internet. Vui lòng kiểm tra cài đặt mạng của bạn.", Toast.LENGTH_SHORT).show();
                     return;
-                }else{
+                } else {
                     listRcCateLayout.setVisibility(View.VISIBLE);
                     noInternetLayout.setVisibility(View.GONE);
                 }
@@ -267,7 +268,7 @@ public class Home extends AppCompatActivity {
                 String id_comic = chapter.getID_COMIC();
                 for (comic_model comic : arr_comic) {
                     if (id_comic.equals(comic.getID())) {
-                        comic_chapter_model md = new comic_chapter_model(chapter.getID_COMIC(),chapter.getTITLE(), chapter.getCHAPTER_INDEX(), comic.getTHUMBNAIL());
+                        comic_chapter_model md = new comic_chapter_model(chapter.getID_COMIC(), comic.getTITLE(), chapter.getCHAPTER_INDEX(), comic.getTHUMBNAIL());
                         comic_chapter.add(md);
                         break;
                     }
@@ -339,28 +340,48 @@ public class Home extends AppCompatActivity {
         });
     }
 
+
     @Override
     public void onBackPressed() {
-        // Hiển thị AlertDialog khi người dùng nhấn nút "Back"
-        super.onBackPressed();
+        if (shouldExit) {
+            super.onBackPressed();
+        } else {
+            showExitDialog();
+        }
+    }
+
+    private void showExitDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Bạn có muốn đóng ứng dụng không?");
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.custom_dialog_layout, null);
+        builder.setView(dialogView);
+
+        // Lấy các nút OK và Cancel từ layout
+        Button buttonCancel = dialogView.findViewById(R.id.dialog_button_cancel);
+        Button buttonOK = dialogView.findViewById(R.id.dialog_button_ok);
+
+        // Tạo và hiển thị AlertDialog
+        AlertDialog alertDialog = builder.create();
+
+        // Thiết lập sự kiện cho nút Cancel
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+        // Thiết lập sự kiện cho nút OK
+        buttonOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
                 finishAffinity();
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Không làm gì cả, chỉ đóng dialog, không đóng ứng dụng
-                dialog.dismiss();
-            }
-        });
-        AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
+
 }
 
 //    public void handleswitch(){

@@ -24,7 +24,6 @@ import com.example.Project_android_2.activities.RC_recyclerView.author_comic_mod
 import com.example.Project_android_2.activities.RC_recyclerView.author_model;
 import com.example.Project_android_2.activities.RC_recyclerView.category_model;
 import com.example.Project_android_2.activities.RC_recyclerView.comic_model;
-import com.example.Project_android_2.models.chapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

@@ -21,9 +21,7 @@ public class EditTextSize extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_text_size);
-        textViewChapterContent = findViewById(R.id.textViewChapterContent);
         seekBarTextSize = findViewById(R.id.seekBarTextSize);
-        appCompatImageView_back = findViewById(R.id.back);
         // Lấy kích thước văn bản mặc định từ MyTextStyle
         TypedValue typedValue = new TypedValue();
         getTheme().resolveAttribute(R.style.MyTextStyle, typedValue, true);

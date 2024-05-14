@@ -49,7 +49,9 @@ public class RCAdapter_Chap extends RecyclerView.Adapter<RCAdapter_Chap.RCViewHo
     public void onBindViewHolder(@NonNull RCAdapter_Chap.RCViewHolder holder, int position) {
         //Collections.sort(modelArrayList);
         RCModel_Chap rcModel = modelArrayList.get(position);
-        holder.rc_chap.setText("Chap: "+rcModel.getChap().getIndex());
+        holder.rc_chap.setText(String.valueOf(position + 1)+"  "+rcModel.getChap().getTitle());
+        holder.create_At.setText("       ("+rcModel.getChap().getCreate_At()+")");
+
         Log.d("test","test"+holder.rc_chap.getText().toString());
 
         holder.rc_chap.setOnClickListener(new View.OnClickListener() {
@@ -69,10 +71,12 @@ public class RCAdapter_Chap extends RecyclerView.Adapter<RCAdapter_Chap.RCViewHo
     }
 
     public class RCViewHolder extends RecyclerView.ViewHolder {
-        TextView rc_chap;
+        TextView rc_chap,create_At;
+
         public RCViewHolder(@NonNull View itemView){
             super(itemView);
             rc_chap = itemView.findViewById(R.id.textViewItemChap);
+            create_At = itemView.findViewById(R.id.create_At);
         }
 
     }
